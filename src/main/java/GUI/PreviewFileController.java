@@ -1,83 +1,86 @@
 package GUI;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
-import utility.Settings;
 
 public class PreviewFileController extends Application {
-
+	
+	public File saveFile;
     private MainViewController mvc;
-    private static Window convertWindow = new Stage();
-    
-//    @FXML private TextField titleField;
-//    @FXML private TextField artistField;
-//    @FXML private TextField fileNameField;
-    
+	public Highlighter highlighter;
+
+	@FXML public CodeArea mxlText;
+	@FXML TextField gotoMeasureField;
+	@FXML Button goToline;
+
+	public PreviewFileController() {}
+
+	@FXML 
+	public void initialize() {
+		mxlText.setParagraphGraphicFactory(LineNumberFactory.get(mxlText));
+	}
+
     public void setMainViewController(MainViewController mvcInput) {
     	mvc = mvcInput;
     }
     
-    public void initialize() {
-		Settings s = Settings.getInstance();
-//		titleField.setText(s.title);
-//		artistField.setText(s.artist);
+    public void update() {
+		mxlText.replaceText(mvc.converter.getMusicXML());
+		mxlText.moveTo(0);
+		mxlText.requestFollowCaret();
+        mxlText.requestFocus();
 	}
     
-//    @FXML
-//    private void saveButtonClicked() {
-//        if (!titleField.getText().isBlank())
-//            Settings.getInstance().title = titleField.getText();
-//        if (!artistField.getText().isBlank())
-//        	Settings.getInstance().artist = artistField.getText();
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Save As");
-//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("MusicXML files", "*.musicxml", "*.xml", "*.mxl");
-//        fileChooser.getExtensionFilters().add(extFilter);
-//
-//        File initialDir = new File(Settings.getInstance().outputFolder);
-//        String initialName = null;
-//        if (!fileNameField.getText().isBlank() && fileNameField.getText().length()<50)
-//            initialName = fileNameField.getText().strip();
-//
-//        if (mvc.saveFile != null) {
-//            if (initialName == null) {
-//                String name = mvc.saveFile.getName();
-//                if(name.contains("."))
-//                    name = name.substring(0, name.lastIndexOf('.'));
-//                initialName = name;
-//            }
-//            File parentDir = new File(mvc.saveFile.getParent());
-//            if (parentDir.exists())
-//                initialDir = parentDir;
-//        }
-//        if (initialName != null)
-//            fileChooser.setInitialFileName(initialName);
-//
-//        if (!(initialDir.exists() && initialDir.canRead()))
-//            initialDir = new File(System.getProperty("user.home"));
-//
-//        fileChooser.setInitialDirectory(initialDir);
-//
-//        File file = fileChooser.showSaveDialog(convertWindow);
-//
-//        if (file != null) {
-//            mvc.converter.saveMusicXMLFile(file);
-//            mvc.saveFile = file;
-//            cancelButtonClicked();
-//        }
-//    }
+	@FXML
+	private void saveMXLButtonHandle() {
+		mvc.saveMXLButtonHandle();
+	}
 
-    @FXML
-    private void cancelButtonClicked()  {
-    	mvc.convertWindow.hide();
+	//TODO add go to line button
+	@FXML
+	private void handleGotoMeasure() {
+		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+		if (!goToMeasure(measureNumber)) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText("Measure " + measureNumber + " could not be found.");
+			alert.setHeaderText(null);
+			alert.show();
+		}
+	}
+
+    private boolean goToMeasure(int measureCount) {
+    	//Pattern textBreakPattern = Pattern.compile("((\\R|^)[ ]*(?=\\R)){2,}|^|$");
+    	Pattern mxlMeasurePattern = Pattern.compile("<measure number=\"" + measureCount + "\">");
+        Matcher mxlMeasureMatcher = mxlMeasurePattern.matcher(mxlText.getText());
+        
+        if (mxlMeasureMatcher.find()) {
+        	int pos = mxlMeasureMatcher.start();
+        	mxlText.moveTo(pos);
+        	mxlText.requestFollowCaret();
+        	Pattern newLinePattern = Pattern.compile("\\R");
+        	Matcher newLineMatcher = newLinePattern.matcher(mxlText.getText().substring(pos));
+        	for (int i = 0; i < 30; i++) newLineMatcher.find();
+        	int endPos = newLineMatcher.start();
+        	mxlText.moveTo(pos+endPos);
+        	mxlText.requestFollowCaret();
+        	//mxlText.moveTo(pos);
+            mxlText.requestFocus();
+            return true;
+            }
+        else return false;        
     }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {}
+    
+	@Override
+	public void start(Stage primaryStage) throws Exception {}
 }
