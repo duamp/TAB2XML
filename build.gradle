@@ -71,7 +71,7 @@ task testDebug {
 
 javafx {
     version = "17.0.1"
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.media']
 }
 
 run {
@@ -82,5 +82,5 @@ run {
     }
 }
 
-mainClassName = 'GUI.MainApp'
-
+//mainClassName = 'GUI.MainApp'
+mainClassName = 'music_player.MusicPlayerGUI'
