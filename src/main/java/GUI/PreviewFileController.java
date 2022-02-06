@@ -35,8 +35,8 @@ public class PreviewFileController extends Application {
     	mvc = mvcInput;
     }
     
-    public void update() {
-		mxlText.replaceText(mvc.converter.getMusicXML());
+    public void updateNote() {
+		mxlText.replaceText(mvc.converter.getNote());
 		mxlText.moveTo(0);
 		mxlText.requestFollowCaret();
         mxlText.requestFocus();

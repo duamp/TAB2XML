@@ -41,6 +41,23 @@ public class MusicXMLCreator {
         return xmlString;
     }
     
+    public String generateNotes() {
+        if(score.at.text.isBlank()){
+            return "";
+        }
+        XmlMapper mapper = new XmlMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String xmlString = "";
+        xmlString = "E|-----------E-------|-E---------------|\n"
+        		+   "B|---------B---B-----|-B---------------|\n"
+        		+   "G|-------G#--------G#|-G#--------------|\n"
+        		+   "D|-----B-------------|-B---------------|\n"
+        		+   "A|---B---------------|-B---------------|\n"
+        		+   "E|-E-----------------|-E---------------|";
+        
+        return xmlString;
+    }
+    
 //    public static Instrument getInstrumentEnum(String instrument) {
 //        if (instrument.equalsIgnoreCase("guitar"))
 //            return Instrument.GUITAR;
