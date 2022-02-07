@@ -13,14 +13,21 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 public class PreviewFileController extends Application {
 	
 	public File saveFile;
     private MainViewController mvc;
 	public Highlighter highlighter;
-
-	@FXML public CodeArea mxlText;
+	
+	Image image;
 	@FXML TextField gotoMeasureField;
 	@FXML Button goToline;
 
@@ -28,7 +35,7 @@ public class PreviewFileController extends Application {
 
 	@FXML 
 	public void initialize() {
-		mxlText.setParagraphGraphicFactory(LineNumberFactory.get(mxlText));
+//		image.setParagraphGraphicFactory(LineNumberFactory.get(image));
 	}
 
     public void setMainViewController(MainViewController mvcInput) {
@@ -36,11 +43,12 @@ public class PreviewFileController extends Application {
     }
     
     public void update() {
-		mxlText.replaceText(mvc.converter.getMusicXML());
-		mxlText.moveTo(0);
-		mxlText.requestFollowCaret();
-        mxlText.requestFocus();
-	}
+//		image.replaceText(mvc.converter.getMusicXML());
+//		image.moveTo(0);
+//		image.requestFollowCaret();
+//        image.requestFocus();
+	// implement adding the dots here
+    }
     
 	@FXML
 	private void saveMXLButtonHandle() {
@@ -48,39 +56,52 @@ public class PreviewFileController extends Application {
 	}
 
 	//TODO add go to line button
-	@FXML
-	private void handleGotoMeasure() {
-		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
-		if (!goToMeasure(measureNumber)) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setContentText("Measure " + measureNumber + " could not be found.");
-			alert.setHeaderText(null);
-			alert.show();
-		}
-	}
+//	@FXML
+//	private void handleGotoMeasure() {
+//		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+//		if (!goToMeasure(measureNumber)) {
+//			Alert alert = new Alert(Alert.AlertType.ERROR);
+//			alert.setContentText("Measure " + measureNumber + " could not be found.");
+//			alert.setHeaderText(null);
+//			alert.show();
+//		}
+//	}
 
-    private boolean goToMeasure(int measureCount) {
-    	//Pattern textBreakPattern = Pattern.compile("((\\R|^)[ ]*(?=\\R)){2,}|^|$");
-    	Pattern mxlMeasurePattern = Pattern.compile("<measure number=\"" + measureCount + "\">");
-        Matcher mxlMeasureMatcher = mxlMeasurePattern.matcher(mxlText.getText());
-        
-        if (mxlMeasureMatcher.find()) {
-        	int pos = mxlMeasureMatcher.start();
-        	mxlText.moveTo(pos);
-        	mxlText.requestFollowCaret();
-        	Pattern newLinePattern = Pattern.compile("\\R");
-        	Matcher newLineMatcher = newLinePattern.matcher(mxlText.getText().substring(pos));
-        	for (int i = 0; i < 30; i++) newLineMatcher.find();
-        	int endPos = newLineMatcher.start();
-        	mxlText.moveTo(pos+endPos);
-        	mxlText.requestFollowCaret();
-        	//mxlText.moveTo(pos);
-            mxlText.requestFocus();
-            return true;
-            }
-        else return false;        
-    }
+//    private boolean goToMeasure(int measureCount) {
+//    	//Pattern textBreakPattern = Pattern.compile("((\\R|^)[ ]*(?=\\R)){2,}|^|$");
+//    	Pattern mxlMeasurePattern = Pattern.compile("<measure number=\"" + measureCount + "\">");
+//        Matcher mxlMeasureMatcher = mxlMeasurePattern.matcher(image.getText());
+//        
+//        if (mxlMeasureMatcher.find()) {
+//        	int pos = mxlMeasureMatcher.start();
+//        	image.moveTo(pos);
+//        	image.requestFollowCaret();
+//        	Pattern newLinePattern = Pattern.compile("\\R");
+//        	Matcher newLineMatcher = newLinePattern.matcher(image.getText().substring(pos));
+//        	for (int i = 0; i < 30; i++) newLineMatcher.find();
+//        	int endPos = newLineMatcher.start();
+//        	image.moveTo(pos+endPos);
+//        	image.requestFollowCaret();
+//        	//image.moveTo(pos);
+//            image.requestFocus();
+//            return true;
+//            }
+//        else return false;        
+//    }
     
 	@Override
-	public void start(Stage primaryStage) throws Exception {}
+	public void start(Stage primaryStage) throws Exception {
+		this.image = new Image("/image_assets/MeasureWithTrebeclef.png");
+		ImageView image = new ImageView(this.image);
+	    Pane root = new Pane();
+	    root.getChildren().add(image);
+	    Scene scene = new Scene(root, 300, 250);
+
+	    primaryStage.setTitle("Hello World!");
+	    primaryStage.setScene(scene);
+	    primaryStage.show();
+	    System.out.println("displayed image");
+		
+		
+	}
 }

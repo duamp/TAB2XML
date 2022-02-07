@@ -7,11 +7,13 @@ public class Pitch {
     String step;
     Integer alter;
     int octave;
+//  Position position;
 
     public Pitch(String step, int alter, int octave) {
         this.step = step;
         this.alter = alter==0 ? null : alter;
         this.octave = octave;
+//        this.position = new Position(alter, octave);
     }
 
     public Integer getAlter() {
