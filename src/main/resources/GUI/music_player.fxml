@@ -16,7 +16,7 @@
         <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem mnemonicParsing="false" onAction="#promptFile" text="Open File" />
                </items>
             </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -28,9 +28,9 @@
       </MenuBar>
    </top>
    <bottom>
-      <VBox prefWidth="579.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="GUI" prefWidth="579.0" BorderPane.alignment="CENTER">
          <children>
-            <Slider prefHeight="14.0" prefWidth="188.0">
+            <Slider fx:id="videoSlider" prefHeight="14.0" prefWidth="188.0">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -40,7 +40,7 @@
             </Slider>
             <HBox alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" onAction="#test" text="Play">
+                  <Button mnemonicParsing="false" onAction="#play" text="Play">
                      <HBox.margin>
                         <Insets left="7.0" right="7.0" />
                      </HBox.margin>
@@ -48,7 +48,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Button mnemonicParsing="false" text="Pause">
+                  <Button mnemonicParsing="false" onAction="#pause" text="Pause">
                      <HBox.margin>
                         <Insets left="7.0" right="7.0" />
                      </HBox.margin>
@@ -56,7 +56,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Slider orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
+                  <Slider fx:id="volumeSlider" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
