@@ -307,7 +307,18 @@ public class MainViewController extends Application {
 	@FXML
 	private void previewButtonHandle() throws IOException {
 		System.out.println("Preview Button Clicked!");
-		// converter.getMusicXML() returns the MusicXML output as a String
+		Parent root;
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
+			root = loader.load();
+			PreviewFileController controller = loader.getController();
+			controller.setMainViewController(this);
+			controller.updateNote();
+			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
+		} catch (IOException e) {
+			Logger logger = Logger.getLogger(getClass().getName());
+			logger.log(Level.SEVERE, "Failed to create new Window.", e);
+		}
 	}
 
 	public void refresh() {

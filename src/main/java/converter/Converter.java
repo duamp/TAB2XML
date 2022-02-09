@@ -1,5 +1,5 @@
 package converter;
-
+//Hola
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,6 +26,10 @@ public class Converter {
 	
 	public String getMusicXML() {
 		return mxlc.generateMusicXML();
+	}
+	
+	public String getNote() {
+		return mxlc.generateNotes();
 	}
 	
 	public Score getScore() {
