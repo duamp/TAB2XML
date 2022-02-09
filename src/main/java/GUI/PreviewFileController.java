@@ -1,107 +1,102 @@
 package GUI;
 
+
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
+import javax.imageio.ImageIO;
 
+import javafx.scene.image.Image;
 import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import utility.Settings;
 
 public class PreviewFileController extends Application {
-//	testing :)
-	public File saveFile;
+
     private MainViewController mvc;
-	public Highlighter highlighter;
-	
-	Image image;
-	@FXML TextField gotoMeasureField;
-	@FXML Button goToline;
-
-	public PreviewFileController() {}
-
-	@FXML 
-	public void initialize() {
-//		image.setParagraphGraphicFactory(LineNumberFactory.get(image));
-	}
-
+    private static Window convertWindow = new Stage();
+    
+//    @FXML private TextField titleField;
+//    @FXML private TextField artistField;
+//    @FXML private TextField fileNameField;
+    @FXML private ImageView imageView;
+    
     public void setMainViewController(MainViewController mvcInput) {
     	mvc = mvcInput;
     }
     
-    public void update() {
-//		image.replaceText(mvc.converter.getMusicXML());
-//		image.moveTo(0);
-//		image.requestFollowCaret();
-//        image.requestFocus();
-	// implement adding the dots here
-    }
-    
-	@FXML
-	private void saveMXLButtonHandle() {
-		mvc.saveMXLButtonHandle();
+    public void initialize() {
+		Settings s = Settings.getInstance();
+		Image image = new Image("/image_assets/MeasureWithTrebeclef.png");
+		ImageView imageView = new ImageView(image);
+	    imageView.setImage(image);
+	    System.out.println("Image displayed");
+//	    BufferedImage bufferedImage;
+//	    bufferedImage = ImageIO.read(new File("/image_assets/MeasureWithTrebeclef.png"));
+//	    image = SwingFXUtils.toFXImage(bufferedImage, null);
+//	    this.imageView.setImage(image);
+//	    System.out.println("Image displayed2");
+	    
+//		titleField.setText(s.title);
+//		artistField.setText(s.artist);
 	}
-
-	//TODO add go to line button
-//	@FXML
-//	private void handleGotoMeasure() {
-//		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
-//		if (!goToMeasure(measureNumber)) {
-//			Alert alert = new Alert(Alert.AlertType.ERROR);
-//			alert.setContentText("Measure " + measureNumber + " could not be found.");
-//			alert.setHeaderText(null);
-//			alert.show();
-//		}
-//	}
-
-//    private boolean goToMeasure(int measureCount) {
-//    	//Pattern textBreakPattern = Pattern.compile("((\\R|^)[ ]*(?=\\R)){2,}|^|$");
-//    	Pattern mxlMeasurePattern = Pattern.compile("<measure number=\"" + measureCount + "\">");
-//        Matcher mxlMeasureMatcher = mxlMeasurePattern.matcher(image.getText());
-//        
-//        if (mxlMeasureMatcher.find()) {
-//        	int pos = mxlMeasureMatcher.start();
-//        	image.moveTo(pos);
-//        	image.requestFollowCaret();
-//        	Pattern newLinePattern = Pattern.compile("\\R");
-//        	Matcher newLineMatcher = newLinePattern.matcher(image.getText().substring(pos));
-//        	for (int i = 0; i < 30; i++) newLineMatcher.find();
-//        	int endPos = newLineMatcher.start();
-//        	image.moveTo(pos+endPos);
-//        	image.requestFollowCaret();
-//        	//image.moveTo(pos);
-//            image.requestFocus();
-//            return true;
+    
+    @FXML
+    private void saveButtonClicked() {
+//        if (!titleField.getText().isBlank())
+//            Settings.getInstance().title = titleField.getText();
+//        if (!artistField.getText().isBlank())
+//        	Settings.getInstance().artist = artistField.getText();
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("MusicXML files", "*.musicxml", "*.xml", "*.mxl");
+//        fileChooser.getExtensionFilters().add(extFilter);
+//
+//        File initialDir = new File(Settings.getInstance().outputFolder);
+//        String initialName = null;
+//        if (!fileNameField.getText().isBlank() && fileNameField.getText().length()<50)
+//            initialName = fileNameField.getText().strip();
+//
+//        if (mvc.saveFile != null) {
+//            if (initialName == null) {
+//                String name = mvc.saveFile.getName();
+//                if(name.contains("."))
+//                    name = name.substring(0, name.lastIndexOf('.'));
+//                initialName = name;
 //            }
-//        else return false;        
-//    }
-    
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		this.image = new Image("/image_assets/MeasureWithTrebeclef.png");
-		ImageView image = new ImageView(this.image);
-	    Pane root = new Pane();
-	    root.getChildren().add(image);
-	    Scene scene = new Scene(root, 300, 250);
+//            File parentDir = new File(mvc.saveFile.getParent());
+//            if (parentDir.exists())
+//                initialDir = parentDir;
+//        }
+//        if (initialName != null)
+//            fileChooser.setInitialFileName(initialName);
+//
+//        if (!(initialDir.exists() && initialDir.canRead()))
+//            initialDir = new File(System.getProperty("user.home"));
+//
+//        fileChooser.setInitialDirectory(initialDir);
+//
+//        File file = fileChooser.showSaveDialog(convertWindow);
+//
+//        if (file != null) {
+//            mvc.converter.saveMusicXMLFile(file);
+//            mvc.saveFile = file;
+//            cancelButtonClicked();
+//        }
+    }
 
-	    primaryStage.setTitle("Hello World!");
-	    primaryStage.setScene(scene);
-	    primaryStage.show();
-	    System.out.println("displayed image");
-		
-		
-	}
+    @FXML
+    private void cancelButtonClicked()  {
+//    	mvc.convertWindow.hide();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+    	System.out.println("start runs");
+    }
 }

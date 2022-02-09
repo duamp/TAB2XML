@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import org.fxmisc.flowless.VirtualizedScrollPane?>
-<?import org.fxmisc.richtext.CodeArea?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 
-<AnchorPane fx:id="convertPane" maxHeight="241.0" maxWidth="721.0" minHeight="200.0" minWidth="700.0" prefHeight="241.0" prefWidth="721.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PreviewFileController">
+<AnchorPane fx:id="convertPane" maxHeight="700.0" maxWidth="1000.0" minHeight="200.0" minWidth="700.0" prefHeight="700.0" prefWidth="1000.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PreviewFileController">
+   <children>
+   <ImageView fx:id="apple" fitHeight="200.0" fitWidth="430.0" layoutX="0.0" layoutY="0.0" pickOnBounds="true">
+     <image>
+     	<Image url="@../image_assets/MeasureWithTrebeclef.png"/>
+     </image>
+  </ImageView>
+   
+     </children>
 </AnchorPane>
