@@ -16,6 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import org.fxmisc.richtext.CodeArea;
+
 import models.measure.Measure;
 import javafx.scene.image.Image;
 import javafx.application.Application;
@@ -31,13 +34,23 @@ public class PreviewFileController extends JFrame {
 
     private MainViewController mvc;
     private static Window convertWindow = new Stage();
-    
+    @FXML public CodeArea mxlText; 
+
 //    @FXML private TextField titleField;
 //    @FXML private TextField artistField;
 //    @FXML private TextField fileNameField;
     @FXML private ImageView imageView;
+
+    public void updateNote() {
+		mxlText.replaceText(mvc.converter.getNote());
+		mxlText.moveTo(0);
+		mxlText.requestFollowCaret();
+        mxlText.requestFocus();
+	}
+
     
-    public PreviewFileController (MainViewController mvcInput, int measurenumber) throws IOException {
+    @SuppressWarnings("unused")
+	public PreviewFileController (MainViewController mvcInput, int measurenumber) throws IOException {
     	this.mvc = mvcInput;
     	setLayout(new FlowLayout());
 //    	Measure measure = new 

@@ -309,15 +309,19 @@ public class MainViewController extends Application {
 		System.out.println("Preview Button Clicked!");
 		Parent root;
 		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
-//			root = loader.load();
+
 			PreviewFileController controller = new PreviewFileController(this, this.measureNumber);
-//			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
+
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
+			root = loader.load();
+			controller.setMainViewController();
+			controller.updateNote();
+			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
+
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
-		
 	}
 
 	public void refresh() {
