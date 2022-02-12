@@ -52,15 +52,14 @@ public class PreviewFileController extends JFrame {
     @SuppressWarnings("unused")
 	public PreviewFileController (MainViewController mvcInput, int measurenumber) throws IOException {
     	this.mvc = mvcInput;
-    	setLayout(new FlowLayout());
+      	setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 //    	Measure measure = new 
     	int numberOfTabs = 4;//change to real tabs value later
-    	
     	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
 //    	JLabel tab = );
 //    	JLabel tab2 = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png")));
 
-    	add(trebeclef);
+//    	add(trebeclef);
     	
     	for(int i = 0; i<numberOfTabs;i++) {
     		add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png"))));
