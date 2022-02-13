@@ -1,44 +1,22 @@
 package GUI;
 
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-
 import org.fxmisc.richtext.CodeArea;
 
-import models.measure.Measure;
-import javafx.scene.image.Image;
-import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import utility.Settings;
 
 public class PreviewFileController extends JFrame {
 
     private MainViewController mvc;
-    private static Window convertWindow = new Stage();
     @FXML public CodeArea mxlText; 
 
-//    @FXML private TextField titleField;
-//    @FXML private TextField artistField;
-//    @FXML private TextField fileNameField;
     @FXML private ImageView imageView;
 
     public void updateNote() {
@@ -52,13 +30,11 @@ public class PreviewFileController extends JFrame {
     @SuppressWarnings("unused")
 	public PreviewFileController (MainViewController mvcInput, int measurenumber) throws IOException {
     	this.mvc = mvcInput;
-    	setLayout(new FlowLayout());
-//    	Measure measure = new 
+      	setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+
     	int numberOfTabs = 4;//change to real tabs value later
-    	
+
     	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
-//    	JLabel tab = );
-//    	JLabel tab2 = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png")));
 
     	add(trebeclef);
     	
@@ -67,9 +43,7 @@ public class PreviewFileController extends JFrame {
     	}
     	
     	
- //		frame.add(panel, BorderLayout.CENTER);
-//		frame.getContentPane().add()
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Sheetssss");
 		pack();
 		setVisible(true);
@@ -87,18 +61,7 @@ public class PreviewFileController extends JFrame {
     }
     
     public void initialize() {
-		Settings s = Settings.getInstance();
-		
-		System.out.println("Image displayed");
-//	    BufferedImage bufferedImage;
-//	    bufferedImage = ImageIO.read(new File("/image_assets/MeasureWithTrebeclef.png"));
-//	    image = SwingFXUtils.toFXImage(bufferedImage, null);
-//	    this.imageView.setImage(image);
-//	    System.out.println("Image displayed2");
-	    
-//		titleField.setText(s.title);
-//		artistField.setText(s.artist);
-	}
+		}
     
     @FXML
     private void saveButtonClicked() {
@@ -146,7 +109,7 @@ public class PreviewFileController extends JFrame {
 
     @FXML
     private void cancelButtonClicked()  {
-//    	mvc.convertWindow.hide();
+    	mvc.convertWindow.hide();
     }
 
 }
