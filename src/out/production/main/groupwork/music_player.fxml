@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="300.0" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_player.FXMLController">
+<BorderPane maxHeight="300.0" maxWidth="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="605.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_player.PlayerController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>

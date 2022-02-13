@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="605.0" prefHeight="165.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_player.FXMLController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="605.0" prefHeight="165.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_player.PlayerController">
    <top>
       <MenuBar prefHeight="0.0" prefWidth="652.0" BorderPane.alignment="CENTER">
         <menus>
@@ -19,7 +19,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#promptFile" text="Open File" />
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" text="Help">
+          <Menu mnemonicParsing="false" onAction="#Displayhelp" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />
             </items>

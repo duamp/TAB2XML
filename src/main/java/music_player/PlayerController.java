@@ -18,7 +18,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 //An instance of this class is created when the FXML file is loaded r this to work, the controller class must have a no-argument constructor.
-public class FXMLController {
+public class PlayerController {
 	
 	
 	private MediaPlayer mediaPlayer;
@@ -26,7 +26,7 @@ public class FXMLController {
 	@FXML private Slider volumeSlider;
 	@FXML private VBox GUI;
 	
-	public FXMLController() {
+	public PlayerController() {
 	
 	}
 	
@@ -34,7 +34,7 @@ public class FXMLController {
 	//TODO: File path parameters.
 	@FXML 
 	private void initialize() {
-		 GUI.setDisable(true);
+//		 GUI.setDisable(true);
 		 volumeSlider.setValue(50.0);
 		
 		 volumeSlider.valueProperty().addListener(ov -> {
@@ -45,6 +45,10 @@ public class FXMLController {
 			    }
 			);
 		 
+		 // for prototype only 
+		 Media song = new Media(new File("Bach.mp3").toURI().toString());
+		 mediaPlayer = new MediaPlayer(song);
+		 initalizePlayer();
 	}
 	
 	@FXML
@@ -63,8 +67,6 @@ public class FXMLController {
 	public void pause() {
 		mediaPlayer.pause();
 	}
-	
-	
 	
 
 	
@@ -106,10 +108,13 @@ public class FXMLController {
 		 // add change listener to current time 
 		 mediaPlayer.currentTimeProperty().addListener((obs, oldValue, newValue) -> {
 			 videoSlider.setValue((newValue.toSeconds() / mediaPlayer.getStopTime().toSeconds()) * 100);
-			
-			 
 		 });
 		
+	}
+	
+	@FXML
+	private void Displayhelp() {
+		throw new UnsupportedOperationException("Not yet Implemented");
 	}
 
 	
