@@ -20,7 +20,6 @@ import javafx.util.Duration;
 //An instance of this class is created when the FXML file is loaded r this to work, the controller class must have a no-argument constructor.
 public class PlayerController {
 	
-	
 	private MediaPlayer mediaPlayer;
 	@FXML private Slider videoSlider;
 	@FXML private Slider volumeSlider;

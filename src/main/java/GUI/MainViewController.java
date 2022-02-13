@@ -336,19 +336,7 @@ public class MainViewController extends Application {
 	}
 	
 	
-	@FXML
-	private void showPlayerHandle() throws IOException{
-	
-		 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/music_player.fxml"));
-	        Scene scene = new Scene(root);
-	        Stage stage = new Stage();
-	        stage.setTitle("Music Player");
-	        stage.setScene(scene);
-	        stage.setMinWidth(scene.getRoot().minWidth(0) + 20);
-	        stage.setMinHeight(scene.getRoot().minHeight(0) + 40);
-	        stage.show();
 
-	}
 
 	public void refresh() {
         mainText.replaceText(new IndexRange(0, mainText.getText().length()), mainText.getText()+" ");
@@ -427,4 +415,23 @@ public class MainViewController extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 	}
+	
+	
+	
+	@FXML
+	private void showPlayerHandle() throws IOException{
+	
+		 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/music_player.fxml"));
+	        Scene scene = new Scene(root);
+	        Stage stage = new Stage();
+	        stage.setTitle("Music Player");
+	        stage.setScene(scene);
+	        stage.setMinWidth(scene.getRoot().minWidth(0) + 20);
+	        stage.setMinHeight(scene.getRoot().minHeight(0) + 40);
+	        stage.show();
+	        
+
+	}
+	
+	
 }

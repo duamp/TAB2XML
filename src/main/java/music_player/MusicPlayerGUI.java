@@ -14,7 +14,6 @@ import javafx.scene.Scene;
 
 
 public class MusicPlayerGUI extends Application {
-
 	   
 	@Override
 	public void start(Stage stage) throws IOException {

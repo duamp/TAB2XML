@@ -20,6 +20,7 @@ import nu.xom.ValidityException;
 
 public class Main {
 	
+	
 //https://usermanual.wiki/Document/The20Complete20Guide20to20JFugue2C20Second20Edition2C20v200.723471053.pdf
     public static void main(String[] args) throws ValidityException, ParsingException, IOException, ParserConfigurationException {
 //    	MusicXmlParser parser = new MusicXmlParser();
