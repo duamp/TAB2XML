@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -40,6 +42,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import music_player.Main;
+import music_player.MusicPlayerGUI;
+import music_player.PlayerController;
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
 import utility.Range;
 import utility.Settings;
 
@@ -69,7 +76,11 @@ public class MainViewController extends Application {
 	@FXML  Button previewButton;
 	@FXML  Button goToline;
 	@FXML  ComboBox<String> cmbScoreType;
+
+
 	public int measureNumber;
+
+	
 
 	public MainViewController() {
 		Settings s = Settings.getInstance();
@@ -322,6 +333,21 @@ public class MainViewController extends Application {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
+	}
+	
+	
+	@FXML
+	private void showPlayerHandle() throws IOException{
+	
+		 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/music_player.fxml"));
+	        Scene scene = new Scene(root);
+	        Stage stage = new Stage();
+	        stage.setTitle("Music Player");
+	        stage.setScene(scene);
+	        stage.setMinWidth(scene.getRoot().minWidth(0) + 20);
+	        stage.setMinHeight(scene.getRoot().minHeight(0) + 40);
+	        stage.show();
+
 	}
 
 	public void refresh() {
