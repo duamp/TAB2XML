@@ -312,7 +312,6 @@ public class MainViewController extends Application {
 
 //			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
 //			root = loader.load();
-			PreviewFileController controller = new PreviewFileController(this, this.measureNumber);
 //			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
 
 			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
