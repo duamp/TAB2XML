@@ -309,11 +309,6 @@ public class MainViewController extends Application {
 		System.out.println("Preview Button Clicked!");
 		Parent root;
 		try {
-
-//			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
-//			root = loader.load();
-//			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
-
 			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
 			root = loader.load();
 			PreviewFileController controller = loader.getController();

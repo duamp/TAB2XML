@@ -1,6 +1,8 @@
 package GUI;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,6 +21,9 @@ public class PreviewFileController extends Application {
 	public File saveFile;
     private MainViewController mvc;
 	public Highlighter highlighter;
+	private ArrayList<String> Notes;
+	private String XmlString;
+	private int measureNumber;
 
 	@FXML public CodeArea mxlText;
 	@FXML TextField gotoMeasureField;
@@ -36,11 +41,28 @@ public class PreviewFileController extends Application {
     }
     
     public void updateNote() {
+    	XmlString = mvc.converter.getMusicXML();
+    	System.out.println("Original: " + XmlString);
+    	getInformation();
+    	System.out.println("Edited: " + XmlString);
 		mxlText.replaceText(mvc.converter.getNote());
 		mxlText.moveTo(0);
 		mxlText.requestFollowCaret();
         mxlText.requestFocus();
 	}
+    
+    public void getInformation() {
+    	Scanner s = new Scanner(this.XmlString);
+    	XmlString = "";
+    	while(s.hasNext()) {
+    		String info = s.next();
+    		if(info.equals("<pitch>")){
+    			String stepSequence = s.next();
+    			String note = stepSequence.substring(6,7);
+    			XmlString += (note);
+    		}
+    	}
+    }
     
 	@FXML
 	private void saveMXLButtonHandle() {
