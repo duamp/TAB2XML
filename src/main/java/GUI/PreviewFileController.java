@@ -5,20 +5,19 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.FlowLayout;
+import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 
-public class PreviewFileController extends Application {
-	
-	public File saveFile;
+public class PreviewFileController extends JFrame {
+
     private MainViewController mvc;
 	public Highlighter highlighter;
 	private ArrayList<String> notes;
@@ -26,21 +25,11 @@ public class PreviewFileController extends Application {
 	private double measureNumber;
 	private int octaveNumber;
 
-	@FXML public CodeArea mxlText;
-	@FXML TextField gotoMeasureField;
-	@FXML Button goToline;
+    @FXML public CodeArea mxlText; 
 
-	public PreviewFileController() {}
 
-	@FXML 
-	public void initialize() {
-		mxlText.setParagraphGraphicFactory(LineNumberFactory.get(mxlText));
-	}
+    @FXML private ImageView imageView;
 
-    public void setMainViewController(MainViewController mvcInput) {
-    	mvc = mvcInput;
-    }
-    
     public void updateNote() {
     	XmlString = mvc.converter.getMusicXML();
     	System.out.println("Original: " + XmlString);
@@ -52,7 +41,7 @@ public class PreviewFileController extends Application {
 		mxlText.requestFollowCaret();
         mxlText.requestFocus();
 	}
-    
+
     public void getInformation() {
     	Scanner s = new Scanner(this.XmlString);
     	ArrayList<String> aL = new ArrayList<>();
@@ -94,40 +83,94 @@ public class PreviewFileController extends Application {
 		mvc.saveMXLButtonHandle();
 	}
 
-	//TODO add go to line button
-	@FXML
-	private void handleGotoMeasure() {
-		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
-		if (!goToMeasure(measureNumber)) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setContentText("Measure " + measureNumber + " could not be found.");
-			alert.setHeaderText(null);
-			alert.show();
-		}
-	}
+    @SuppressWarnings("unused")
+	public PreviewFileController (MainViewController mvcInput) throws IOException {
+    	this.mvc = mvcInput;
+      	setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+      	
+      	XmlString = mvc.converter.getMusicXML();
+    	getInformation();
+    	System.out.println("ArrayList of Notes: " + notes);
+    	System.out.println("Measure: " + this.measureNumber);
 
-    private boolean goToMeasure(int measureCount) {
-    	//Pattern textBreakPattern = Pattern.compile("((\\R|^)[ ]*(?=\\R)){2,}|^|$");
-    	Pattern mxlMeasurePattern = Pattern.compile("<measure number=\"" + measureCount + "\">");
-        Matcher mxlMeasureMatcher = mxlMeasurePattern.matcher(mxlText.getText());
-        
-        if (mxlMeasureMatcher.find()) {
-        	int pos = mxlMeasureMatcher.start();
-        	mxlText.moveTo(pos);
-        	mxlText.requestFollowCaret();
-        	Pattern newLinePattern = Pattern.compile("\\R");
-        	Matcher newLineMatcher = newLinePattern.matcher(mxlText.getText().substring(pos));
-        	for (int i = 0; i < 30; i++) newLineMatcher.find();
-        	int endPos = newLineMatcher.start();
-        	mxlText.moveTo(pos+endPos);
-        	mxlText.requestFollowCaret();
-        	//mxlText.moveTo(pos);
-            mxlText.requestFocus();
-            return true;
-            }
-        else return false;        
+    	int numberOfTabs = (int)this.measureNumber - 1; //change to real tabs value later
+
+    	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
+
+    	add(trebeclef);
+    	
+    	for(int i = 0; i<numberOfTabs;i++) {
+    		add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png"))));
+    	}
+    	
+    	
+// 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Sheet Music");
+		pack();
+		setVisible(true);
+		
+		
+//		implement this exception later
+		if(1==0) {
+			IOException e = new IOException();
+			throw e;
+		}
     }
     
-	@Override
-	public void start(Stage primaryStage) throws Exception {}
+    public void setMainViewController() {
+    	
+    }
+    
+    public void initialize() {
+		}
+    
+    @FXML
+    private void saveButtonClicked() {
+//        if (!titleField.getText().isBlank())
+//            Settings.getInstance().title = titleField.getText();
+//        if (!artistField.getText().isBlank())
+//        	Settings.getInstance().artist = artistField.getText();
+//        FileChooser fileChooser = new FileChooser();
+//        fileChooser.setTitle("Save As");
+//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("MusicXML files", "*.musicxml", "*.xml", "*.mxl");
+//        fileChooser.getExtensionFilters().add(extFilter);
+//
+//        File initialDir = new File(Settings.getInstance().outputFolder);
+//        String initialName = null;
+//        if (!fileNameField.getText().isBlank() && fileNameField.getText().length()<50)
+//            initialName = fileNameField.getText().strip();
+//
+//        if (mvc.saveFile != null) {
+//            if (initialName == null) {
+//                String name = mvc.saveFile.getName();
+//                if(name.contains("."))
+//                    name = name.substring(0, name.lastIndexOf('.'));
+//                initialName = name;
+//            }
+//            File parentDir = new File(mvc.saveFile.getParent());
+//            if (parentDir.exists())
+//                initialDir = parentDir;
+//        }
+//        if (initialName != null)
+//            fileChooser.setInitialFileName(initialName);
+//
+//        if (!(initialDir.exists() && initialDir.canRead()))
+//            initialDir = new File(System.getProperty("user.home"));
+//
+//        fileChooser.setInitialDirectory(initialDir);
+//
+//        File file = fileChooser.showSaveDialog(convertWindow);
+//
+//        if (file != null) {
+//            mvc.converter.saveMusicXMLFile(file);
+//            mvc.saveFile = file;
+//            cancelButtonClicked();
+//        }
+    }
+
+    @FXML
+    private void cancelButtonClicked()  {
+    	mvc.convertWindow.hide();
+    }
+
 }

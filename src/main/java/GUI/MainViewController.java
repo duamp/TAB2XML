@@ -307,14 +307,11 @@ public class MainViewController extends Application {
 	@FXML
 	private void previewButtonHandle() throws IOException {
 		System.out.println("Preview Button Clicked!");
-		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
-			root = loader.load();
-			PreviewFileController controller = loader.getController();
-			controller.setMainViewController(this);
+
+			PreviewFileController controller = new PreviewFileController(this);
+			controller.setMainViewController();
 			controller.updateNote();
-			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
 
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
