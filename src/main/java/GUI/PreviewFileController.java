@@ -21,9 +21,10 @@ public class PreviewFileController extends Application {
 	public File saveFile;
     private MainViewController mvc;
 	public Highlighter highlighter;
-	private ArrayList<String> Notes;
+	private ArrayList<String> notes;
 	private String XmlString;
-	private int measureNumber;
+	private double measureNumber;
+	private int octaveNumber;
 
 	@FXML public CodeArea mxlText;
 	@FXML TextField gotoMeasureField;
@@ -44,7 +45,8 @@ public class PreviewFileController extends Application {
     	XmlString = mvc.converter.getMusicXML();
     	System.out.println("Original: " + XmlString);
     	getInformation();
-    	System.out.println("Edited: " + XmlString);
+    	System.out.println("ArrayList of Notes: " + notes);
+    	System.out.println("Measure: " + this.measureNumber);
 		mxlText.replaceText(mvc.converter.getNote());
 		mxlText.moveTo(0);
 		mxlText.requestFollowCaret();
@@ -53,15 +55,38 @@ public class PreviewFileController extends Application {
     
     public void getInformation() {
     	Scanner s = new Scanner(this.XmlString);
+    	ArrayList<String> aL = new ArrayList<>();
     	XmlString = "";
     	while(s.hasNext()) {
     		String info = s.next();
+    		
+    		/*
+    		 * Look for <pitch> then take note located in next string at position [6,7)
+    		 * Value stored in arrayList
+    		 */
+    		
     		if(info.equals("<pitch>")){
     			String stepSequence = s.next();
     			String note = stepSequence.substring(6,7);
+    			aL.add(note);
     			XmlString += (note);
     		}
+    		
+    		/*
+    		 * Measure is present twice in XML for every measure,
+    		 * Every iteration adds 0.5 to result in 1 measure for every two occurrences.
+    		 */
+    		if(info.contains("measure")) {
+    			this.measureNumber += 0.5;
+    		}
+    		
     	}
+    	notes = aL;
+    	s.close();
+    }
+    
+    public int getMeasureNumber() {
+    	return (int) this.measureNumber; //cast required, see getInformation() for details
     }
     
 	@FXML
