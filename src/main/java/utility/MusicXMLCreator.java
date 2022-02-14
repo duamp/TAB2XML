@@ -39,6 +39,7 @@ public class MusicXMLCreator {
                 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
                 """
                 + xmlString;
+      
         return xmlString;
     }
     
@@ -58,6 +59,7 @@ public class MusicXMLCreator {
         
         return xmlString;
     }
+
     
 //    public static Instrument getInstrumentEnum(String instrument) {
 //        if (instrument.equalsIgnoreCase("guitar"))

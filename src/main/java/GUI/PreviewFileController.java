@@ -1,6 +1,10 @@
 package GUI;
 
-
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.FlowLayout;
 import java.io.IOException;
 
@@ -15,24 +19,81 @@ import javafx.scene.image.ImageView;
 public class PreviewFileController extends JFrame {
 
     private MainViewController mvc;
+	public Highlighter highlighter;
+	private ArrayList<String> notes;
+	private String XmlString;
+	private double measureNumber;
+	private int octaveNumber;
+
     @FXML public CodeArea mxlText; 
+
 
     @FXML private ImageView imageView;
 
     public void updateNote() {
+    	XmlString = mvc.converter.getMusicXML();
+    	System.out.println("Original: " + XmlString);
+    	getInformation();
+    	System.out.println("ArrayList of Notes: " + notes);
+    	System.out.println("Measure: " + this.measureNumber);
 		mxlText.replaceText(mvc.converter.getNote());
 		mxlText.moveTo(0);
 		mxlText.requestFollowCaret();
         mxlText.requestFocus();
 	}
 
+    public void getInformation() {
+    	Scanner s = new Scanner(this.XmlString);
+    	ArrayList<String> aL = new ArrayList<>();
+    	XmlString = "";
+    	while(s.hasNext()) {
+    		String info = s.next();
+    		
+    		/*
+    		 * Look for <pitch> then take note located in next string at position [6,7)
+    		 * Value stored in arrayList
+    		 */
+    		
+    		if(info.equals("<pitch>")){
+    			String stepSequence = s.next();
+    			String note = stepSequence.substring(6,7);
+    			aL.add(note);
+    			XmlString += (note);
+    		}
+    		
+    		/*
+    		 * Measure is present twice in XML for every measure,
+    		 * Every iteration adds 0.5 to result in 1 measure for every two occurrences.
+    		 */
+    		if(info.contains("measure")) {
+    			this.measureNumber += 0.5;
+    		}
+    		
+    	}
+    	notes = aL;
+    	s.close();
+    }
     
+    public int getMeasureNumber() {
+    	return (int) this.measureNumber; //cast required, see getInformation() for details
+    }
+    
+	@FXML
+	private void saveMXLButtonHandle() {
+		mvc.saveMXLButtonHandle();
+	}
+
     @SuppressWarnings("unused")
-	public PreviewFileController (MainViewController mvcInput, int measurenumber) throws IOException {
+	public PreviewFileController (MainViewController mvcInput) throws IOException {
     	this.mvc = mvcInput;
       	setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
+      	
+      	XmlString = mvc.converter.getMusicXML();
+    	getInformation();
+    	System.out.println("ArrayList of Notes: " + notes);
+    	System.out.println("Measure: " + this.measureNumber);
 
-    	int numberOfTabs = 4;//change to real tabs value later
+    	int numberOfTabs = (int)this.measureNumber - 1; //change to real tabs value later
 
     	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
 
@@ -43,8 +104,8 @@ public class PreviewFileController extends JFrame {
     	}
     	
     	
- 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Sheetssss");
+// 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Sheet Music");
 		pack();
 		setVisible(true);
 		
