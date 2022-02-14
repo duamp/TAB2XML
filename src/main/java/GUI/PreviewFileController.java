@@ -60,7 +60,7 @@ public class PreviewFileController extends JFrame {
     			aL.add(note);
     			XmlString += (note);
     		}
-    		
+    		//
     		/*
     		 * Measure is present twice in XML for every measure,
     		 * Every iteration adds 0.5 to result in 1 measure for every two occurrences.
