@@ -35,7 +35,7 @@ public class PreviewFileController extends JFrame {
     	System.out.println("Original: " + XmlString);
     	getInformation();
     	System.out.println("ArrayList of Notes: " + notes);
-    	System.out.println("Measure: " + this.measureNumber);
+    	System.out.println("Measure: " + ((int) this.measureNumber - 1));
 		mxlText.replaceText(mvc.converter.getNote());
 		mxlText.moveTo(0);
 		mxlText.requestFollowCaret();
@@ -72,6 +72,10 @@ public class PreviewFileController extends JFrame {
     	}
     	notes = aL;
     	s.close();
+    }
+    
+    public ArrayList<String> getNotes(){
+    	return this.notes;
     }
     
     public int getMeasureNumber() {
