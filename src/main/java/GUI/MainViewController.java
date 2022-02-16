@@ -76,6 +76,10 @@ public class MainViewController extends Application {
 	@FXML  Button previewButton;
 	@FXML  Button goToline;
 	@FXML  ComboBox<String> cmbScoreType;
+
+
+	public int measureNumber;
+
 	
 
 	public MainViewController() {
@@ -314,18 +318,16 @@ public class MainViewController extends Application {
 	@FXML
 	private void previewButtonHandle() throws IOException {
 		System.out.println("Preview Button Clicked!");
-		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
-			root = loader.load();
-			ShowMXLController controller = loader.getController();
-			controller.setMainViewController(this);
-			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
+
+			PreviewFileController controller = new PreviewFileController(this);
+			controller.setMainViewController();
+			controller.updateNote();
+
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
-		
 	}
 	
 	
@@ -338,6 +340,7 @@ public class MainViewController extends Application {
 	@FXML
 	private void handleGotoMeasure() {
 		int measureNumber = Integer.parseInt( gotoMeasureField.getText() );
+		System.out.println(measureNumber);
 		if (!goToMeasure(measureNumber)) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setContentText("Measure " + measureNumber + " could not be found.");
@@ -348,6 +351,8 @@ public class MainViewController extends Application {
 	
     private boolean goToMeasure(int measureCount) {
         TabMeasure measure = converter.getScore().getMeasure(measureCount);
+     
+        System.out.println(measure);
         if (measure == null) return false;
         List<Range> linePositions = measure.getRanges();
         int pos = linePositions.get(0).getStart();

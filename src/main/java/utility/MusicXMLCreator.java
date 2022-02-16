@@ -27,7 +27,8 @@ public class MusicXMLCreator {
             xmlString = xmlString.replace("noteAfter", "note");
             xmlString = xmlString.replaceAll("\\R[ \\t]*<midiinstruments>[\\s\\S]*</midiinstruments>[ \\t]*\\R", "\n");
             xmlString = xmlString.replaceAll("\\R[ \\t]*<timeModification>\\s*<actual-notes>\\d+</actual-notes>\\s*<normal-notes>\\d+</normal-notes>\\s*</timeModification>[ \\t]*\\R", "\n");
-           
+            System.out.println(xmlString);
+            
         }catch (JsonProcessingException | TXMLException e) {
             e.printStackTrace();
             return "";
@@ -38,8 +39,27 @@ public class MusicXMLCreator {
                 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
                 """
                 + xmlString;
+      
         return xmlString;
     }
+    
+    public String generateNotes() {
+        if(score.at.text.isBlank()){
+            return "";
+        }
+        XmlMapper mapper = new XmlMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String xmlString = "";
+        xmlString = "E|-----------E-------|-E---------------|\n"
+        		+   "B|---------B---B-----|-B---------------|\n"
+        		+   "G|-------G#--------G#|-G#--------------|\n"
+        		+   "D|-----B-------------|-B---------------|\n"
+        		+   "A|---B---------------|-B---------------|\n"
+        		+   "E|-E-----------------|-E---------------|";
+        
+        return xmlString;
+    }
+
     
 //    public static Instrument getInstrumentEnum(String instrument) {
 //        if (instrument.equalsIgnoreCase("guitar"))

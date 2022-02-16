@@ -28,6 +28,10 @@ public class Converter {
 		return mxlc.generateMusicXML();
 	}
 	
+	public String getNote() {
+		return mxlc.generateNotes();
+	}
+	
 	public Score getScore() {
 		return score;
 	}
