@@ -4,6 +4,13 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
+import org.jfugue.midi.MidiParserListener;
+import org.jfugue.player.ManagedPlayer;
+import org.jfugue.player.Player;
+import org.staccato.StaccatoParser;
 
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -21,12 +28,30 @@ import javafx.util.Duration;
 public class PlayerController {
 	
 	private MediaPlayer mediaPlayer;
+	private ManagedPlayer managedPlayer;
+	private MidiParserListener midiParserListener;
+	
 	@FXML private Slider videoSlider;
 	@FXML private Slider volumeSlider;
 	@FXML private VBox GUI;
+
 	
-	public PlayerController() {
-	
+	public PlayerController() throws InvalidMidiDataException, MidiUnavailableException {
+
+		managedPlayer = new Player().getManagedPlayer();
+		
+    	StaccatoParser staccatoParser = new StaccatoParser();
+		midiParserListener = new MidiParserListener();
+		staccatoParser.addParserListener(midiParserListener);
+		staccatoParser.parse("C D E F G A B");
+		
+
+		managedPlayer = new ManagedPlayer();
+		
+		
+
+		
+		
 	}
 	
 	// https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
@@ -34,6 +59,23 @@ public class PlayerController {
 	@FXML 
 	private void initialize() {
 //		 GUI.setDisable(true);
+		
+	
+
+    	
+		/* http://www.jfugue.org/examples.html
+		 * V for voices (wtf????????)
+		 * I for specifying instruments, must map to MIDI dictionary
+		 * '|' (pipe) for indicating measures
+		 * 
+		 * 
+		 */
+    	
+		
+		
+		
+		
+		
 		 volumeSlider.setValue(50.0);
 		
 		 volumeSlider.valueProperty().addListener(ov -> {
@@ -51,14 +93,14 @@ public class PlayerController {
 	}
 	
 	@FXML
-	public void play() {
-
+	public void play() throws InvalidMidiDataException, MidiUnavailableException {
+	
 		// if at end, rewind to start 
 		if (mediaPlayer.getCurrentTime().equals(mediaPlayer.getStopTime())) {
 			mediaPlayer.seek(mediaPlayer.getStartTime());
 		}
 		
-		mediaPlayer.play();
+		managedPlayer.start(midiParserListener.getSequence());
 		
 	}
 	

@@ -82,5 +82,5 @@ run {
     }
 }
 
-//mainClassName = 'GUI.MainApp'
-mainClassName = 'music_player.MusicPlayerGUI'
+mainClassName = 'GUI.MainApp'
+//mainClassName = 'music_player.MusicPlayerGUI'
