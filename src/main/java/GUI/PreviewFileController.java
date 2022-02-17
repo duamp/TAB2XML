@@ -1,70 +1,39 @@
 package GUI;
 
-
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.io.IOException;
+import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import org.fxmisc.richtext.CodeArea;
+import javax.swing.JPanel;
 
-import javafx.fxml.FXML;
-import javafx.scene.image.ImageView;
-
-public class PreviewFileController extends JFrame {
-
-    private MainViewController mvc;
-    @FXML public CodeArea mxlText; 
-
-    @FXML private ImageView imageView;
-
-    public void updateNote() {
-		mxlText.replaceText(mvc.converter.getNote());
-		mxlText.moveTo(0);
-		mxlText.requestFollowCaret();
-        mxlText.requestFocus();
-	}
+public class PreviewFileController extends JPanel{
+	
+    public PreviewFileController() {
+    	JFrame f = new JFrame();
+    	int measures = 3;
+    	f.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png"))));
+    	f.add(new DrawMeasure(measures));
 
     
-    @SuppressWarnings("unused")
-	public PreviewFileController (MainViewController mvcInput, int measurenumber) throws IOException {
-    	this.mvc = mvcInput;
-      	setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-
-    	int numberOfTabs = 4;//change to real tabs value later
-
-    	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
-
-    	add(trebeclef);
-    	
-    	for(int i = 0; i<numberOfTabs;i++) {
-    		add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png"))));
-    	}
-    	
-    	
- 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Sheetssss");
-		pack();
-		setVisible(true);
-		
-		
-//		implement this exception later
-		if(1==0) {
-			IOException e = new IOException();
-			throw e;
-		}
+    	f.setSize(2000,2000);
+    	f.getContentPane().setBackground(Color.white);
+    	f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+    	f.pack();
+    	f.setVisible(true);
+    	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
-    public void setMainViewController() {
-    	
-    }
-    
-    public void initialize() {
-		}
-    
-    @FXML
-    private void saveButtonClicked() {
+}
+
+
+
+
+
+//    @FXML
+//    private void saveButtonClicked() {
 //        if (!titleField.getText().isBlank())
 //            Settings.getInstance().title = titleField.getText();
 //        if (!artistField.getText().isBlank())
@@ -105,11 +74,4 @@ public class PreviewFileController extends JFrame {
 //            mvc.saveFile = file;
 //            cancelButtonClicked();
 //        }
-    }
-
-    @FXML
-    private void cancelButtonClicked()  {
-    	mvc.convertWindow.hide();
-    }
-
-}
+//    }
