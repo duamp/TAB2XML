@@ -1,11 +1,20 @@
 package music_player;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequencer;
 
 import org.jfugue.midi.MidiParserListener;
 import org.jfugue.player.ManagedPlayer;
@@ -25,140 +34,134 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 //An instance of this class is created when the FXML file is loaded r this to work, the controller class must have a no-argument constructor.
-public class PlayerController {
+public class PlayerController  {
 	
-	private MediaPlayer mediaPlayer;
-	private ManagedPlayer managedPlayer;
-	private MidiParserListener midiParserListener;
-	
+	private Sequencer sequencer;
+
 	@FXML private Slider videoSlider;
 	@FXML private Slider volumeSlider;
 	@FXML private VBox GUI;
 
 	
-	public PlayerController() throws InvalidMidiDataException, MidiUnavailableException {
+	public PlayerController() throws MidiUnavailableException, IOException, InvalidMidiDataException{
 
-		managedPlayer = new Player().getManagedPlayer();
-		
-    	StaccatoParser staccatoParser = new StaccatoParser();
-		midiParserListener = new MidiParserListener();
-		staccatoParser.addParserListener(midiParserListener);
-		staccatoParser.parse("C D E F G A B");
-		
-
-		managedPlayer = new ManagedPlayer();
-		
-		
-
-		
-		
+	        sequencer = MidiSystem.getSequencer();
+	        sequencer.open();
+	        InputStream is = new BufferedInputStream(new FileInputStream(new File(".\\src\\main\\java\\music_player\\songs\\swag.midi")));
+	        
+	        // Sets the current sequence on which the sequencer operates.
+	        // The stream must point to MIDI file data.
+	        sequencer.setSequence(is);
+	 
+	    
 	}
 	
 	// https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
-	//TODO: File path parameters.
 	@FXML 
 	private void initialize() {
-//		 GUI.setDisable(true);
-		
-	
-
-    	
-		/* http://www.jfugue.org/examples.html
-		 * V for voices (wtf????????)
-		 * I for specifying instruments, must map to MIDI dictionary
-		 * '|' (pipe) for indicating measures
-		 * 
-		 * 
-		 */
-    	
-		
-		
-		
-		
-		
-		 volumeSlider.setValue(50.0);
 		
 		 volumeSlider.valueProperty().addListener(ov -> {
-			       if (volumeSlider.isValueChanging()) {
-			    	   // setVolume() [0.0, 1.0]
-			           mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
-			       }
-			    }
-			);
+		       if (volumeSlider.isValueChanging()) {
+
+//		           mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
+		       }
+		    }
+		);
+
+		 // both for dragging / clicking for scrubbing 
+		 videoSlider.setOnMouseDragged((event) -> {
+			 System.out.println(videoSlider.getValue());
+			 System.out.println(sequencer.getTickPosition());
+			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
+		 });
 		 
-		 // for prototype only 
-		 Media song = new Media(new File("Bach.mp3").toURI().toString());
-		 mediaPlayer = new MediaPlayer(song);
-		 initalizePlayer();
+		 videoSlider.setOnMousePressed((event) -> {
+			 System.out.println((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
+			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
+			 
+			 
+		 });
+		 
+		 // 
+		
+		 
+//		 mediaPlayer.currentTimeProperty().addListener((obs, oldValue, newValue) -> {
+//			 videoSlider.setValue((newValue.toSeconds() / mediaPlayer.getStopTime().toSeconds()) * 100);
+//		 });
 	}
 	
 	@FXML
 	public void play() throws InvalidMidiDataException, MidiUnavailableException {
-	
+		sequencer.start();
+		
 		// if at end, rewind to start 
-		if (mediaPlayer.getCurrentTime().equals(mediaPlayer.getStopTime())) {
-			mediaPlayer.seek(mediaPlayer.getStartTime());
+		if (sequencer.getMicrosecondPosition() == sequencer.getMicrosecondLength()) {
+			sequencer.setTickPosition(0);
 		}
 		
-		managedPlayer.start(midiParserListener.getSequence());
+//		Timer timer = new Timer();
+//		try {
+//			timer.schedule(new PlayerController(), 0, 1000);
+//		} catch (MidiUnavailableException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (InvalidMidiDataException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	
 	@FXML
 	public void pause() {
-		mediaPlayer.pause();
+		sequencer.stop();
+		
+		
 	}
 	
 
 	
-	@FXML
-	private void promptFile() {
-		
-		FileChooser fileChooser = new FileChooser();
-//		fileChooser.getExtensionFilters().add(new ExtensionFilter("musicxml", "*.musicxml"));
-		File file = fileChooser.showOpenDialog(null);
-		
-		if (file != null) {
-			
-			 Media song = new Media(file.toURI().toString());
-			 mediaPlayer = new MediaPlayer(song);
-			 initalizePlayer();
-			 GUI.setDisable(false);
-		}
+//	@FXML
+//	private void promptFile() {
+//		
+//		FileChooser fileChooser = new FileChooser();
+//		fileChooser.getExtensionFilters().addAll(
+//				new ExtensionFilter("musicxml", "*.musicxml"),
+//				new ExtensionFilter("MIDI file", "*.midi")
+//				);
+//		
+//		File file = fileChooser.showOpenDialog(null);
+//		
+//		if (file != null) {
+//			
+//	
+//			 initalizePlayer();
+//			 GUI.setDisable(false);
+//		}
+//
+//	}
 
-	}
-	
-	private void initalizePlayer() {
-		
-		 //videoslider scrubbing
-		 videoSlider.setOnMouseDragged((event) -> {
-			 System.out.println(videoSlider.getValue());
-			 mediaPlayer.seek(mediaPlayer.getMedia().getDuration().multiply(videoSlider.getValue() / 100.0));
-			 
-			 
-		 });
-		 
-		 videoSlider.setOnMousePressed((event) -> {
-			 System.out.println(videoSlider.getValue());
-			 mediaPlayer.seek(mediaPlayer.getMedia().getDuration().multiply(videoSlider.getValue() / 100.0));
-			 
-			 
-		 });
-		 
-		 // scrubbing animation 
-		 // add change listener to current time 
-		 mediaPlayer.currentTimeProperty().addListener((obs, oldValue, newValue) -> {
-			 videoSlider.setValue((newValue.toSeconds() / mediaPlayer.getStopTime().toSeconds()) * 100);
-		 });
-		
-	}
-	
 	@FXML
 	private void Displayhelp() {
 		throw new UnsupportedOperationException("Not yet Implemented");
 	}
+	
+	public void closeSequencer() {
+		sequencer.close();
+	}
 
+//		public void run() {
+//			videoSlider.setValue(sequencer.getTickPosition());
+//	    }
+//	 
+	 
+	public static void main (String args[])throws MidiUnavailableException, IOException, InvalidMidiDataException {
 	
+		 
+	}
 	
-	
+
 }

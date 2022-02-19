@@ -23,6 +23,7 @@ import org.fxmisc.richtext.model.StyleSpans;
 
 import converter.Converter;
 import converter.measure.TabMeasure;
+import custom_exceptions.TXMLException;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -42,13 +43,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import music_player.XmlToMidi;
 import music_player.Main;
-import music_player.MusicPlayerGUI;
 import music_player.PlayerController;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 import utility.Range;
 import utility.Settings;
+import converter.Score;
 
 public class MainViewController extends Application {
 	
@@ -406,17 +408,17 @@ public class MainViewController extends Application {
         return task;
     }
     
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-
-	}
-	
-	
-	
+    
 	@FXML
-	private void showPlayerHandle() throws IOException{
+	private void showPlayerHandle() throws IOException, TXMLException, ValidityException, ParserConfigurationException, ParsingException{
 	
-		 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/music_player.fxml"));
+		
+			XmlToMidi xd = new XmlToMidi(converter);
+
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/music_player.fxml"));
+	        Parent root = (Parent) loader.load();
+//		    XmlToMidi playxml = new XmlToMidi(converter.getScore());
+//		    System.out.println(converter.getScore());
 	        Scene scene = new Scene(root);
 	        Stage stage = new Stage();
 	        stage.setTitle("Music Player");
@@ -425,8 +427,27 @@ public class MainViewController extends Application {
 	        stage.setMinHeight(scene.getRoot().minHeight(0) + 40);
 	        stage.show();
 	        
+	    	// cannot be put in initialize() b/c stage/scene is not loaded yet
+			stage.setOnCloseRequest(event ->{
+				 //r u sure window...
+				System.out.println("closed sequencer");
+				PlayerController a = loader.getController();
+				a.closeSequencer();
+				 
+			 });
+	      
+	    
+	}
+    
+    
+	@Override
+	public void start(Stage primaryStage) throws Exception {
 
 	}
+	
+	
+	
+
 	
 	
 }

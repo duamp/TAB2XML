@@ -77,6 +77,7 @@ public class PreviewFileController extends JFrame {
     public ArrayList<String> getNotes(){
     	return this.notes;
     }
+
     
     public int getMeasureNumber() {
     	return (int) this.measureNumber; //cast required, see getInformation() for details

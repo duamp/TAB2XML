@@ -1,57 +1,51 @@
 package music_player;
-
-import java.io.File;
+	
 import java.io.IOException;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.jfugue.integration.MusicXmlParser;
-import org.jfugue.integration.MusicXmlParserListener;
-import org.jfugue.midi.MidiParser;
-import org.jfugue.midi.MidiParserListener;
-import org.jfugue.pattern.Pattern;
-import org.jfugue.pattern.PatternProducer;
-import org.jfugue.player.ManagedPlayer;
 import org.jfugue.player.Player;
-import org.staccato.StaccatoParser;
-import org.staccato.StaccatoParserListener;
 
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
-public class Main {
+
+
+public class Main extends Application {
+	   
+	@Override
+	public void start(Stage stage) throws IOException {
 	
 	
-//https://usermanual.wiki/Document/The20Complete20Guide20to20JFugue2C20Second20Edition2C20v200.723471053.pdf
-    public static void main(String[] args) throws ValidityException, ParsingException, IOException, ParserConfigurationException, InvalidMidiDataException, MidiUnavailableException {
-    	
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("GUI/music_player.fxml"));
+        Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
+        stage.setTitle("Music Player");
+        stage.setScene(scene);
+   
+        stage.setMinWidth(scene.getRoot().minWidth(0) + 20);
+        stage.setMinHeight(scene.getRoot().minHeight(0) + 40);
+        
+        stage.show();
+        
+        
+		// cannot be put in initialize() b/c stage/scene is not loaded yet
+		stage.setOnCloseRequest(event ->{
+			 //r u sure window...
+			System.out.println("xd");
+			PlayerController xd = loader.getController();
+			xd.closeSequencer();
+			 
+		 });
+      
 
+       
+   }
 	
-    	
 
-//    	MusicXmlParser parser = new MusicXmlParser();
-//    	MidiParserListener listener = new MidiParserListener();
-//    	parser.addParserListener(listener);
-//    	parser.parse(new File("???.musicxml"));
-//    	
-//
-//    	
-//    	MidiParser parser1 = new MidiParser();
-//    	StaccatoParserListener listen1 = new StaccatoParserListener();
-//    	parser1.addParserListener(listen1);
-//    	parser1.parse(listener.getSequence());
-//    	
-//    	
-//    	Player player = new Player();
-//    
-//    	player.play(listen1.getPattern().setTempo(480).setInstrument("Guitar"));
-//
-//
-
-    	
-    	
-    }
+	public static void main(String[] args) {
+		launch(args);
+	}
 }

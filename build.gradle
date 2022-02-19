@@ -83,4 +83,4 @@ run {
 }
 
 mainClassName = 'GUI.MainApp'
-//mainClassName = 'music_player.MusicPlayerGUI'
+//mainClassName = 'music_player.Main'

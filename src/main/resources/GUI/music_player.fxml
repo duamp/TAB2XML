@@ -10,21 +10,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="120.0" minWidth="605.0" prefHeight="165.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="music_player.PlayerController">
    <top>
       <MenuBar prefHeight="0.0" prefWidth="652.0" BorderPane.alignment="CENTER">
         <menus>
-            <Menu mnemonicParsing="false" text="File">
+            <Menu disable="true" mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#promptFile" text="Open File" />
+                  <MenuItem mnemonicParsing="false" text="Save as..." />
                </items>
             </Menu>
-          <Menu mnemonicParsing="false" onAction="#Displayhelp" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
         </menus>
       </MenuBar>
    </top>
@@ -57,7 +51,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Slider fx:id="volumeSlider" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
+                  <Slider fx:id="volumeSlider" disable="true" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
