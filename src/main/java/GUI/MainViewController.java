@@ -43,22 +43,22 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import music_player.XmlToMidi;
-import music_player.Main;
+
+import models.ScorePartwise;
 import music_player.PlayerController;
+import music_player.XmlToMidi;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 import utility.Range;
 import utility.Settings;
-import converter.Score;
 
 public class MainViewController extends Application {
-	
+
 	private Preferences prefs;
 	public static ExecutorService executor = Executors.newSingleThreadExecutor();
 	public File saveFile;
 	private static boolean isEditingSavedFile;
-	
+
 	public Window convertWindow;
 	public Window settingsWindow;
 
@@ -67,7 +67,7 @@ public class MainViewController extends Application {
 
 	@FXML  Label mainViewState;
 	@FXML  TextField instrumentMode;
-	
+
 	@FXML public CodeArea mainText;
 
 	@FXML  TextField gotoMeasureField;
@@ -82,7 +82,7 @@ public class MainViewController extends Application {
 
 	public int measureNumber;
 
-	
+
 
 	public MainViewController() {
 		Settings s = Settings.getInstance();
@@ -99,7 +99,7 @@ public class MainViewController extends Application {
 		mainText.setParagraphGraphicFactory(LineNumberFactory.get(mainText));
 		converter = new Converter(this);
 		highlighter = new Highlighter(this, converter);
-    	listenforTextAreaChanges();
+		listenforTextAreaChanges();
 	}
 
 	@FXML
@@ -116,7 +116,7 @@ public class MainViewController extends Application {
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
-	
+
 	@FXML
 	private void handleSystemDefaultSettings() {
 		Parent root;
@@ -285,7 +285,7 @@ public class MainViewController extends Application {
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
-	
+
 	@FXML
 	void saveMXLButtonHandle() {
 		Parent root;
@@ -300,7 +300,7 @@ public class MainViewController extends Application {
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
-	
+
 	@FXML
 	private void showMXLButtonHandle() {
 		Parent root;
@@ -318,26 +318,23 @@ public class MainViewController extends Application {
 	}
 
 	@FXML
-	private void previewButtonHandle() throws IOException {
+	private void previewButtonHandle() throws IOException, TXMLException {
 		System.out.println("Preview Button Clicked!");
 		try {
-
-			PreviewFileController controller = new PreviewFileController(this);
-			controller.setMainViewController();
-			controller.updateNote();
-
+			ScorePartwise sp = converter.getScore().getModel();
+			PreviewFileController controller = new PreviewFileController(sp);
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
-	
-	
+
+
 
 
 	public void refresh() {
-        mainText.replaceText(new IndexRange(0, mainText.getText().length()), mainText.getText()+" ");
-    }
+		mainText.replaceText(new IndexRange(0, mainText.getText().length()), mainText.getText()+" ");
+	}
 
 	@FXML
 	private void handleGotoMeasure() {
@@ -350,65 +347,65 @@ public class MainViewController extends Application {
 			alert.show();
 		}
 	}
-	
-    private boolean goToMeasure(int measureCount) {
-        TabMeasure measure = converter.getScore().getMeasure(measureCount);
-     
-        System.out.println(measure);
-        if (measure == null) return false;
-        List<Range> linePositions = measure.getRanges();
-        int pos = linePositions.get(0).getStart();
-    	mainText.moveTo(pos);
-        mainText.requestFollowCaret();
-        mainText.requestFocus();
-        return true;
-    }
 
-    public void listenforTextAreaChanges() {
-        //Subscription cleanupWhenDone = 
-    	mainText.multiPlainChanges()
-                .successionEnds(Duration.ofMillis(350))
-                .supplyTask(this::update)
-                .awaitLatest(mainText.multiPlainChanges())
-                .filterMap(t -> {
-                    if(t.isSuccess()) {
-                        return Optional.of(t.get());
-                    } else {
-                        t.getFailure().printStackTrace();
-                        return Optional.empty();
-                    }
-                })
-                .subscribe(highlighter::applyHighlighting);
-    }
-    
-    public Task<StyleSpans<Collection<String>>> update() {
-    	String text = mainText.getText();
+	private boolean goToMeasure(int measureCount) {
+		TabMeasure measure = converter.getScore().getMeasure(measureCount);
 
-        Task<StyleSpans<Collection<String>>> task = new Task<>() {
-            @Override
-            protected StyleSpans<Collection<String>> call() {
-            	converter.update();
-            	
-                if (converter.getScore().getTabSectionList().isEmpty()){
-                	saveMXLButton.setDisable(true);
-                	previewButton.setDisable(true);
-                	showMXLButton.setDisable(true);
-                }
-                else
-                {
-                	saveMXLButton.setDisable(false);
-                	previewButton.setDisable(false);
-                	showMXLButton.setDisable(false);
-                }
-                return highlighter.computeHighlighting(text);
-            }
-        };
-        executor.execute(task);
-        task.isDone();
-        return task;
-    }
-    
-    
+		System.out.println(measure);
+		if (measure == null) return false;
+		List<Range> linePositions = measure.getRanges();
+		int pos = linePositions.get(0).getStart();
+		mainText.moveTo(pos);
+		mainText.requestFollowCaret();
+		mainText.requestFocus();
+		return true;
+	}
+
+	public void listenforTextAreaChanges() {
+		//Subscription cleanupWhenDone = 
+		mainText.multiPlainChanges()
+		.successionEnds(Duration.ofMillis(350))
+		.supplyTask(this::update)
+		.awaitLatest(mainText.multiPlainChanges())
+		.filterMap(t -> {
+			if(t.isSuccess()) {
+				return Optional.of(t.get());
+			} else {
+				t.getFailure().printStackTrace();
+				return Optional.empty();
+			}
+		})
+		.subscribe(highlighter::applyHighlighting);
+	}
+
+	public Task<StyleSpans<Collection<String>>> update() {
+		String text = mainText.getText();
+
+		Task<StyleSpans<Collection<String>>> task = new Task<>() {
+			@Override
+			protected StyleSpans<Collection<String>> call() {
+				converter.update();
+
+				if (converter.getScore().getTabSectionList().isEmpty()){
+					saveMXLButton.setDisable(true);
+					previewButton.setDisable(true);
+					showMXLButton.setDisable(true);
+				}
+				else
+				{
+					saveMXLButton.setDisable(false);
+					previewButton.setDisable(false);
+					showMXLButton.setDisable(false);
+				}
+				return highlighter.computeHighlighting(text);
+			}
+		};
+		executor.execute(task);
+		task.isDone();
+		return task;
+	}
+
+
 	@FXML
 	private void showPlayerHandle() throws IOException, TXMLException, ValidityException, ParserConfigurationException, ParsingException{
 	
@@ -438,16 +435,9 @@ public class MainViewController extends Application {
 	      
 	    
 	}
-    
-    
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
 	}
-	
-	
-	
 
-	
-	
 }

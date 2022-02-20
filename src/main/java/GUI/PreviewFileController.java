@@ -1,136 +1,69 @@
 package GUI;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.io.IOException;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+
 import org.fxmisc.richtext.CodeArea;
+
+
+import javax.swing.JPanel;
+
 
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import models.ScorePartwise;
 
-public class PreviewFileController extends JFrame {
+public class PreviewFileController extends JPanel {
 
-    private MainViewController mvc;
+	private MainViewController mvc;
 	public Highlighter highlighter;
-	private ArrayList<String> notes;
-	private String XmlString;
-	private double measureNumber;
-	private int octaveNumber;
+	private ScorePartwise sp;
 
-    @FXML public CodeArea mxlText; 
+	@FXML public CodeArea mxlText; 
 
 
-    @FXML private ImageView imageView;
+	@FXML private ImageView imageView;
 
-    public void updateNote() {
-    	XmlString = mvc.converter.getMusicXML();
-    	System.out.println("Original: " + XmlString);
-    	getInformation();
-    	System.out.println("ArrayList of Notes: " + notes);
-    	System.out.println("Measure: " + ((int) this.measureNumber - 1));
-		mxlText.replaceText(mvc.converter.getNote());
-		mxlText.moveTo(0);
-		mxlText.requestFollowCaret();
-        mxlText.requestFocus();
+	public int getMeasureNumber() {
+		return sp.getParts().get(0).getMeasures().size();
 	}
-
-    public void getInformation() {
-    	Scanner s = new Scanner(this.XmlString);
-    	ArrayList<String> aL = new ArrayList<>();
-    	XmlString = "";
-    	while(s.hasNext()) {
-    		String info = s.next();
-    		
-    		/*
-    		 * Look for <pitch> then take note located in next string at position [6,7)
-    		 * Value stored in arrayList
-    		 */
-    		
-    		if(info.equals("<pitch>")){
-    			String stepSequence = s.next();
-    			String note = stepSequence.substring(6,7);
-    			aL.add(note);
-    			XmlString += (note);
-    		}
-    		
-    		/*
-    		 * Measure is present twice in XML for every measure,
-    		 * Every iteration adds 0.5 to result in 1 measure for every two occurrences.
-    		 */
-    		if(info.contains("measure")) {
-    			this.measureNumber += 0.5;
-    		}
-    		
-    	}
-    	notes = aL;
-    	s.close();
-    }
-    
-    public ArrayList<String> getNotes(){
-    	return this.notes;
-    }
-
-    
-    public int getMeasureNumber() {
-    	return (int) this.measureNumber; //cast required, see getInformation() for details
-    }
-    
+	
 	@FXML
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
 
-    @SuppressWarnings("unused")
-	public PreviewFileController (MainViewController mvcInput) throws IOException {
-    	this.mvc = mvcInput;
-      	setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-      	
-      	XmlString = mvc.converter.getMusicXML();
-    	getInformation();
-    	System.out.println("ArrayList of Notes: " + notes);
-    	System.out.println("Measure: " + this.measureNumber);
+	public PreviewFileController (ScorePartwise sp) throws IOException {
+		this.sp = sp;
+		createJFrame(new JFrame());
+	}
 
-    	int numberOfTabs = (int)this.measureNumber - 1; //change to real tabs value later
+	public void initialize() {}
 
-    	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
+	@FXML
+	private void createJFrame(JFrame f) {
+		f.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png"))));
+		f.add(new DrawMeasure(this.getMeasureNumber()));
+		f.setSize(4000,4000);
+		f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
+		f.getContentPane().setBackground(Color.white);
+		f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
+		f.pack();
+		f.setVisible(true);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+}
 
-    	add(trebeclef);
-    	
-    	for(int i = 0; i<numberOfTabs;i++) {
-    		add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png"))));
-    	}
-    	
-    	
-// 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Sheet Music");
-		pack();
-		setVisible(true);
-		
-		
-//		implement this exception later
-		if(1==0) {
-			IOException e = new IOException();
-			throw e;
-		}
-    }
-    
-    public void setMainViewController() {
-    	
-    }
-    
-    public void initialize() {
-		}
-    
-    @FXML
-    private void saveButtonClicked() {
+
+//    @FXML
+//    private void saveButtonClicked() {
 //        if (!titleField.getText().isBlank())
 //            Settings.getInstance().title = titleField.getText();
 //        if (!artistField.getText().isBlank())
@@ -171,11 +104,4 @@ public class PreviewFileController extends JFrame {
 //            mvc.saveFile = file;
 //            cancelButtonClicked();
 //        }
-    }
-
-    @FXML
-    private void cancelButtonClicked()  {
-    	mvc.convertWindow.hide();
-    }
-
-}
+//    }
