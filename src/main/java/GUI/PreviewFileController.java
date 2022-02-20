@@ -51,7 +51,8 @@ public class PreviewFileController extends JPanel {
 	private void createJFrame(JFrame f) {
 		f.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png"))));
 		f.add(new DrawMeasure(this.getMeasureNumber()));
-		f.setSize(2000,2000);
+		f.setSize(4000,4000);
+		f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
 		f.getContentPane().setBackground(Color.white);
 		f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		f.pack();
