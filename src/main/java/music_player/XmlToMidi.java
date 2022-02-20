@@ -62,7 +62,7 @@ public class XmlToMidi {
     	listen1.getPattern().setTempo(480).setInstrument("Guitar");
 
     	 try {
-             File filePath = new File(".\\src\\main\\java\\music_player\\songs\\swag.midi");
+             File filePath = new File("./src/main/java/music_player/songs/swag.midi");
              //create midi file if it does not exist
              filePath.createNewFile();
              MidiFileManager.savePatternToMidi(listen1.getPattern(), filePath);

@@ -47,7 +47,7 @@ public class PlayerController  {
 
 	        sequencer = MidiSystem.getSequencer();
 	        sequencer.open();
-	        InputStream is = new BufferedInputStream(new FileInputStream(new File(".\\src\\main\\java\\music_player\\songs\\swag.midi")));
+	        InputStream is = new BufferedInputStream(new FileInputStream(new File("./src/main/java/music_player/songs/swag.midi")));
 	        
 	        // Sets the current sequence on which the sequencer operates.
 	        // The stream must point to MIDI file data.
