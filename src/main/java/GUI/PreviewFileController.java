@@ -2,84 +2,59 @@ package GUI;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.FlowLayout;
 import java.io.IOException;
+import java.io.StringReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.fxmisc.richtext.CodeArea;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
+import models.Part;
+import models.ScorePartwise;
 
 public class PreviewFileController extends JFrame {
 
     private MainViewController mvc;
 	public Highlighter highlighter;
-	private ArrayList<String> notes;
-	private String XmlString;
-	private double measureNumber;
-	private int octaveNumber;
+	private ScorePartwise sp;
 
     @FXML public CodeArea mxlText; 
 
 
     @FXML private ImageView imageView;
-
-    public void updateNote() {
-    	XmlString = mvc.converter.getMusicXML();
-    	System.out.println("Original: " + XmlString);
-    	getInformation();
-    	System.out.println("ArrayList of Notes: " + notes);
-    	System.out.println("Measure: " + ((int) this.measureNumber - 1));
-		mxlText.replaceText(mvc.converter.getNote());
-		mxlText.moveTo(0);
-		mxlText.requestFollowCaret();
-        mxlText.requestFocus();
-	}
-
-    public void getInformation() {
-    	Scanner s = new Scanner(this.XmlString);
-    	ArrayList<String> aL = new ArrayList<>();
-    	XmlString = "";
-    	while(s.hasNext()) {
-    		String info = s.next();
-    		
-    		/*
-    		 * Look for <pitch> then take note located in next string at position [6,7)
-    		 * Value stored in arrayList
-    		 */
-    		
-    		if(info.equals("<pitch>")){
-    			String stepSequence = s.next();
-    			String note = stepSequence.substring(6,7);
-    			aL.add(note);
-    			XmlString += (note);
-    		}
-    		
-    		/*
-    		 * Measure is present twice in XML for every measure,
-    		 * Every iteration adds 0.5 to result in 1 measure for every two occurrences.
-    		 */
-    		if(info.contains("measure")) {
-    			this.measureNumber += 0.5;
-    		}
-    		
-    	}
-    	notes = aL;
-    	s.close();
-    }
     
-    public ArrayList<String> getNotes(){
-    	return this.notes;
+    public String getString(String tagName, Element element) {
+        NodeList list = element.getElementsByTagName(tagName);
+        if (list != null && list.getLength() > 0) {
+            NodeList subList = list.item(0).getChildNodes();
+
+            if (subList != null && subList.getLength() > 0) {
+                return subList.item(0).getNodeValue();
+            }
+        }
+
+        return null;
     }
     
     public int getMeasureNumber() {
-    	return (int) this.measureNumber; //cast required, see getInformation() for details
+    	return sp.getParts().get(0).getMeasures().size();
     }
     
 	@FXML
@@ -87,42 +62,30 @@ public class PreviewFileController extends JFrame {
 		mvc.saveMXLButtonHandle();
 	}
 
-    @SuppressWarnings("unused")
-	public PreviewFileController (MainViewController mvcInput) throws IOException {
-    	this.mvc = mvcInput;
+   
+	public PreviewFileController (ScorePartwise sp) throws IOException {
+    	this.sp = sp;
+    }
+    
+    public void setMainViewController() throws IOException {
       	setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-      	
-      	XmlString = mvc.converter.getMusicXML();
-    	getInformation();
-    	System.out.println("ArrayList of Notes: " + notes);
-    	System.out.println("Measure: " + this.measureNumber);
-
-    	int numberOfTabs = (int)this.measureNumber - 1; //change to real tabs value later
-
     	JLabel trebeclef = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png")));
 
     	add(trebeclef);
-    	
-    	for(int i = 0; i<numberOfTabs;i++) {
+    	for(int i = 0; i < sp.getParts().get(0).getMeasures().size();i++) {
     		add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/Measure.png"))));
     	}
     	
-    	
-// 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Sheet Music");
 		pack();
 		setVisible(true);
 		
 		
-//		implement this exception later
-		if(1==0) {
-			IOException e = new IOException();
-			throw e;
-		}
-    }
-    
-    public void setMainViewController() {
-    	
+//		TO-DO implement this exception later
+//		if(1==0) {
+//			IOException e = new IOException();
+//			throw e;
+//		}
     }
     
     public void initialize() {

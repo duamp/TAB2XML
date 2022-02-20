@@ -23,6 +23,7 @@ import org.fxmisc.richtext.model.StyleSpans;
 
 import converter.Converter;
 import converter.measure.TabMeasure;
+import custom_exceptions.TXMLException;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -42,6 +43,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import models.ScorePartwise;
 import music_player.Main;
 import music_player.MusicPlayerGUI;
 import music_player.PlayerController;
@@ -316,13 +318,12 @@ public class MainViewController extends Application {
 	}
 
 	@FXML
-	private void previewButtonHandle() throws IOException {
+	private void previewButtonHandle() throws IOException, TXMLException {
 		System.out.println("Preview Button Clicked!");
 		try {
-
-			PreviewFileController controller = new PreviewFileController(this);
+	      	ScorePartwise sp = converter.getScore().getModel();
+			PreviewFileController controller = new PreviewFileController(sp);
 			controller.setMainViewController();
-			controller.updateNote();
 
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
