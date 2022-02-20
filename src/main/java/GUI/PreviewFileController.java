@@ -58,7 +58,7 @@ public class PreviewFileController extends JPanel {
 		f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		f.pack();
 		f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
 
