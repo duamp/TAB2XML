@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.IOException;
 
@@ -47,11 +48,11 @@ public class PreviewFileController extends JPanel {
 
 	public void initialize() {}
 
+
 	@FXML
 	private void createJFrame(JFrame f) {
-		f.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png"))));
-		f.add(new DrawMeasure(this.getMeasureNumber()));
-		f.setSize(4000,4000);
+		f.add(new Draw(this.getMeasureNumber(), f));
+		f.setPreferredSize(new Dimension(1400, 300));
 		f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
 		f.getContentPane().setBackground(Color.white);
 		f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
@@ -60,7 +61,6 @@ public class PreviewFileController extends JPanel {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
-
 
 //    @FXML
 //    private void saveButtonClicked() {

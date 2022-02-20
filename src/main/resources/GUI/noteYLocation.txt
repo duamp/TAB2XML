@@ -1,0 +1,64 @@
+String 6
+E2	
+F2	
+F#2	
+G2  
+G#2	
+A2	
+A#2 
+B2	
+C3	
+C#3	
+D3	
+D#3	
+E3	
+
+String 5
+A2	
+A#2	
+B2	
+B2	
+C3	
+C#3	
+D3	
+D#3	
+E3	
+F3	
+F#3	
+G3	
+G#3	
+A3	
+
+String 4
+D3	
+D#3	
+E3	
+E3	
+F3	
+F#3	
+G3	
+G#3 
+A3	
+A#3	
+B3	
+C4	
+C#4	
+D4  
+
+String 3
+G3	G3	O: 4 N: E
+G#3	O: 4 N: C4	O: 4 N: F
+A3	O: 4 N: C#4	O: 4 N: F#
+A3	O: 4 N: C#4	O: 4 N: F#
+A#3	O: 4 N: D4	O: 4 N: G
+B3	O: 4 N: D#4	O: 4 N: G#
+C4	O: 4 N: E4	O: 4 N: A
+C#4	O: 4 N: F4	O: 4 N: A#
+D4	O: 4 N: F#4	O: 4 N: B
+D#4	O: 4 N: G4	O: 5 N: C
+E4	O: 4 N: G#4	O: 5 N: C#
+F4	O: 4 N: A4	O: 5 N: D
+F#4	O: 4 N: A#4	O: 5 N: D#
+G4	O: 4 N: B4	O: 5 N: E
+
+String 2
