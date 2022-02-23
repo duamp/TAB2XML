@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.IOException;
-
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -20,12 +20,14 @@ import javax.swing.JPanel;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import models.ScorePartwise;
+import models.Location;
 
 public class PreviewFileController extends JPanel {
 
 	private MainViewController mvc;
 	public Highlighter highlighter;
 	private ScorePartwise sp;
+	private LinkedList<Location> aL;
 
 	@FXML public CodeArea mxlText; 
 
@@ -43,7 +45,28 @@ public class PreviewFileController extends JPanel {
 
 	public PreviewFileController (ScorePartwise sp) throws IOException {
 		this.sp = sp;
+		createList();
 		createJFrame(new JFrame());
+	}
+
+	private void createList() {
+		/*
+		 * CREATE LINKED LIST OF NOTES FOLLOWED BY SPECIFIC Y-LOCATION
+		 * 1. Get <PITCH> STRING (STARTING POINT) + FRET (TIMES REPEATS i.e., add 17/2)
+		 */
+		
+		aL = new LinkedList<>();
+		for(int i = 0; i < this.getMeasureNumber(); i++) {
+			for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
+				Location noteInformation = new Location(
+						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
+						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
+						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
+						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null);
+				
+				aL.add(noteInformation);
+			}
+		}
 	}
 
 	public void initialize() {}
@@ -51,7 +74,7 @@ public class PreviewFileController extends JPanel {
 
 	@FXML
 	private void createJFrame(JFrame f) {
-		f.add(new Draw(this.getMeasureNumber(), f));
+		f.add(new Draw(this.getMeasureNumber(), f, aL));
 		f.setPreferredSize(new Dimension(1400, 300));
 		f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
 		f.getContentPane().setBackground(Color.white);

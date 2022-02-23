@@ -4,22 +4,29 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import models.Location;
+import models.ScorePartwise;
+
 public class Draw extends JPanel{
 	
 	private int x = 300;
-	private int y = 17*5;;
+	private int y = 85;;
 	private int numberOfMeasures;
 	private JFrame f;
 	private Graphics2D g;
+	private LinkedList<Location> aL;
+	private int numberOfNote;
 	
-	public Draw(int numberOfMeasures, JFrame f) {
+	public Draw(int numberOfMeasures, JFrame f, LinkedList<Location> aL) {
 		this.numberOfMeasures = numberOfMeasures;
+		this.aL = aL;
 		this.f = f;
 	}
 	
@@ -30,32 +37,42 @@ public class Draw extends JPanel{
 		this.g = (Graphics2D) g2;
 	    g.setStroke(new BasicStroke(2));
 	    int newline = 0;
-	    int yStart = 0;
-	    int xStart = 0;
+	    int measureY = 68;
+	    int measureX = 10;
 	    //draw measure box
 	    for(int i = 0; i< this.numberOfMeasures; i++) {
-	    	
 	    	if(newline%4 == 0 && newline != 0) {
-	    		yStart+=100;
-	    		xStart = 0;
+	    		measureY+=100;
+	    		measureX = 10;
 	    		//f.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png"))));
 	    	}
 	    	
 	    	//Measure box
-	    	g.drawLine(xStart, yStart, this.x+xStart, yStart);//top
-		    g.drawLine(xStart, yStart, xStart, this.y + yStart);//left
-			g.drawLine(xStart + this.x, yStart, this.x+xStart, this.y + yStart);// right
-			g.drawLine(xStart, this.y + yStart, this.x+xStart,this.y + yStart);//bottom
+	    	g.drawLine(measureX, measureY, this.x+measureX, measureY);//top
+		    g.drawLine(measureX, measureY, measureX, this.y + measureY);//left
+			g.drawLine(measureX + this.x, measureY, this.x+measureX, this.y + measureY);// right
+			g.drawLine(measureX, this.y + measureY, this.x+measureX,this.y + measureY);//bottom
 			
             //Lines in Rectangle
 		    for(int y = 1; y<5; y++) {
-				g.drawLine(xStart, 17*y + yStart, this.x+xStart, 17*y + yStart);
-				g.drawOval(xStart+10 + y*35,14*y + yStart,20,10);
-		    }	
-		    xStart += this.x;
+				g.drawLine(measureX, 17*y + measureY, this.x+measureX, 17*y + measureY);				
+		    }
+		    measureX += this.x;
 		    newline++;
 	    }
+		    int noteX = 10;
+		    for(int j = 1; j < aL.size(); j++) {
+		    	if(!aL.get(j).isChord()) { //NOT CHORD
+		    		noteX += 35;
+		    		g.drawOval(noteX, aL.get(j).getYLocation(), 20,10); //drawNotes() to decide Y-COORD 
+		    	} else { //IS CHORD
+		    		g.drawOval(noteX, aL.get(j).getYLocation(), 20,10); //drawNotes() to decide Y-COORD 
+		    	}
+		    	
+		    }
+		    
+	    
 	}
-
+	
 }
 
