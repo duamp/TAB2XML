@@ -1,5 +1,7 @@
 package models;
 
+import java.util.LinkedList;
+
 import models.measure.note.Chord;
 
 public class Location {
@@ -18,27 +20,36 @@ public class Location {
 	}
 	
 	public int getYLocation() {
+		int[] exceptions;
 		switch(this.string) {
 		  case 6:
-			  return getYLocationHelper(170);
+			  exceptions = new int[]{2, 4, 6, 9, 11};
+			  return getYLocationHelper(187, exceptions);
 		  case 5:
-			  return getYLocationHelper(153);
+			  exceptions = new int[]{1, 4, 6, 9, 11};
+			  return getYLocationHelper(160, exceptions);
 		  case 4:
-			  return getYLocationHelper(119);
+			  exceptions = new int[]{1, 4, 6, 8, 11};
+			  return getYLocationHelper(142, exceptions);
 		  case 3:
-			  return  getYLocationHelper(102);
+			  exceptions = new int[]{1, 3, 6, 8, 11};
+			  return  getYLocationHelper(119, exceptions);
 		  case 2:
-			  return getYLocationHelper(85);
+			  exceptions = new int[]{2, 4, 7, 9, 11};
+			  return getYLocationHelper(102, exceptions);
 		  case 1:
-			  return getYLocationHelper(51);
+			  exceptions = new int[]{2, 4, 6, 9, 11};
+			  return getYLocationHelper(72, exceptions);
 		}
 		return -1;
 	}
 	
-	public int getYLocationHelper(int startingY) {
+	public int getYLocationHelper(int startingY, int[] exceptions) {
 		int y = startingY;
+		int count = 0;
 		for(int i = 0; i < this.fret; i++) {
-			y += 17/2;
+			if(exceptions[count] == i) {count++;} 
+			else {y -= 9;}
 		}
 		return y;
 	}
