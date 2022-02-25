@@ -6,85 +6,94 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import models.Location;
-import models.ScorePartwise;
 
 public class Draw extends JPanel{
 
-	private int x = 300;
-	private int y = 68;;
+	private final int measureWidth = 300;
+	private final int measureHeightDefault = 68;;
 	private int numberOfMeasures;
-	private JFrame f;
 	private Graphics2D g;
 	private LinkedList<Location> aL;
-	private int numberOfNote;
+	private final int moveMeasureDownValue = 200;
 
-	public Draw(int numberOfMeasures, JFrame f, LinkedList<Location> aL) {
+	public Draw(int numberOfMeasures, LinkedList<Location> aL) {
 		this.numberOfMeasures = numberOfMeasures;
 		this.aL = aL;
-		this.f = f;
 	}
 
-	public void paint(Graphics g2) {
+	public void graphicSettings(Graphics g2) {
 		setSize(2000,2000);
 		this.setBackground(Color.white);
 		super.paintComponent(g2);
 		this.g = (Graphics2D) g2;
 		g.setStroke(new BasicStroke(2));
-		int newline = 0;
-		int measureY = 68;
-		int measureX = 10;
+	}
+
+	public void paint(Graphics g2) {
+		graphicSettings(g2);
+
+		int currentMeasureCount = 0;
+		int measureHeightAdjusted = 68;
+		int noteYLocation = 0;
+		int measureXAdjusted = 10;
+
 		//draw measure box
-		for(int i = 0; i< this.numberOfMeasures; i++) {
-			if(newline%4 == 0 && newline != 0) {
-				measureY+=100;
-				measureX = 10;
-				//f.add(new JLabel(new ImageIcon(getClass().getClassLoader().getResource("image_assets/MeasureWithTrebeclef.png"))));
+		for(int i = 0; i < this.numberOfMeasures; i++) {
+			if(currentMeasureCount%4 == 0 && currentMeasureCount != 0) {
+				measureHeightAdjusted += moveMeasureDownValue;
+				measureXAdjusted = 10;
 			}
 
 			//Measure box
-			g.drawLine(measureX, measureY, this.x+measureX, measureY);//top
-			g.drawLine(measureX, measureY, measureX, this.y + measureY);//left
-			g.drawLine(measureX + this.x, measureY, this.x+measureX, this.y + measureY);// right
-			g.drawLine(measureX, this.y + measureY, this.x+measureX, this.y + measureY);//bottom
+			g.drawLine(measureXAdjusted, measureHeightAdjusted, this.measureWidth + measureXAdjusted, measureHeightAdjusted); //Top
+			g.drawLine(measureXAdjusted, measureHeightAdjusted, measureXAdjusted, this.measureHeightDefault + measureHeightAdjusted); //Left
+			g.drawLine(measureXAdjusted + this.measureWidth, measureHeightAdjusted, this.measureWidth+measureXAdjusted, this.measureHeightDefault + measureHeightAdjusted); //Right
+			g.drawLine(measureXAdjusted, this.measureHeightDefault + measureHeightAdjusted, this.measureWidth+measureXAdjusted, this.measureHeightDefault + measureHeightAdjusted); //Bottom
 
 			//Lines in Rectangle
 			for(int y = 1; y<4; y++) {
-				g.drawLine(measureX, 17*y + measureY, this.x+measureX, 17*y + measureY);				
+				g.drawLine(measureXAdjusted, 17*y + measureHeightAdjusted, this.measureWidth+measureXAdjusted, 17*y + measureHeightAdjusted);				
 			}
-			measureX += this.x;
-			newline++;
+			measureXAdjusted += this.measureWidth;
+			currentMeasureCount++;
 		}
-		int noteX = 10;
+
+		int noteX = -10;
 		for(int j = 0; j < aL.size(); j++) {
 			if(!aL.get(j).isChord()) { //NOT CHORD
-				noteX += 35;
+				noteX += ((double)aL.get(j).getDuration()/64 * measureWidth);
 				int yLocation = aL.get(j).getYLocation();
-				if(yLocation >= 187) { 
-					g.drawLine(noteX - 2, 187, noteX+25, 187); 
-					g.drawLine(noteX - 2, 170, noteX+25, 170);
-					g.drawLine(noteX - 2, 153, noteX+25, 153);
+				
+				ifDrawLineUnderMeasure(yLocation, noteX, noteYLocation);
+			
+				if(noteX > 300*4) { //NEW LINE
+					noteYLocation += moveMeasureDownValue;
+					noteX = 20;
 				}
-				else if(yLocation >= 170) { 
-					g.drawLine(noteX - 2, 170, noteX+25, 170);
-					g.drawLine(noteX - 2, 150, noteX+25, 150);
-				} 
-				else if (yLocation >= 150){g.drawLine(noteX - 2, 153, noteX+25, 153);}
+				
+				g.drawOval(noteX, noteYLocation + yLocation, 20, 10); //drawNotes() to decide Y-COORD 
 
-				g.drawOval(noteX, yLocation, 20,10); //drawNotes() to decide Y-COORD 
 			} else { //IS CHORD
-				g.drawOval(noteX, aL.get(j).getYLocation(), 20,10); //drawNotes() to decide Y-COORD 
+				g.drawOval(noteX, noteYLocation + aL.get(j).getYLocation(), 20, 10); //drawNotes() to decide Y-COORD 
 			}
-
 		}
-
-
 	}
 
+	public void ifDrawLineUnderMeasure(int yLocation, int noteX, int noteYLocation) {
+		if(yLocation >= 187) { 
+			g.drawLine(noteX - 2, noteYLocation + 187, noteX + 25, noteYLocation + 187); 
+			g.drawLine(noteX - 2, noteYLocation + 170, noteX + 25, noteYLocation + 170);
+			g.drawLine(noteX - 2, noteYLocation + 153, noteX + 25, noteYLocation + 153);
+		}
+		else if(yLocation >= 170) { 
+			g.drawLine(noteX - 2, noteYLocation + 170, noteX+25, noteYLocation + 170);
+			g.drawLine(noteX - 2, noteYLocation + 150, noteX+25, noteYLocation + 150);
+		} 
+		else if (yLocation >= 150) {
+			g.drawLine(noteX - 2, noteYLocation + 153, noteX+25, noteYLocation + 153);
+		}
+	}
 }
-

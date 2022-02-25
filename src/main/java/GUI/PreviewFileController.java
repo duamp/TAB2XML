@@ -74,7 +74,7 @@ public class PreviewFileController extends JPanel {
 
 	@FXML
 	private void createJFrame(JFrame f) {
-		f.add(new Draw(this.getMeasureNumber(), f, aL));
+		f.add(new Draw(this.getMeasureNumber(), aL));
 		f.setPreferredSize(new Dimension(1400, 300));
 		f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
 		f.getContentPane().setBackground(Color.white);
