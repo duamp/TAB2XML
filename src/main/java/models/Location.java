@@ -1,10 +1,8 @@
 package models;
 
-import java.util.LinkedList;
+import GUI.Draw;
 
-import models.measure.note.Chord;
-
-public class Location {
+public class Location{
 	private int string;
 	private int fret;
 	private int duration;
@@ -20,41 +18,30 @@ public class Location {
 	}
 	
 	public int getYLocation() {
-		int[] exceptions;
+		Draw d = new Draw(1, null);
 		switch(this.string) {
 		  case 6:
-			  exceptions = new int[]{2, 4, 6, 9, 11};
-			  return getYLocationHelper(187, exceptions);
+			  return d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 6 - 13;
 		  case 5:
-			  exceptions = new int[]{1, 4, 6, 9, 11};
-			  return getYLocationHelper(160, exceptions);
+			  return (d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 5 - 13);
 		  case 4:
-			  exceptions = new int[]{1, 4, 6, 8, 11};
-			  return getYLocationHelper(142, exceptions);
+			  return (d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 4 - 13);
 		  case 3:
-			  exceptions = new int[]{1, 3, 6, 8, 11};
-			  return  getYLocationHelper(119, exceptions);
+			  return (d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 3 - 13);
 		  case 2:
-			  exceptions = new int[]{2, 4, 7, 9, 11};
-			  return getYLocationHelper(102, exceptions);
+			  return (d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 2 - 13);
 		  case 1:
-			  exceptions = new int[]{2, 4, 6, 9, 11};
-			  return getYLocationHelper(72, exceptions);
+			  return (d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 1 - 13);
 		}
 		return -1;
 	}
 	
-	public int getYLocationHelper(int startingY, int[] exceptions) {
-		int y = startingY;
-		int count = 0;
-		for(int i = 0; i < this.fret; i++) {
-			if(exceptions[count] == i) {count++;} 
-			else {y -= 9;}
-		}
-		return y;
-	}
-	
+
 	public int getDuration() {return this.duration;}
 	public boolean isChord() {return this.chord;}
+	public int getString() {return this.string;}
+	public int getFret() {return this.fret;}
+
+	
 	
 }
