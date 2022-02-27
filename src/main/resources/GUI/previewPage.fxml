@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import org.fxmisc.flowless.VirtualizedScrollPane?>
 <?import org.fxmisc.richtext.CodeArea?>
-<?import org.fxmisc.richtext.StyleClassedTextArea?>
 
 <BorderPane fx:id="borderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="450.0" minWidth="640.0" prefHeight="700.0" prefWidth="1000.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PreviewFileController">
     <center>
@@ -25,7 +24,7 @@
                     <children>
                   <HBox layoutY="11.0" spacing="5.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Button fx:id="saveMXLButton" disable="false" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveMXLButtonHandle" text="Save Music" />
+                        <Button fx:id="saveMXLButton" disable="false" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveMXLButtonHandle" text="Save MusicXML" />
                      </children>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

@@ -21,13 +21,14 @@ import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import models.ScorePartwise;
 import models.Location;
+import models.LocationGuitar;
 
 public class PreviewFileController extends JPanel {
 
 	private MainViewController mvc;
 	public Highlighter highlighter;
 	private ScorePartwise sp;
-	private LinkedList<Location> aL;
+	private LinkedList<LocationGuitar> aL;
 
 	@FXML public CodeArea mxlText; 
 
@@ -38,33 +39,48 @@ public class PreviewFileController extends JPanel {
 		return sp.getParts().get(0).getMeasures().size();
 	}
 
+	public void setMainViewController(MainViewController mvcInput) {
+		mvc = mvcInput;
+	}
+
 	@FXML
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
 
-	public PreviewFileController (ScorePartwise sp) throws IOException {
+	public void update(ScorePartwise sp) throws IOException{
 		this.sp = sp;
 		createList();
 		createJFrame(new JFrame());
 	}
+
+	public PreviewFileController ()  {}
 
 	private void createList() {
 		/*
 		 * CREATE LINKED LIST OF NOTES FOLLOWED BY SPECIFIC Y-LOCATION
 		 * 1. Get <PITCH> STRING (STARTING POINT) + FRET (TIMES REPEATS i.e., add 17/2)
 		 */
-		
+
 		aL = new LinkedList<>();
-		for(int i = 0; i < this.getMeasureNumber(); i++) {
-			for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-				Location noteInformation = new Location(
-						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
-						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
-						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
-						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null);
-				
-				aL.add(noteInformation);
+		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
+			for(int i = 0; i < this.getMeasureNumber(); i++) {
+				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
+					sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(0).getInstrument().getId(); //location in Y-DIRECTION
+					sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(0).getDuration(); //duration
+				}
+			}
+		} else {
+			for(int i = 0; i < this.getMeasureNumber(); i++) {
+				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
+					LocationGuitar noteInformation = new LocationGuitar(
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null);
+
+					aL.add(noteInformation);
+				}
 			}
 		}
 	}
@@ -81,7 +97,7 @@ public class PreviewFileController extends JPanel {
 		f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		f.pack();
 		f.setVisible(true);
-	//	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
 

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 import models.Location;
+import models.LocationGuitar;
 
 public class Draw extends JPanel{
 
@@ -20,10 +21,13 @@ public class Draw extends JPanel{
 	private final int startingXSpace = 10;
 	private int numberOfMeasures;
 	private Graphics2D g;
-	private LinkedList<Location> aL;
+	private LinkedList<LocationGuitar> aL;
 	private final int moveMeasureDownValue = 200;
+	private final Color textColor = Color.BLACK;
+	private final Color bgColor = Color.WHITE;
+	private final int measuresPerLine = 4;
 
-	public Draw(int numberOfMeasures, LinkedList<Location> aL) {
+	public Draw(int numberOfMeasures, LinkedList<LocationGuitar> aL) {
 		this.numberOfMeasures = numberOfMeasures;
 		this.aL = aL;
 	}
@@ -35,13 +39,12 @@ public class Draw extends JPanel{
 		this.g = (Graphics2D) g2;
 		g.setStroke(new BasicStroke(2));
 	}
-	
+
 	public int getStartingYSpace() {return startingYSpace;}
 	public int getSpaceBetweenBarsHorizontal() {return spaceBetweenBarsHorizontal;}
-	
+
 	public void paint(Graphics g2) {
 		graphicSettings(g2);
-
 		int currentMeasureCount = 0;
 		int measureHeightAdjusted = startingYSpace;
 		int noteYLocation = 0;
@@ -68,39 +71,41 @@ public class Draw extends JPanel{
 			currentMeasureCount++;
 		}
 
-
-
 		int noteX = -10;
 		for(int j = 0; j < aL.size(); j++) {
+			String note = "" + aL.get(j).getFret() + "";
+			FontMetrics fm = g.getFontMetrics();
+			Rectangle2D rect = fm.getStringBounds(note, g);
+			g.setColor(bgColor);
+
 			if(!aL.get(j).isChord()) { //NOT CHORD
 				noteX += ((double)aL.get(j).getDuration()/64 * measureWidth); 
-				String note = "" + aL.get(j).getFret() + "";
-				Color textColor = Color.BLACK;
-                Color bgColor = Color.WHITE;
-				int yLocation = aL.get(j).getYLocation();
-
-                FontMetrics fm = g.getFontMetrics();
-                Rectangle2D rect = fm.getStringBounds(note, g);
-                g.setColor(bgColor);
-                
-                //REMOVE LINE BEHIND NOTE
-                g.fillRect(noteX, noteYLocation + yLocation - fm.getAscent(), (int) rect.getWidth(),(int) rect.getHeight());
-                //SET BACKGROUND COLOR TO WHITE i.e., appears as if there was no line to begin with.
-                g.setColor(textColor);
-                
-                //START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
-				if(noteX > 300*4) { 
-					noteYLocation += moveMeasureDownValue;
-					noteX = 20;
-				}
 				
+				int yLocation = aL.get(j).getYCoord();
+				 //REMOVE LINE BEHIND NOTE
+	            g.fillRect(noteX, noteYLocation + yLocation - fm.getAscent(), (int) rect.getWidth(),(int) rect.getHeight());
+	            //SET BACKGROUND COLOR TO WHITE i.e., appears as if there was no line to begin with.
+	            g.setColor(textColor);
+
+
+				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
+				if(noteX > this.measureWidth * this.measuresPerLine) { 
+					noteYLocation += moveMeasureDownValue;
+					noteX = this.startingXSpace + 10;
+				}
+
 				g.drawString(note, noteX, noteYLocation + yLocation);
 
 			} else { //IS CHORD
-				g.drawString("" + aL.get(j).getFret() + "", noteX, noteYLocation + aL.get(j).getYLocation());
+				int yLocation = aL.get(j).getYCoord();
+				 //REMOVE LINE BEHIND NOTE
+	            g.fillRect(noteX, noteYLocation + yLocation - fm.getAscent(), (int) rect.getWidth(),(int) rect.getHeight());
+	            //SET BACKGROUND COLOR TO WHITE i.e., appears as if there was no line to begin with.
+	            g.setColor(textColor);
+				g.drawString("" + aL.get(j).getFret() + "", noteX, noteYLocation + aL.get(j).getYCoord());
 			}
 		}
-		
+
 	}
 
 

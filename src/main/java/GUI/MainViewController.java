@@ -77,8 +77,6 @@ public class MainViewController extends Application {
 
 	public int measureNumber;
 
-
-
 	public MainViewController() {
 		Settings s = Settings.getInstance();
 		prefs = Preferences.userRoot();
@@ -317,15 +315,20 @@ public class MainViewController extends Application {
 		System.out.println("Preview Button Clicked!");
 		try {
 			ScorePartwise sp = converter.getScore().getModel();
-			PreviewFileController controller = new PreviewFileController(sp);
+			PreviewFileController controller = new PreviewFileController();
+			controller.update(sp);
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
 
-
-
+//	E|-----------0-----|-0---------------|
+//	B|---------0---0---|-0---------------|
+//	G|-------1-------1-|-1---------------|
+//	D|-----2-----------|-2---------------|
+//	A|---2-------------|-2---------------|
+//	E|-0---------------|-0---------------|
 
 	public void refresh() {
 		mainText.replaceText(new IndexRange(0, mainText.getText().length()), mainText.getText()+" ");
