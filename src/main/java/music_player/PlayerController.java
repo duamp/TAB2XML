@@ -16,15 +16,20 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
 
+import org.jfugue.midi.MidiFileManager;
 import org.jfugue.midi.MidiParserListener;
 import org.jfugue.player.ManagedPlayer;
 import org.jfugue.player.Player;
 import org.staccato.StaccatoParser;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
@@ -33,33 +38,41 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
-//An instance of this class is created when the FXML file is loaded r this to work, the controller class must have a no-argument constructor.
-public class PlayerController  {
+public class PlayerController extends TimerTask {
 	
 	private Sequencer sequencer;
-
+	private Timeline mediaSliderAnimation;
 	@FXML private Slider videoSlider;
 	@FXML private Slider volumeSlider;
 	@FXML private VBox GUI;
 
-	
-	public PlayerController() throws MidiUnavailableException, IOException, InvalidMidiDataException{
+	 //TODO: remove awful scrolling sound
+	// TODO: remove play button restart bug
+	public PlayerController(String musicXML) {
 
-	        sequencer = MidiSystem.getSequencer();
-	        sequencer.open();
-	        InputStream is = new BufferedInputStream(new FileInputStream(new File("./src/main/java/music_player/songs/swag.midi")));
-	        
-	        // Sets the current sequence on which the sequencer operates.
-	        // The stream must point to MIDI file data.
-	        sequencer.setSequence(is);
-	 
-	    
+	        try {
+		        sequencer = MidiSystem.getSequencer();
+		        sequencer.setSequence(XmlSequence.generate(musicXML));
+		        sequencer.open();
+		        
+			} catch (MidiUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InvalidMidiDataException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	       
 	}
 	
+	
+
+
+
 	// https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
 	@FXML 
-	private void initialize() {
-		
+	private void initialize() throws IOException {
+
 		 volumeSlider.valueProperty().addListener(ov -> {
 		       if (volumeSlider.isValueChanging()) {
 
@@ -72,7 +85,16 @@ public class PlayerController  {
 		 videoSlider.setOnMouseDragged((event) -> {
 			 System.out.println(videoSlider.getValue());
 			 System.out.println(sequencer.getTickPosition());
+			 //TODO: remove awful scrolling sound
+			
+			 //??
+			 sequencer.stop();
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
+			 
+			 videoSlider.valueChangingProperty().addListener((observe, prevChanging, currChanging) -> {
+				 if (!currChanging) sequencer.start();
+			 });
+			 
 		 });
 		 
 		 videoSlider.setOnMousePressed((event) -> {
@@ -82,86 +104,104 @@ public class PlayerController  {
 			 
 		 });
 		 
-		 // 
+		 
 		
 		 
-//		 mediaPlayer.currentTimeProperty().addListener((obs, oldValue, newValue) -> {
-//			 videoSlider.setValue((newValue.toSeconds() / mediaPlayer.getStopTime().toSeconds()) * 100);
-//		 });
+
 	}
 	
 	@FXML
 	public void play() throws InvalidMidiDataException, MidiUnavailableException {
 		sequencer.start();
+		System.out.println("started music");
 		
+
 		// if at end, rewind to start 
 		if (sequencer.getMicrosecondPosition() == sequencer.getMicrosecondLength()) {
 			sequencer.setTickPosition(0);
 		}
 		
-//		Timer timer = new Timer();
-//		try {
-//			timer.schedule(new PlayerController(), 0, 1000);
-//		} catch (MidiUnavailableException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InvalidMidiDataException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+
+		 mediaSliderAnimation = new Timeline(
+                new KeyFrame(Duration.seconds(0.1), 
+                new EventHandler<ActionEvent>() {
+
+					@Override
+					public void handle(ActionEvent event) {
+						System.out.println((double) sequencer.getTickPosition() / sequencer.getTickLength());
+						double percentage = (double) sequencer.getTickPosition() / sequencer.getTickLength();
+						videoSlider.setValue(percentage * 100);						
+					}
+
+                }));
+		
+		mediaSliderAnimation.setCycleCount(Timeline.INDEFINITE);
+		mediaSliderAnimation.play();
+		
+		
+
+		
+		
 		
 	}
 	
 	@FXML
 	public void pause() {
-		sequencer.stop();
-		
-		
+		sequencer.stop();	
+		mediaSliderAnimation.pause();
 	}
-	
-
-	
-//	@FXML
-//	private void promptFile() {
-//		
-//		FileChooser fileChooser = new FileChooser();
-//		fileChooser.getExtensionFilters().addAll(
-//				new ExtensionFilter("musicxml", "*.musicxml"),
-//				new ExtensionFilter("MIDI file", "*.midi")
-//				);
-//		
-//		File file = fileChooser.showOpenDialog(null);
-//		
-//		if (file != null) {
-//			
-//	
-//			 initalizePlayer();
-//			 GUI.setDisable(false);
-//		}
-//
-//	}
 
 	@FXML
-	private void Displayhelp() {
-		throw new UnsupportedOperationException("Not yet Implemented");
+	public boolean saveSong() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setInitialDirectory(new File("."));
+		fileChooser.getExtensionFilters().addAll(
+				new ExtensionFilter("MIDI file", "*.midi")
+				);
+		
+		// block; arbitrary component
+		File file = fileChooser.showSaveDialog(videoSlider.getScene().getWindow());
+		
+		if (file != null) {
+          try {
+			MidiFileManager.save(sequencer.getSequence(), file);
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+          
+		}
+		return false;
 	}
 	
 	public void closeSequencer() {
 		sequencer.close();
 	}
 
-//		public void run() {
-//			videoSlider.setValue(sequencer.getTickPosition());
-//	    }
-//	 
-	 
-	public static void main (String args[])throws MidiUnavailableException, IOException, InvalidMidiDataException {
-	
-		 
+
+
+	@Override
+	public void run() {
+		
+		System.out.println(sequencer.getTickPosition());
 	}
+	
+	private void wait(int ms) {
+		try
+		{
+		    Thread.sleep(ms);
+		}
+		catch(InterruptedException ex)
+		{
+			// ?
+		    Thread.currentThread().interrupt();
+		}
+	}
+
+
+	 
 	
 
 }

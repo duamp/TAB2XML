@@ -9,6 +9,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -38,6 +39,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.IndexRange;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -46,7 +48,7 @@ import javafx.stage.Window;
 
 import models.ScorePartwise;
 import music_player.PlayerController;
-import music_player.XmlToMidi;
+import music_player.XmlSequence;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
 import utility.Range;
@@ -405,36 +407,56 @@ public class MainViewController extends Application {
 		return task;
 	}
 
-
+	// by me patrick 
 	@FXML
 	private void showPlayerHandle() throws IOException, TXMLException, ValidityException, ParserConfigurationException, ParsingException{
-	
 		
-			XmlToMidi xd = new XmlToMidi(converter);
-
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/music_player.fxml"));
+			
+			// need custom parameterized constructor
+			loader.setControllerFactory(c -> {
+				return new PlayerController(converter.getMusicXML());
+			});
+			
 	        Parent root = (Parent) loader.load();
-//		    XmlToMidi playxml = new XmlToMidi(converter.getScore());
-//		    System.out.println(converter.getScore());
-	        Scene scene = new Scene(root);
-	        Stage stage = new Stage();
-	        stage.setTitle("Music Player");
-	        stage.setScene(scene);
-	        stage.setMinWidth(scene.getRoot().minWidth(0) + 20);
-	        stage.setMinHeight(scene.getRoot().minHeight(0) + 40);
-	        stage.show();
-	        
+	        Stage stage = (Stage) this.openNewWindow(root, "Music player");
+			PlayerController controller = loader.getController();
+			
+			
+		       
 	    	// cannot be put in initialize() b/c stage/scene is not loaded yet
 			stage.setOnCloseRequest(event ->{
-				 //r u sure window...
-				System.out.println("closed sequencer");
-				PlayerController a = loader.getController();
-				a.closeSequencer();
-				 
-			 });
-	      
+				
+				event.consume();
+				controller.pause();
+				
+				ButtonType save = new ButtonType("Save", ButtonBar.ButtonData.YES);
+				ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
+				ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+				
+				Alert alert = new Alert(AlertType.CONFIRMATION, "", save, nSave, cancel);
+				alert.setHeaderText("Do you want to save changes?");
+				Optional<ButtonType> result = alert.showAndWait();
+				
+				if (result.isPresent()) {
+					
+					if (result.get() == save && controller.saveSong()) {
+						controller.closeSequencer();
+						stage.close();
+					}	
+					
+					else if (result.get() == nSave) {
+						controller.closeSequencer();
+						stage.close();
+					}
+					else alert.close();
+					
+				}
+			});  
+			
 	    
 	}
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 

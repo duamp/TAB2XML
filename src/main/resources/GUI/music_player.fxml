@@ -14,9 +14,9 @@
    <top>
       <MenuBar prefHeight="0.0" prefWidth="652.0" BorderPane.alignment="CENTER">
         <menus>
-            <Menu disable="true" mnemonicParsing="false" text="File">
+            <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Save as..." />
+                  <MenuItem mnemonicParsing="false" onAction="#saveSong" text="Save as..." />
                </items>
             </Menu>
         </menus>
@@ -51,7 +51,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Slider fx:id="volumeSlider" disable="true" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
+                  <Slider fx:id="volumeSlider" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
