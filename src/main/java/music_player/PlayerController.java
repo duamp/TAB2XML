@@ -147,8 +147,11 @@ public class PlayerController extends TimerTask {
 	
 	@FXML
 	public void pause() {
-		sequencer.stop();	
-		mediaSliderAnimation.pause();
+		if (sequencer.isRunning()) {
+			sequencer.stop();	
+			mediaSliderAnimation.pause();
+		}
+		
 	}
 
 	@FXML
@@ -179,6 +182,9 @@ public class PlayerController extends TimerTask {
 	public void closeSequencer() {
 		sequencer.close();
 	}
+	public Sequencer getSequencer() {
+		return this.sequencer;
+	}
 
 
 
@@ -195,7 +201,7 @@ public class PlayerController extends TimerTask {
 		}
 		catch(InterruptedException ex)
 		{
-			// ?
+			// ???
 		    Thread.currentThread().interrupt();
 		}
 	}
