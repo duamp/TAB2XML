@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class PreviewFileController extends JPanel{
-	
+	//
     public PreviewFileController() {
     	JFrame f = new JFrame();
     	int measures = 3;
