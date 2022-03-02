@@ -283,7 +283,7 @@ public class MainViewController extends Application {
 	void saveMXLButtonHandle() {
 		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/saveMXLWindow.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewFile.fxml"));
 			root = loader.load();
 			SaveMXLController controller = loader.getController();
 			controller.setMainViewController(this);
@@ -313,11 +313,21 @@ public class MainViewController extends Application {
 	@FXML
 	private void previewButtonHandle() throws IOException, TXMLException {
 		System.out.println("Preview Button Clicked!");
+		Parent root;
 		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
+			root = loader.load();
+			PreviewPage controller = loader.getController();
+			controller.setMainViewController(this);
+			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
+			
+			
 			ScorePartwise sp = converter.getScore().getModel();
-			PreviewFileController controller = new PreviewFileController();
-			controller.update(sp);
+			PreviewFileController classController = new PreviewFileController();
+			classController.update(sp);
+			
 		} catch (IOException e) {
+			e.printStackTrace();
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}

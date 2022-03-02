@@ -71,15 +71,27 @@ public class Draw extends JPanel{
 			currentMeasureCount++;
 		}
 
+		
+		
+		
+		
 		int noteX = -10;
+		int measureNumber = 1;
 		for(int j = 0; j < aL.size(); j++) {
 			String note = "" + aL.get(j).getFret() + "";
 			FontMetrics fm = g.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(note, g);
 			g.setColor(bgColor);
 
-			if(!aL.get(j).isChord()) { //NOT CHORD
+			if(!aL.get(j).isChord()) { //&& j<aL.size()-1 && !aL.get(j+1).isChord()) { //NOT CHORD
 				noteX += ((double)aL.get(j).getDuration()/64 * measureWidth); 
+				
+				
+				if(noteX > measureWidth*measureNumber + this.startingXSpace) {
+					noteX = measureWidth*measureNumber+10+this.startingXSpace;
+					measureNumber+=1;
+				}
+				
 				
 				int yLocation = aL.get(j).getYCoord();
 				 //REMOVE LINE BEHIND NOTE
@@ -92,23 +104,31 @@ public class Draw extends JPanel{
 				if(noteX > this.measureWidth * this.measuresPerLine) { 
 					noteYLocation += moveMeasureDownValue;
 					noteX = this.startingXSpace + 10;
+					
 				}
-
-				g.drawString(note, noteX, noteYLocation + yLocation);
-
-			} else { //IS CHORD
+				
+				g.drawString(note, noteX, noteYLocation + yLocation);			
+				
+			} else { 
 				int yLocation = aL.get(j).getYCoord();
 				 //REMOVE LINE BEHIND NOTE
 	            g.fillRect(noteX, noteYLocation + yLocation - fm.getAscent(), (int) rect.getWidth(),(int) rect.getHeight());
 	            //SET BACKGROUND COLOR TO WHITE i.e., appears as if there was no line to begin with.
 	            g.setColor(textColor);
-				g.drawString("" + aL.get(j).getFret() + "", noteX, noteYLocation + aL.get(j).getYCoord());
+				g.drawString("" + aL.get(j).getFret() + "", noteX, noteYLocation + aL.get(j).getYCoord());	
+				
+				}
 			}
 		}
 
-	}
+	
 
-
+//	|-----------0-----|-0---------------|-0---------------|-0---------------|-0---------------|-0---------------|
+//	|---------0---0---|-0---------------|-0---------------|-0---------------|-0---------------|-0---------------|
+//	|-------1-------1-|-1---------------|-0---------------|-0---------------|-0---------------|-0---------------|
+//	|-----2-----------|-2---------------|-0---------------|-0---------------|-0---------------|-0---------------|
+//	|---2-------------|-2---------------|-0---------------|-0---------------|-0---------------|-0---------------|
+//	|-0---------------|-0---------------|-0---------------|-0---------------|-0---------------|-0---------------|
 
 	//
 	//		int noteX = -10;

@@ -1,23 +1,28 @@
 package GUI;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.TextField;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 
 import org.fxmisc.richtext.CodeArea;
-
+import org.fxmisc.richtext.LineNumberFactory;
 
 import javax.swing.JPanel;
 
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import models.ScorePartwise;
 import models.Location;
@@ -30,17 +35,30 @@ public class PreviewFileController extends JPanel {
 	private ScorePartwise sp;
 	private LinkedList<LocationGuitar> aL;
 
-	@FXML public CodeArea mxlText; 
-
-
 	@FXML private ImageView imageView;
 
-	public int getMeasureNumber() {
-		return sp.getParts().get(0).getMeasures().size();
+	
+	public File saveFile;
+	@FXML public CodeArea mxlText;
+	@FXML TextField gotoMeasureField;
+	@FXML Button goToline;
+
+	public PreviewFileController() {}
+
+	@FXML 
+	public void initialize() {
+		mxlText.setParagraphGraphicFactory(LineNumberFactory.get(mxlText));
 	}
 
-	public void setMainViewController(MainViewController mvcInput) {
-		mvc = mvcInput;
+    public void setMainViewController(MainViewController mvcInput) {
+    	mvc = mvcInput;
+    }
+
+    public void update() {
+		mxlText.replaceText(mvc.converter.getMusicXML());
+		mxlText.moveTo(0);
+		mxlText.requestFollowCaret();
+        mxlText.requestFocus();
 	}
 
 	@FXML
@@ -48,13 +66,52 @@ public class PreviewFileController extends JPanel {
 		mvc.saveMXLButtonHandle();
 	}
 
+	//TODO add go to line button
+	@FXML
+	private void handleGotoMeasure() {
+		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+		if (!goToMeasure(measureNumber)) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setContentText("Measure " + measureNumber + " could not be found.");
+			alert.setHeaderText(null);
+			alert.show();
+		}
+	}
+
+    private boolean goToMeasure(int measureCount) {
+    	//Pattern textBreakPattern = Pattern.compile("((\\R|^)[ ]*(?=\\R)){2,}|^|$");
+    	Pattern mxlMeasurePattern = Pattern.compile("<measure number=\"" + measureCount + "\">");
+        Matcher mxlMeasureMatcher = mxlMeasurePattern.matcher(mxlText.getText());
+
+        if (mxlMeasureMatcher.find()) {
+        	int pos = mxlMeasureMatcher.start();
+        	mxlText.moveTo(pos);
+        	mxlText.requestFollowCaret();
+        	Pattern newLinePattern = Pattern.compile("\\R");
+        	Matcher newLineMatcher = newLinePattern.matcher(mxlText.getText().substring(pos));
+        	for (int i = 0; i < 30; i++) newLineMatcher.find();
+        	int endPos = newLineMatcher.start();
+        	mxlText.moveTo(pos+endPos);
+        	mxlText.requestFollowCaret();
+        	//mxlText.moveTo(pos);
+            mxlText.requestFocus();
+            return true;
+            }
+        else{
+        	return false;        
+        }
+    }
+	
+	public int getMeasureNumber() {
+		return sp.getParts().get(0).getMeasures().size();
+	}
+
+
 	public void update(ScorePartwise sp) throws IOException{
 		this.sp = sp;
 		createList();
 		createJFrame(new JFrame());
 	}
-
-	public PreviewFileController ()  {}
 
 	private void createList() {
 		/*
@@ -85,19 +142,16 @@ public class PreviewFileController extends JPanel {
 		}
 	}
 
-	public void initialize() {}
-
-
 	@FXML
 	private void createJFrame(JFrame f) {
 		f.add(new Draw(this.getMeasureNumber(), aL));
-		f.setPreferredSize(new Dimension(1400, 300));
+		f.setPreferredSize(new Dimension(600, 300));
 		f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
 		f.getContentPane().setBackground(Color.white);
 		f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
 		f.pack();
 		f.setVisible(true);
-		//	f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
 
