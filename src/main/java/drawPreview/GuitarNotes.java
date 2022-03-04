@@ -17,42 +17,28 @@ public class GuitarNotes {
 	private Pane p;
 
 	public GuitarNotes(Pane p, LinkedList<LocationGuitar> aL) {
-		this.p=p;
+		this.p = p;
 		this.aLGuitar = aL;
-		}
+	}
 
 	public void drawGuitarNotes(int noteYLocation) {
-		int noteX = 0;
-		int measureNumber = 1;
+		int noteX = 40;
+		int measureNumber = 0;
+		int timeDuration = 0;
 		for(int j = 0; j < aLGuitar.size(); j++) {
 			LocationGuitar lg = (LocationGuitar) aLGuitar.get(j);
-			String note = "" + lg.getFret() + "";
-//			FontMetrics fm = g.getFontMetrics();
-//			Rectangle2D rect = fm.getStringBounds(note, g);
-//			g.setColor(bgColor);
-//			
-			
+			String note = "" + lg.getFret() + "";			
 			if(!lg.isChord()) { //NOT CHORD
-				noteX += ((double)lg.getDuration()/64 * measureWidth); 
+				timeDuration += lg.getDuration();
+
 				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
-				if(measureNumber % 5 == 0) { 
+				if(measureNumber != 0 && measureNumber % 3 == 0) { 
 					noteYLocation += moveMeasureDownValue;
-					measureNumber = 1;
-					noteX = this.startingXSpace + 10;
-				}
-				
-				if(noteX > this.measureWidth * measureNumber + this.startingXSpace) {
-					noteX = this.measureWidth*measureNumber + this.startingXSpace + 10;
-					measureNumber++;
+					measureNumber = 0;
+					noteX = this.startingXSpace + 20;
 				}
 
 				int yLocation = lg.getYCoord();
-				//REMOVE LINE BEHIND NOTE
-//				g.fillRect(noteX, noteYLocation + yLocation - fm.getAscent(), (int) rect.getWidth(),(int) rect.getHeight());
-//				//SET BACKGROUND COLOR TO WHITE i.e., appears as if there was no line to begin with.
-//				g.setColor(textColor);
-//
-//				g.drawString(note, noteX, noteYLocation + yLocation);
 				Rectangle r = new Rectangle(noteX, noteYLocation + yLocation-15, 10, 15);
 				r.setFill(Color.WHITE);
 				r.opacityProperty().set(1);
@@ -60,20 +46,37 @@ public class GuitarNotes {
 				p.getChildren().add(r); //WHITE BACKGROUND
 				p.getChildren().add(t); //TEXT
 
+
+
+				//IF NEXT CHORD, DON'T CHANGE X YET!
+				if(j < aLGuitar.size() - 2 && !aLGuitar.get(j+1).isChord()) {
+
+					/* DETERMINES HOW CLOSE NEXT NOTE SHOULD BE */
+					noteX += ((double)lg.getDuration()/64 * this.measureWidth); 
+
+					/* KEEPS TRACK OF CURRENT MEASURE  */
+					if(timeDuration == 64) {
+						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
+						measureNumber++;
+						noteX = measureNumber * measureWidth + this.startingXSpace + 10; 
+						timeDuration = 0;
+					}
+
+				}
+
 			} else { //IS CHORD
-				int yLocation = lg.getYCoord();
-				//REMOVE LINE BEHIND NOTE
-//				g.fillRect(noteX, noteYLocation + yLocation - fm.getAscent(), (int) rect.getWidth(),(int) rect.getHeight());
-//				//SET BACKGROUND COLOR TO WHITE i.e., appears as if there was no line to begin with.
-//				g.setColor(textColor);
-//				g.drawString("" + lg.getFret() + "", noteX, noteYLocation + lg.getYCoord());
-//				g.drawString(note, noteX, noteYLocation + yLocation);
-				
+				int yLocation = lg.getYCoord();				
 				Text t = new Text(noteX, noteYLocation + yLocation, note);
 				p.getChildren().add(t);
-				
+
 				if((aLGuitar.size() - 2 > j+1) && !aLGuitar.get(j+1).isChord()) {
-					noteX += ((double)lg.getDuration()/64 * measureWidth); 
+					noteX += ((double)lg.getDuration()/64 * measureWidth) + 10; 
+					if(timeDuration == 64) {
+						timeDuration = 0;
+						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
+						measureNumber++;
+
+					}
 				}
 			}
 		}
