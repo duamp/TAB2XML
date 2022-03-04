@@ -58,6 +58,7 @@ public class Measure {
 			Text A = new Text(TABx, spaceBetweenBarsHorizontal*3 + measureHeightAdjusted, "A");
 			Text B = new Text(TABx, spaceBetweenBarsHorizontal*4 + measureHeightAdjusted, "B");
 
+			
 			/* BOLD T A B */
 			T.setFont(new Font(20));
 			A.setFont(new Font(20));

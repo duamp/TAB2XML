@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.LocationGuitar;
 
-public class GuitarNotes {
+public class DrawGuitarNotes {
 	private LinkedList<LocationGuitar> aLGuitar;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
@@ -19,7 +19,7 @@ public class GuitarNotes {
 	private int unitsInMeasure = 0;
 	private int currentNoteYLocation = 0;
 
-	public GuitarNotes(Pane p, LinkedList<LocationGuitar> aL, int unitsInMeasure) {
+	public DrawGuitarNotes(Pane p, LinkedList<LocationGuitar> aL, int unitsInMeasure) {
 		this.p = p;
 		this.aLGuitar = aL;
 		this.unitsInMeasure = unitsInMeasure;

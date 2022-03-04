@@ -18,8 +18,8 @@ import javax.swing.JLabel;
 
 import org.fxmisc.richtext.CodeArea;
 
-import drawPreview.Drums;
-import drawPreview.GuitarNotes;
+import drawPreview.DrawDrumsNotes;
+import drawPreview.DrawGuitarNotes;
 import drawPreview.Measure;
 
 import javax.swing.JPanel;
@@ -89,11 +89,11 @@ public class PreviewFileController extends Application {
 		Measure m;
 		if(instrument.equals("Guitar")) {
 			m = new Measure(5,this.pane, this.getMeasureNumber());
-			GuitarNotes g = new GuitarNotes(pane, aLGuitar, setUnitsInMeasure());
+			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar, setUnitsInMeasure());
 			g.drawGuitarNotes();
 		} else {
 			m = new Measure(6,this.pane, this.getMeasureNumber());
-			Drums d = new Drums();
+			DrawDrumsNotes d = new DrawDrumsNotes();
 		}
 		
 		m.drawMeasure();
