@@ -38,6 +38,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.ScorePartwise;
+import models.measure.note.Note;
 import models.Location;
 import models.LocationDrums;
 import models.LocationGuitar;
@@ -66,6 +67,20 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
+	
+	private int setUnitsInMeasure() {
+		/* GET AMOUNT OF NOTES IN MEASURE */
+		int unitsInMeasure = 0;
+		int j =  sp.getParts().get(0).getMeasures().get(0).getNotesBeforeBackup().size();
+		for(int i = 0; i < j; i++) {
+			Note n = sp.getParts().get(0).getMeasures().get(0).getNotesBeforeBackup().get(i);
+			if(n.getChord() == null) {
+				unitsInMeasure+= n.getDuration();
+			}
+		}
+		return unitsInMeasure;
+	}
+
 
 	public void update(ScorePartwise sp) throws IOException{
 		instrument = sp.getPartList().getScoreParts().get(0).getPartName();
@@ -74,8 +89,8 @@ public class PreviewFileController extends Application {
 		Measure m;
 		if(instrument.equals("Guitar")) {
 			m = new Measure(5,this.pane, this.getMeasureNumber());
-			GuitarNotes g = new GuitarNotes(pane, aLGuitar);
-			g.drawGuitarNotes(0);
+			GuitarNotes g = new GuitarNotes(pane, aLGuitar, setUnitsInMeasure());
+			g.drawGuitarNotes();
 		} else {
 			m = new Measure(6,this.pane, this.getMeasureNumber());
 			Drums d = new Drums();
@@ -108,7 +123,7 @@ public class PreviewFileController extends Application {
 			aLGuitar = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					LocationGuitar noteInformation = new LocationGuitar(pane,
+					LocationGuitar noteInformation = new LocationGuitar(
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
@@ -121,35 +136,6 @@ public class PreviewFileController extends Application {
 	}
 
 	public void initialize() {}
-
-
-	@FXML
-	private void createJFrame(JFrame f) {
-		//		setTitle("Sheet Music");
-		//		setLayout(new BorderLayout());
-		//		createPanel(f);
-		//		setSize(1400, 300);
-		//		setLocationRelativeTo(null);
-		//		setVisible(true);
-
-
-
-
-		//		WORKING IMPLEMENTATION
-		//		if(instrument.equals("drums")) {
-		//			f.add(new Draw(instrument, aLDrums, this.getMeasureNumber() ));
-		//		} else {
-		//			f.add(new Draw(this.getMeasureNumber(), aLGuitar, instrument));
-		//		}
-		//				f.setPreferredSize(new Dimension(1400, 300));
-		//				f.setTitle(this.sp.getPartList().getScoreParts().get(0).getPartName() + " Sheet Music");
-		//				f.getContentPane().setBackground(Color.white);
-		//				f.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
-		//				f.pack();
-		//				f.setVisible(true);
-		//				f.add(new JPanel(), BorderLayout.NORTH);
-
-	}
 
 	//    @FXML
 	//    private void saveButtonClicked() {

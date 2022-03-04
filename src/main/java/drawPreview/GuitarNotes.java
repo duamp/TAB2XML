@@ -14,14 +14,18 @@ public class GuitarNotes {
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
 	private final int startingXSpace = 10;
+	private int currentcurrentNoteYLocation = 0;
 	private Pane p;
+	private int unitsInMeasure = 0;
+	private int currentNoteYLocation = 0;
 
-	public GuitarNotes(Pane p, LinkedList<LocationGuitar> aL) {
+	public GuitarNotes(Pane p, LinkedList<LocationGuitar> aL, int unitsInMeasure) {
 		this.p = p;
 		this.aLGuitar = aL;
+		this.unitsInMeasure = unitsInMeasure;
 	}
 
-	public void drawGuitarNotes(int noteYLocation) {
+	public void drawGuitarNotes() {
 		int noteX = 40;
 		int measureNumber = 0;
 		int timeDuration = 0;
@@ -33,16 +37,16 @@ public class GuitarNotes {
 
 				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
 				if(measureNumber != 0 && measureNumber % 3 == 0) { 
-					noteYLocation += moveMeasureDownValue;
+					currentNoteYLocation += moveMeasureDownValue;
 					measureNumber = 0;
 					noteX = this.startingXSpace + 20;
 				}
 
 				int yLocation = lg.getYCoord();
-				Rectangle r = new Rectangle(noteX, noteYLocation + yLocation-15, 10, 15);
+				Rectangle r = new Rectangle(noteX, currentNoteYLocation + yLocation-15, 10, 15);
 				r.setFill(Color.WHITE);
 				r.opacityProperty().set(1);
-				Text t = new Text(noteX, noteYLocation + yLocation, note);
+				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 				p.getChildren().add(r); //WHITE BACKGROUND
 				p.getChildren().add(t); //TEXT
 
@@ -52,10 +56,10 @@ public class GuitarNotes {
 				if(j < aLGuitar.size() - 2 && !aLGuitar.get(j+1).isChord()) {
 
 					/* DETERMINES HOW CLOSE NEXT NOTE SHOULD BE */
-					noteX += ((double)lg.getDuration()/64 * this.measureWidth); 
+					noteX += ((double)lg.getDuration()/unitsInMeasure * this.measureWidth); 
 
 					/* KEEPS TRACK OF CURRENT MEASURE  */
-					if(timeDuration == 64) {
+					if(timeDuration == unitsInMeasure) {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
 						noteX = measureNumber * measureWidth + this.startingXSpace + 10; 
@@ -66,16 +70,16 @@ public class GuitarNotes {
 
 			} else { //IS CHORD
 				int yLocation = lg.getYCoord();				
-				Text t = new Text(noteX, noteYLocation + yLocation, note);
+				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 				p.getChildren().add(t);
 
 				if((aLGuitar.size() - 2 > j+1) && !aLGuitar.get(j+1).isChord()) {
-					noteX += ((double)lg.getDuration()/64 * measureWidth) + 10; 
-					if(timeDuration == 64) {
+					noteX += ((double)lg.getDuration()/unitsInMeasure * measureWidth) + 10; 
+					if(timeDuration == unitsInMeasure) {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
-
+						noteX = (measureNumber * measureWidth) + 10; 
 					}
 				}
 			}

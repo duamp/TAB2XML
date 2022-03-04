@@ -13,13 +13,12 @@ public class LocationGuitar {
 	@FXML
 	private Pane pane;
 	
-	public LocationGuitar(Pane pane, int string, int fret, int duration, boolean c)  {
+	public LocationGuitar(int string, int fret, int duration, boolean c)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
 		this.location = getYCoord();
 		this.chord = c;
-		this.pane = pane;
 	}
 	
 	public int getYCoord() {
