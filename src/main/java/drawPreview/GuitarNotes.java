@@ -13,7 +13,7 @@ public class GuitarNotes {
 	private LinkedList<LocationGuitar> aLGuitar;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
-	private final int startingXSpace = 10;
+	private final int startingXSpace = 15;
 	private int currentcurrentNoteYLocation = 0;
 	private Pane p;
 	private int unitsInMeasure = 0;
@@ -62,7 +62,7 @@ public class GuitarNotes {
 					if(timeDuration == unitsInMeasure) {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
-						noteX = measureNumber * measureWidth + this.startingXSpace + 10; 
+						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						timeDuration = 0;
 					}
 
@@ -79,10 +79,11 @@ public class GuitarNotes {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
-						noteX = (measureNumber * measureWidth) + 10; 
+						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 					}
 				}
 			}
+			
 		}
 	}
 }
