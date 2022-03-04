@@ -1,6 +1,8 @@
 package models;
 
 import GUI.Draw;
+import javafx.fxml.FXML;
+import javafx.scene.layout.Pane;
 
 public class LocationGuitar {
 	private int string;
@@ -8,18 +10,20 @@ public class LocationGuitar {
 	private int duration;
 	private int location;
 	private boolean chord;
+	@FXML
+	private Pane pane;
 	
-	public LocationGuitar(int string, int fret, int duration, boolean c) {
-		super();
+	public LocationGuitar(Pane pane, int string, int fret, int duration, boolean c)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
 		this.location = getYCoord();
 		this.chord = c;
+		this.pane = pane;
 	}
 	
 	public int getYCoord() {
-		Draw d = new Draw(1, null);
+		Draw d = new Draw(1, null, "Guitar");
 		switch(this.string) {
 		  case 6:
 			  return d.getStartingYSpace() + d.getSpaceBetweenBarsHorizontal() * 6 - 13;
