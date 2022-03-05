@@ -18,9 +18,10 @@ import javax.swing.JLabel;
 
 import org.fxmisc.richtext.CodeArea;
 
-import drawPreview.DrawDrumsNotes;
-import drawPreview.DrawGuitarNotes;
-import drawPreview.Measure;
+import drawings.DrawDrumsNotes;
+import drawings.DrawGuitarNotes;
+import drawings.Measure;
+import drawings.Slurs;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -77,13 +78,16 @@ public class PreviewFileController extends Application {
 		if(instrument.equals("Guitar")) {
 			m = new Measure(5,this.pane, this.getMeasureNumber());
 			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar, sp);
-			g.drawGuitarNotes();
+			m.drawMeasure(); //DRAWS MEASURES
+			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
+			Slurs s = new Slurs(aLGuitar, this.pane, sp);
+			s.drawNotesWithSlurs();
+			
 		} else {
 			m = new Measure(6,this.pane, this.getMeasureNumber());
 			DrawDrumsNotes d = new DrawDrumsNotes();
 		}
 		
-		m.drawMeasure();
 	}
 
 	public PreviewFileController ()  {}
@@ -98,7 +102,7 @@ public class PreviewFileController extends Application {
 			aLDrums = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					LocationDrums noteInformation = new LocationDrums(pane,
+					LocationDrums noteInformation = new LocationDrums(
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave());
@@ -110,12 +114,23 @@ public class PreviewFileController extends Application {
 			aLGuitar = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					LocationGuitar noteInformation = new LocationGuitar(
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null);
-
+					LocationGuitar noteInformation;
+					if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() != null) {
+						 //(STRING, FRET, DURATION, CHORD, SLUR, ORIGINAL NOTEX, ORIGINAL NOTEY)
+						noteInformation = new LocationGuitar(
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 0 ,0);
+					} else {
+						noteInformation = new LocationGuitar(	
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
+								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 0,0);
+					}
 					aLGuitar.add(noteInformation);
 				}
 			}
@@ -124,50 +139,14 @@ public class PreviewFileController extends Application {
 
 	public void initialize() {}
 
-	//    @FXML
-	//    private void saveButtonClicked() {
-	//        if (!titleField.getText().isBlank())
-	//            Settings.getInstance().title = titleField.getText();
-	//        if (!artistField.getText().isBlank())
-	//        	Settings.getInstance().artist = artistField.getText();
-	//        FileChooser fileChooser = new FileChooser();
-	//        fileChooser.setTitle("Save As");
-	//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("MusicXML files", "*.musicxml", "*.xml", "*.mxl");
-	//        fileChooser.getExtensionFilters().add(extFilter);
-	//
-	//        File initialDir = new File(Settings.getInstance().outputFolder);
-	//        String initialName = null;
-	//        if (!fileNameField.getText().isBlank() && fileNameField.getText().length()<50)
-	//            initialName = fileNameField.getText().strip();
-	//
-	//        if (mvc.saveFile != null) {
-	//            if (initialName == null) {
-	//                String name = mvc.saveFile.getName();
-	//                if(name.contains("."))
-	//                    name = name.substring(0, name.lastIndexOf('.'));
-	//                initialName = name;
-	//            }
-	//            File parentDir = new File(mvc.saveFile.getParent());
-	//            if (parentDir.exists())
-	//                initialDir = parentDir;
-	//        }
-	//        if (initialName != null)
-	//            fileChooser.setInitialFileName(initialName);
-	//
-	//        if (!(initialDir.exists() && initialDir.canRead()))
-	//            initialDir = new File(System.getProperty("user.home"));
-	//
-	//        fileChooser.setInitialDirectory(initialDir);
-	//
-	//        File file = fileChooser.showSaveDialog(convertWindow);
-	//
-	//        if (file != null) {
-	//            mvc.converter.saveMusicXMLFile(file);
-	//            mvc.saveFile = file;
-	//            cancelButtonClicked();
-	//        }
-	//    }
-
+	public int findDuration(String type) {
+		switch (type){
+		case "16th":
+			return 16;
+		}
+		return 0;
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub

@@ -1,10 +1,11 @@
-package drawPreview;
+package drawings;
 
 import java.awt.FontMetrics;
 import java.util.LinkedList;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.LocationGuitar;
@@ -27,9 +28,7 @@ public class DrawGuitarNotes {
 		this.aLGuitar = aL;
 		this.sp = sp;
 	}
-
-
-
+	
 	public void drawGuitarNotes() {
 		int noteX = 40;
 		int measureNumber = 0;
@@ -38,7 +37,17 @@ public class DrawGuitarNotes {
 		this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 		for(int j = 0; j < aLGuitar.size(); j++) {
 			LocationGuitar lg = (LocationGuitar) aLGuitar.get(j);
-			String note = "" + lg.getFret() + "";			
+			String note = "" + lg.getFret() + "";
+			int yLocation = lg.getYCoord();	
+
+			/*
+			 * CHECKS
+			 * 1. IF FRET >= 10, size of background erased
+			 * 2. IF SLUR, create slur at location and append at end.
+			 */
+			boolean flag = (lg.getFret() >= 10);
+			boolean slur = lg.isSlur();
+
 			if(!lg.isChord()) { //NOT CHORD
 				timeDuration += lg.getDuration();
 
@@ -48,17 +57,20 @@ public class DrawGuitarNotes {
 					measureNumber = 0;
 					noteX = this.startingXSpace + 20;
 				}
-
-				int yLocation = lg.getYCoord();
-				Rectangle r = new Rectangle(noteX, currentNoteYLocation + yLocation-15, 10, 15);
-				r.setFill(Color.WHITE);
-				r.opacityProperty().set(1);
+				/*
+				 * 1. ADD WHITE BACKGROUND TO REMOVE LINE BEHIND NOTEX LOCATION
+				 * 2. ADD NEW NOTE (i.e., A, B in form on TABS ... 1, 2) IN LOCATION WITH NO BACKGROUND
+				 */
+				
+				removeLineBehindNote(noteX, yLocation, flag);
+			
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
-				p.getChildren().add(r); //WHITE BACKGROUND
 				p.getChildren().add(t); //TEXT
 
-
-
+				//RECORDS noteX && noteY in arraylist for later access
+				lg.setNoteX(noteX); 	
+				lg.setNoteY(currentNoteYLocation + yLocation);
+				
 				//IF NEXT CHORD, DON'T CHANGE X YET!
 				if(j < aLGuitar.size() - 2 && !aLGuitar.get(j+1).isChord()) {
 
@@ -78,9 +90,15 @@ public class DrawGuitarNotes {
 				}
 
 			} else { //IS CHORD
-				int yLocation = lg.getYCoord();				
+				/*
+				 * Flag indicates fret >= 10 because Rectange to remove background space should be wider
+				 */
+				removeLineBehindNote(noteX, yLocation, flag);
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 				p.getChildren().add(t);
+				//RECORDS noteX && noteY in arraylist for later access
+				lg.setNoteX(noteX); 	
+				lg.setNoteY(currentNoteYLocation + yLocation);
 
 				if((aLGuitar.size() - 2 > j+1) && !aLGuitar.get(j+1).isChord()) {
 					noteX += ((double)lg.getDuration()/(unitsInMeasure*1.1) * measureWidth); 
@@ -94,7 +112,6 @@ public class DrawGuitarNotes {
 					}
 				}
 			}
-
 		}
 	}
 
@@ -104,10 +121,40 @@ public class DrawGuitarNotes {
 		int j =  sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().size();
 		for(int i = 0; i < j; i++) {
 			Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
-			if(n.getChord() == null) {
+			if(n.getChord() == null && n.getDuration() != null) {
 				unitsInMeasure+= n.getDuration();
+			} else if(n.getChord() == null) {
+				unitsInMeasure+=findDuration(n.getType());
 			}
 		}
 		return unitsInMeasure;
+	}
+	
+	public int findDuration(String type) {
+		switch (type){
+		case "16th":
+			return 16;
+		case "8th":
+			return 8;
+		}
+		return 8;
+	}
+	
+	public void removeLineBehindNote(int noteX, int yLocation, boolean flag) {
+		Rectangle r;
+		if(flag) {
+			r = new Rectangle(noteX, currentNoteYLocation + yLocation-15, 15, 15);
+		} else {
+			r = new Rectangle(noteX, currentNoteYLocation + yLocation-15, 10, 15);
+
+		}
+		r.setFill(Color.WHITE);
+		r.opacityProperty().set(1);
+		p.getChildren().add(r); //WHITE BACKGROUND
+	}
+	
+	public void drawSlurs() {
+		//if slur != null
+		sp.getParts().get(0).getMeasures().get(0).getNotesBeforeBackup().get(0).getNotations().getSlurs().get(0).getNumber();
 	}
 }

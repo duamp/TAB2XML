@@ -12,12 +12,11 @@ public class LocationDrums {
 	@FXML
 	private Pane pane;
 
-	public LocationDrums(Pane pane, String note, int duration, int octave) {
+	public LocationDrums(String note, int duration, int octave) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;
 		this.yCoord = getYCoord();
-		this.pane = pane;
 	}
 
 	public int getYCoord() {

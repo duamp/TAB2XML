@@ -1,4 +1,4 @@
-package drawPreview;
+package drawings;
 
 import java.util.LinkedList;
 
