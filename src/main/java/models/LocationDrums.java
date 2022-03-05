@@ -9,18 +9,19 @@ public class LocationDrums {
 	private String note;
 	private int duration;
 	private double yCoord;
-
+	private String type;
 	
 	@FXML
 	private Pane pane;
 	private double octaveDifference = 59.5;//17/2 because 2 notes fit on one line and (17/2)*7 because 7 different notes
 	private double differenceBetweenNotes=8.5; // 17*6 lines / 12 possible notes on 6 lines
-	public LocationDrums(Pane pane, String note, int duration, int octave) {
+	public LocationDrums(Pane pane, String note, int duration, int octave, String type) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;
 		this.yCoord = getYCoord();
 		this.pane = pane;
+		this.type = type;
 	}
 
 	public double getYCoord() {

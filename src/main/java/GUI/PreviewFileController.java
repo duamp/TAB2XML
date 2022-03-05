@@ -113,9 +113,11 @@ public class PreviewFileController extends Application {
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
 					LocationDrums noteInformation = new LocationDrums(pane,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(0).getUnpitched().getDisplayStep(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(0).getDuration(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(0).getUnpitched().getDisplayOctave());
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+							);
 
 					aLDrums.add(noteInformation);
 				}
