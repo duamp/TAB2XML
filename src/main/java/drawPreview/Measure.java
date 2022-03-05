@@ -23,11 +23,13 @@ public class Measure {
 	private final int measuresPerLine = 3;
 	private int lines;
 	private final int TABx = 15;
+	private boolean isDrums = false;
 
-	public Measure(int numberofLines, Pane p, int numberOfMeasures) {
+	public Measure(int numberofLines, Pane p, int numberOfMeasures, boolean isDrums) {
 		lines = numberofLines;
 		this.p = p;
 		this.numberOfMeasures = numberOfMeasures;
+		this.isDrums = isDrums;
 	}
 
 	public void drawMeasure() {
@@ -53,6 +55,7 @@ public class Measure {
 			l = new Line(measureXAdjusted, this.startingYSpace + measureHeightAdjusted, this.measureWidth+measureXAdjusted, this.startingYSpace + measureHeightAdjusted);	//BOTTOM
 			p.getChildren().add(l);
 
+			if(!this.isDrums) {
 			//WRITE TAB
 			Text T = new Text(TABx, spaceBetweenBarsHorizontal*2 + measureHeightAdjusted, "T");
 			Text A = new Text(TABx, spaceBetweenBarsHorizontal*3 + measureHeightAdjusted, "A");
@@ -68,7 +71,9 @@ public class Measure {
 			p.getChildren().add(T); 
 			p.getChildren().add(A); 
 			p.getChildren().add(B); 
-
+			}else {
+//				implement trebeclef here
+			}
 			//Lines in Rectangle
 			for(int y = 1; y < lines; y++) {
 				l = new Line(measureXAdjusted, spaceBetweenBarsHorizontal*y + measureHeightAdjusted, this.measureWidth+measureXAdjusted, spaceBetweenBarsHorizontal*y + measureHeightAdjusted);	

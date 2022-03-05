@@ -88,12 +88,13 @@ public class PreviewFileController extends Application {
 		createList();
 		Measure m;
 		if(instrument.equals("Guitar")) {
-			m = new Measure(5,this.pane, this.getMeasureNumber());
+			m = new Measure(5,this.pane, this.getMeasureNumber(), false);
 			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar, setUnitsInMeasure());
 			g.drawGuitarNotes();
 		} else {
-			m = new Measure(6,this.pane, this.getMeasureNumber());
-			DrawDrumsNotes d = new DrawDrumsNotes();
+			m = new Measure(6,this.pane, this.getMeasureNumber(), true);
+			DrawDrumsNotes d = new DrawDrumsNotes(pane, this.aLDrums, setUnitsInMeasure());
+			d.drawDrumNotes();
 		}
 		
 		m.drawMeasure();
