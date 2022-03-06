@@ -78,17 +78,17 @@ class TestingMeasures {
 	@Test
 	void tab_text_for_guitar_measure() {
 		Pane p = new Pane();
-		Measure m = new Measure(6, p, 1); 
+		Measure m = new Measure(5, p, 1); 
 		m.drawMeasure();
-		assertTrue(1 == m.getTabsDrawnAmount());
+		assertEquals(1, m.getTabsDrawnAmount());
 	}
 
 	@Test
 	void multiple_tab_text_for_guitar_measure() {
 		Pane p = new Pane();
-		Measure m = new Measure(6, p, 100); 
+		Measure m = new Measure(5, p, 100); 
 		m.drawMeasure();
-		assertTrue(34 == m.getTabsDrawnAmount());
+		assertEquals(34,m.getTabsDrawnAmount());
 
 	}
 
