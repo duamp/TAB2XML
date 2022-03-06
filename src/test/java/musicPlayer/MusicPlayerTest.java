@@ -1,30 +1,23 @@
 package musicPlayer;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
 import java.util.Map;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.jupiter.api.Test;
 
-import converter.Converter;
+
 import converter.Score;
 import music_player.DrumsHelper;
 import music_player.Instrument;
 import music_player.PlayerController;
 import music_player.XmlSequence;
-import nu.xom.ParsingException;
-import nu.xom.ValidityException;
+
 import utility.MusicXMLCreator;
 
-import org.jfugue.theory.Note;
 
 public class MusicPlayerTest {
 

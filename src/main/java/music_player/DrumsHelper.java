@@ -1,7 +1,6 @@
 package music_player;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import models.measure.note.Chord;
 

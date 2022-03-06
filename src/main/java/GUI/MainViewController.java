@@ -9,15 +9,12 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiUnavailableException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.fxmisc.richtext.CodeArea;
@@ -25,8 +22,6 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 
 import converter.Converter;
-import converter.Score;
-import converter.TabSection;
 import converter.measure.TabMeasure;
 import custom_exceptions.TXMLException;
 import javafx.application.Application;
@@ -51,12 +46,10 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import models.ScorePartwise;
-import models.measure.Measure;
 import music_player.PlayerController;
 import music_player.XmlSequence;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
-import utility.MusicXMLCreator;
 import utility.Range;
 import utility.Settings;
 
