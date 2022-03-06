@@ -18,24 +18,20 @@ class TestingGuitar {
 
 	@Test
 	void note_X_position() {
-//		Pane p = new Pane();
-//		Measure m = new Measure(5, p, 1); 
-//		m.drawMeasure();
-//		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
-//		ScorePartwise sp;
-//		LinkedList<Part> l = new LinkedList<Part>();
-//		Part p = new Part("P1", );
-//		sp.setParts(l);
-//		l.add(null)
-//		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0
-//		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 0, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0
-//		aLGuitar.add(l1);
-//		aLGuitar.add(l2);
-//
-//		LinkedList<GuitarInformation> t = g.getNoteObject();
-//		g.drawGuitarNotes();
-//		assertEquals(40,t.get(0).getNoteX(), 2); //FIRST NOTE LOCATION 40
-//		assertEquals(150,t.get(0).getNoteX() + (t.get(0).getDuration()/g.getUnitsInMeasure()) * g.getMeasureWidth(),2); //SECOND NOTE FIRST NOTE + DURATION FIRST
+		Pane p = new Pane();
+		Measure m = new Measure(5, p, 1); 
+		m.drawMeasure();
+		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
+		
+		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE - DURATION(STRING)
+		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 1,"Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE - DURATION(STRING)
+		aLGuitar.add(l1);
+		aLGuitar.add(l2);
+
+		LinkedList<GuitarInformation> t = g.getNoteObject();
+		g.drawGuitarNotes();
+		assertEquals(40,t.get(0).getNoteX(), 2); //FIRST NOTE LOCATION 40
+		assertEquals(150,t.get(0).getNoteX() + (t.get(0).getDuration()/g.getUnitsInMeasure()) * g.getMeasureWidth(),2); //SECOND NOTE FIRST NOTE + DURATION FIRST
 	}
 
 	@Test

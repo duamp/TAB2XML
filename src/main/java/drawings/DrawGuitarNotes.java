@@ -21,13 +21,12 @@ public class DrawGuitarNotes {
 	private Pane p;
 	private int unitsInMeasure = 0;
 	private int currentNoteYLocation = 0;
-	private ScorePartwise sp;
 	private double divisionConstant = 1.1;
+	private int currentNotesPrinted = 0;
 
-	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL, ScorePartwise sp) {
+	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL) {
 		this.p = p;
 		this.aLGuitar = aL;
-		this.sp = sp;
 	}
 
 	public void drawGuitarNotes() {
@@ -71,6 +70,7 @@ public class DrawGuitarNotes {
 
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 				p.getChildren().add(t); //TEXT
+				currentNotesPrinted++;
 
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
@@ -101,6 +101,7 @@ public class DrawGuitarNotes {
 				removeLineBehindNote(noteX, yLocation, flag);
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 				p.getChildren().add(t);
+				currentNotesPrinted++;
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
 				lg.setNoteY(currentNoteYLocation + yLocation);
@@ -121,24 +122,35 @@ public class DrawGuitarNotes {
 	}
 
 	private int setUnitsInMeasure(GuitarInformation gi, int whichMeasure) {
-//		/* GET AMOUNT OF NOTES IN MEASURE */
-//		int unitsInMeasure = 0;
-//		int j = 0;
-//		
-//		while(gi.getMeasure() == whichMeasure) {
-//			j++;
-//		}
-//		aLGuitar.get(j)
-//		for(int i = 0; i < j; i++) {
-//			Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
-//			if(n.getChord() == null && n.getDuration() != null) {
-//				unitsInMeasure+= n.getDuration();
-//			} else if(n.getChord() == null) {
-//				unitsInMeasure+=findDuration(n.getType());
-//			}
-//		}
+		/* GET AMOUNT OF NOTES IN MEASURE */
+		int unitsInMeasure = 0;
+		int k = 0;
+		int notesPerMeasure = 0;
+		while(this.currentNotesPrinted + k < aLGuitar.size() && aLGuitar.get(this.currentNotesPrinted + k).getMeasure() == whichMeasure + 1) {
+			notesPerMeasure++;
+			k++;
+		}
+
+		for(int i = currentNotesPrinted; i < notesPerMeasure+currentNotesPrinted; i++) {
+			GuitarInformation l = aLGuitar.get(i);
+			if(!l.isChord() && l.getDuration() != 0 ) {
+				unitsInMeasure+= l.getDuration();
+			} else if(!l.isChord()) {
+				unitsInMeasure+=findDuration(l.getType());
+			}
+		}
+
 		return unitsInMeasure;
 	}
+
+	//	for(int i = 0; i < notesPerMeasure; i++) {
+	//		Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
+	//		if(n.getChord() == null && n.getDuration() != null) {
+	//			unitsInMeasure+= n.getDuration();
+	//		} else if(n.getChord() == null) {
+	//			unitsInMeasure+=findDuration(n.getType());
+	//		}
+	//	}
 
 	public int findDuration(String type) {
 		switch (type){

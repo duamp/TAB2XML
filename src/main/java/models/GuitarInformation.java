@@ -19,10 +19,11 @@ public class GuitarInformation {
 	private int noteX;
 	private int noteY;
 	private int measure;
+	private String type;
 	@FXML
 	private Pane pane;
 
-	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int noteX, int noteY, int measure)  {
+	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int noteX, int noteY, int measure, String type)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
@@ -32,6 +33,7 @@ public class GuitarInformation {
 		this.noteX = noteX;
 		this.noteY = noteY;
 		this.measure = measure;
+		this.type = type;
 	}
 
 	public int getYCoord() {
@@ -64,4 +66,6 @@ public class GuitarInformation {
 	public int getNoteY() {return this.noteY;}
 	public List<Slur> getSlur() {return this.slur;}
 	public int getMeasure() {return this.measure;}
+	public String getType() {return this.type;}
+
 }

@@ -78,7 +78,7 @@ public class PreviewFileController extends Application {
 		Measure m;
 		if(instrument.equals("Guitar")) {
 			m = new Measure(5,this.pane, this.getMeasureNumber());
-			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar, sp);
+			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar);
 			m.drawMeasure(); //DRAWS MEASURES
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
 			Slurs s = new Slurs(aLGuitar, this.pane, sp);
@@ -131,7 +131,8 @@ public class PreviewFileController extends Application {
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
 								0, 
 								0, 
-								i + 1
+								i + 1,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
 								);
 					} else {
 						noteInformation = new GuitarInformation(	
@@ -142,7 +143,9 @@ public class PreviewFileController extends Application {
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
 								0,
 								0,
-								i + 1);
+								i + 1,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+								);
 					}
 					aLGuitar.add(noteInformation);
 				}
@@ -159,7 +162,7 @@ public class PreviewFileController extends Application {
 		}
 		return 0;
 	}
-	
+
 	public void printSSHandle() {
 		System.out.println("works");
 	}
