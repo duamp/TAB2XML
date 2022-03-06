@@ -135,6 +135,7 @@ public class PreviewFileController extends Application {
 
 	}
 
+	@FXML
 	public void printSSHandle() {
 		System.out.println("works");
 	}
