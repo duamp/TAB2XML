@@ -30,7 +30,7 @@ public class DrawGuitarNotes {
 	}
 
 	public void drawGuitarNotes() {
-		int noteX = 40;
+		int noteX = 35;
 		int measureNumber = 0;
 		int timeDuration = 0;
 		int whichMeasure = 0;
@@ -38,7 +38,7 @@ public class DrawGuitarNotes {
 			GuitarInformation lg = (GuitarInformation) aLGuitar.get(j);
 
 			if(j == 0) {
-				this.unitsInMeasure = setUnitsInMeasure(lg, whichMeasure);
+				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 			}
 
 			String note = "" + lg.getFret() + "";
@@ -89,7 +89,7 @@ public class DrawGuitarNotes {
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						timeDuration = 0;
 						whichMeasure++;
-						this.unitsInMeasure = setUnitsInMeasure(lg, whichMeasure);
+						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 					}
 
 				}
@@ -114,14 +114,14 @@ public class DrawGuitarNotes {
 						measureNumber++;
 						whichMeasure++;
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
-						this.unitsInMeasure = setUnitsInMeasure(lg, whichMeasure);
+						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 					}
 				}
 			}
 		}
 	}
 
-	private int setUnitsInMeasure(GuitarInformation gi, int whichMeasure) {
+	private int setUnitsInMeasure(int whichMeasure) {
 		/* GET AMOUNT OF NOTES IN MEASURE */
 		int unitsInMeasure = 0;
 		int k = 0;
@@ -180,4 +180,5 @@ public class DrawGuitarNotes {
 	public int getMeasureWidth() {return this.measureWidth;}
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
+	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
 }
