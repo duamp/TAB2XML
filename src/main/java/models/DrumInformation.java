@@ -36,11 +36,13 @@ public class DrumInformation {
 		double octaveY = 0;
 		Measure m = new Measure(4, pane, 1);
 		switch(this.octave) {//need to invert addition and subtraction
+		case -1:
+			return -1;
 		case 3:
 			octaveY+= this.octaveDifference;
 			break;
 		case 4:
-			//			reference octave so = 0
+			//	reference octave so = 0
 			break;
 		case 5:
 			octaveY-= this.octaveDifference;
@@ -52,19 +54,19 @@ public class DrumInformation {
 
 		switch(this.note) {
 		case "C":
-			return octaveY +  m.getCurrentTopOfMeasureHeight() + 6*m.getSpaceBetweenBarsHorizontal() + 5;
+			return octaveY +  m.getSpaceBetweenBarsHorizontal()*5 + 4;
 		case "D":
-			return octaveY + m.getCurrentTopOfMeasureHeight() + 5*m.getSpaceBetweenBarsHorizontal() + 8.5 + 5;
+			return octaveY + 76 + 4;
 		case "E":
-			return octaveY +  m.getCurrentTopOfMeasureHeight() + 5*m.getSpaceBetweenBarsHorizontal() + 5;
+			return octaveY + m.getSpaceBetweenBarsHorizontal()*4 + 4;
 		case "F":
-			return octaveY +  m.getCurrentTopOfMeasureHeight() + 4*m.getSpaceBetweenBarsHorizontal() + 8.5 + 5;
+			return octaveY +  59.5 + 4;
 		case "G":
-			return octaveY +  m.getCurrentTopOfMeasureHeight() + 4*m.getSpaceBetweenBarsHorizontal() + 5;
+			return octaveY +  m.getSpaceBetweenBarsHorizontal()*3 + 4;
 		case "A":
-			return octaveY +  m.getCurrentTopOfMeasureHeight() + 3*m.getSpaceBetweenBarsHorizontal() + 8.5 + 5;
+			return octaveY +  42.5 + 4;
 		case "B":
-			return octaveY +  m.getCurrentTopOfMeasureHeight() + 3*m.getSpaceBetweenBarsHorizontal() + 5;
+			return octaveY +  m.getSpaceBetweenBarsHorizontal()*2 + 4;
 		}
 		return this.yCoord;
 	}

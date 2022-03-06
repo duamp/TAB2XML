@@ -104,18 +104,20 @@ public class PreviewFileController extends Application {
 		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
 			aLDrums = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
-				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					DrumInformation noteInformation;
-					noteInformation = new DrumInformation(
-							this.getDisplayedStepNote(i, j),
-							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
-							this.getDisplayedStepOctave(i, j),
-							getXorO(i, j),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
-							i+1,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
-							);
-					aLDrums.add(noteInformation);
+				if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup() != null) {
+					for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
+						DrumInformation noteInformation;
+						noteInformation = new DrumInformation(
+								this.getDisplayedStepNote(i, j),
+								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
+								this.getDisplayedStepOctave(i, j),
+								getXorO(i, j),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
+								i+1,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+								);
+						aLDrums.add(noteInformation);
+					}
 				}
 			}
 		} else {
@@ -169,22 +171,22 @@ public class PreviewFileController extends Application {
 		}
 		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype();
 	}
-	
+
 	public String getDisplayedStepNote(int i, int j) {
 		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
 			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep();
 		}
 		return "R";
 	}
-	
+
 	public int getDisplayedStepOctave(int i, int j) {
 		if(	sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
 			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave();
 		}
 		return -1;
 	}
-	
-	
+
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {

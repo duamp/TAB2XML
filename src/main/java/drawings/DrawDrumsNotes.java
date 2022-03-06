@@ -16,7 +16,7 @@ public class DrawDrumsNotes {
 	private LinkedList<DrumInformation> aLDrums;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
-	private final int startingXSpace = 10;
+	private final int startingXSpace = 15;
 	private int currentNoteYLocation = 0;
 	private int unitsInMeasure = 0;
 	private Pane p;
@@ -146,7 +146,7 @@ public class DrawDrumsNotes {
 
 	public void removeLineBehindNote(int noteX, double yLocation) {
 		Rectangle r;
-		r = new Rectangle(noteX, currentNoteYLocation + yLocation, 10, 15);
+		r = new Rectangle(noteX, currentNoteYLocation + yLocation - 5, 8, 4);
 		r.setFill(Color.WHITE);
 		r.opacityProperty().set(1);
 		p.getChildren().add(r); //WHITE BACKGROUND

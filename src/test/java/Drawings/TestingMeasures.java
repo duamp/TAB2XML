@@ -60,7 +60,7 @@ class TestingMeasures {
 	}
 
 	@Test
-	void five_bars_guitar_measure() {
+	void four_bars_guitar_measure() {
 		Pane p = new Pane();
 		Measure m = new Measure(5, p, 1); 
 		m.drawMeasure();
@@ -68,7 +68,7 @@ class TestingMeasures {
 	}
 
 	@Test
-	void six_bars_drums_measure() {
+	void three_bars_drums_measure() {
 		Pane p = new Pane();
 		Measure m = new Measure(6, p, 1); 
 		m.drawMeasure();
