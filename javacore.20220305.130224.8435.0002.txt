@@ -3995,7 +3995,7 @@ NULL           =================================
 3CLTEXTCLASS   			javafx/scene/shape/Line$2(0x00000000180A9B00)
 3CLTEXTCLASS   			drawings/DrawGuitarNotes(0x00000000180A9500)
 3CLTEXTCLASS   			drawings/Measure(0x00000000180A8D00)
-3CLTEXTCLASS   			models/LocationGuitar(0x00000000180A8600)
+3CLTEXTCLASS   			models/GuitarInformation(0x00000000180A8600)
 3CLTEXTCLASS   			models/Creator(0x00000000180A8300)
 3CLTEXTCLASS   			models/Identification(0x00000000180A8000)
 3CLTEXTCLASS   			models/part_list/PartList(0x00000000180A7D00)

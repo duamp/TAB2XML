@@ -41,8 +41,9 @@ import javafx.stage.Window;
 import models.ScorePartwise;
 import models.measure.note.Note;
 import models.Location;
-import models.LocationDrums;
-import models.LocationGuitar;
+import models.DrumInformation;
+import models.GuitarInformation;
+import models.GuitarInformation;
 
 public class PreviewFileController extends Application {
 
@@ -51,8 +52,8 @@ public class PreviewFileController extends Application {
 	public Highlighter highlighter;
 	@FXML private Pane pane;
 	private ScorePartwise sp;
-	private LinkedList<LocationDrums> aLDrums;
-	private LinkedList<LocationGuitar> aLGuitar;
+	private LinkedList<DrumInformation> aLDrums;
+	private LinkedList<GuitarInformation> aLGuitar;
 	@FXML private AnchorPane ancorPane;
 	private String instrument;
 
@@ -104,7 +105,7 @@ public class PreviewFileController extends Application {
 			aLDrums = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					LocationDrums noteInformation = new LocationDrums(
+					DrumInformation noteInformation = new DrumInformation(
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave(),
@@ -119,22 +120,29 @@ public class PreviewFileController extends Application {
 			aLGuitar = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					LocationGuitar noteInformation;
+					GuitarInformation noteInformation;
 					if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() != null) {
 						//(STRING, FRET, DURATION, CHORD, SLUR, ORIGINAL NOTEX, ORIGINAL NOTEY)
-						noteInformation = new LocationGuitar(
+						noteInformation = new GuitarInformation(
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 0 ,0);
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
+								0, 
+								0, 
+								i + 1
+								);
 					} else {
-						noteInformation = new LocationGuitar(	
+						noteInformation = new GuitarInformation(	
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
 								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()),
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 0,0);
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
+								0,
+								0,
+								i + 1);
 					}
 					aLGuitar.add(noteInformation);
 				}
@@ -150,6 +158,10 @@ public class PreviewFileController extends Application {
 			return 16;
 		}
 		return 0;
+	}
+	
+	public void printSSHandle() {
+		System.out.println("works");
 	}
 
 	@Override

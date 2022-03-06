@@ -6,13 +6,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import models.LocationDrums;
+import models.DrumInformation;
 import models.ScorePartwise;
 import models.measure.note.Note;
 
 public class DrawDrumsNotes {
 
-	private LinkedList<LocationDrums> aLDrums;
+	private LinkedList<DrumInformation> aLDrums;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
 	private final int startingXSpace = 10;
@@ -22,7 +22,7 @@ public class DrawDrumsNotes {
 	private ScorePartwise sp;
 
 
-	public DrawDrumsNotes(Pane pane, LinkedList<LocationDrums> aLDrums, ScorePartwise sp) {
+	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums, ScorePartwise sp) {
 		this.aLDrums = aLDrums;
 		this.p = pane;
 		this.sp =sp;
@@ -37,7 +37,7 @@ public class DrawDrumsNotes {
 		this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 
 		for(int j = 0; j < aLDrums.size(); j++) {
-			LocationDrums ld = (LocationDrums) this.aLDrums.get(j);
+			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
 			if(!ld.isChord()) {
 				timeDuration += ld.getDuration();
 				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.

@@ -9,8 +9,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import models.LocationDrums;
-import models.LocationGuitar;
+import models.DrumInformation;
+import models.GuitarInformation;
 
 public class Measure {
 	private Pane p;

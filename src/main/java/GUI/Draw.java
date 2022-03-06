@@ -11,8 +11,8 @@ import java.util.LinkedList;
 import javax.swing.JPanel;
 
 import models.Location;
-import models.LocationDrums;
-import models.LocationGuitar;
+import models.DrumInformation;
+import models.GuitarInformation;
 
 public class Draw extends JPanel{
 
@@ -22,8 +22,8 @@ public class Draw extends JPanel{
 	private final int startingXSpace = 10;
 	private int numberOfMeasures;
 	private Graphics2D g;
-	private LinkedList<LocationDrums> aLDrums;
-	private LinkedList<LocationGuitar> aLGuitar;
+	private LinkedList<DrumInformation> aLDrums;
+	private LinkedList<GuitarInformation> aLGuitar;
 
 	private final int moveMeasureDownValue = 200;
 	private final Color textColor = Color.BLACK;
@@ -31,7 +31,7 @@ public class Draw extends JPanel{
 	private final int measuresPerLine = 4;
 	private String instrument;
 
-	public Draw(int numberOfMeasures, LinkedList<LocationGuitar> aL, String instrument) {
+	public Draw(int numberOfMeasures, LinkedList<GuitarInformation> aL, String instrument) {
 		this.numberOfMeasures = numberOfMeasures;
 		this.aLGuitar = aL;
 		this.instrument = instrument;
@@ -39,7 +39,7 @@ public class Draw extends JPanel{
 		
 	}
 	
-	public Draw(String instrument, LinkedList<LocationDrums> aL, int numberOfMeasures) {
+	public Draw(String instrument, LinkedList<DrumInformation> aL, int numberOfMeasures) {
 		this.numberOfMeasures = numberOfMeasures;
 		this.aLDrums = aL;
 		this.instrument = instrument;
@@ -77,7 +77,7 @@ public class Draw extends JPanel{
 		int noteX = 0;
 		int measureNumber = 1;
 		for(int j = 0; j < aLGuitar.size(); j++) {
-			LocationGuitar lg = (LocationGuitar) aLGuitar.get(j);
+			GuitarInformation lg = (GuitarInformation) aLGuitar.get(j);
 			String note = "" + lg.getFret() + "";
 			FontMetrics fm = g.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(note, g);

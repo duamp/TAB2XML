@@ -6,15 +6,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.QuadCurve;
-import models.LocationGuitar;
+import models.GuitarInformation;
 import models.ScorePartwise;
 
 public class Slurs {
-	private LinkedList<LocationGuitar> aL;
+	private LinkedList<GuitarInformation> aL;
 	private Pane p;
 	private ScorePartwise sp;
 
-	public Slurs(LinkedList<LocationGuitar> aL, Pane p, ScorePartwise sp) {
+	public Slurs(LinkedList<GuitarInformation> aL, Pane p, ScorePartwise sp) {
 		this.aL = aL;
 		this.p = p;
 		this.sp = sp;
@@ -40,7 +40,7 @@ public class Slurs {
 
 	public void drawNotesWithSlurs() {
 		for(int i = 0; i < aL.size(); i++) {
-			LocationGuitar lg = aL.get(i);
+			GuitarInformation lg = aL.get(i);
 			if(lg.isSlur()) {
 				if(aL.get(i+1).isChord()) {
 					int moveforward = findHowManyNotesInChord(i + 1);
@@ -60,7 +60,7 @@ public class Slurs {
 	}
 	public int findHowManyNotesInChord( int start) {
 		int index = 0;
-		LocationGuitar lg = aL.get(start);
+		GuitarInformation lg = aL.get(start);
 		while(lg.isChord()) {
 			lg = aL.get(start+index);
 			index++;

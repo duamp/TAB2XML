@@ -8,12 +8,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import models.LocationGuitar;
+import models.GuitarInformation;
 import models.ScorePartwise;
 import models.measure.note.Note;
 
 public class DrawGuitarNotes {
-	private LinkedList<LocationGuitar> aLGuitar;
+	private LinkedList<GuitarInformation> aLGuitar;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
 	private final int startingXSpace = 15;
@@ -24,7 +24,7 @@ public class DrawGuitarNotes {
 	private ScorePartwise sp;
 	private double divisionConstant = 1.1;
 
-	public DrawGuitarNotes(Pane p, LinkedList<LocationGuitar> aL, ScorePartwise sp) {
+	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL, ScorePartwise sp) {
 		this.p = p;
 		this.aLGuitar = aL;
 		this.sp = sp;
@@ -35,9 +35,13 @@ public class DrawGuitarNotes {
 		int measureNumber = 0;
 		int timeDuration = 0;
 		int whichMeasure = 0;
-		this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 		for(int j = 0; j < aLGuitar.size(); j++) {
-			LocationGuitar lg = (LocationGuitar) aLGuitar.get(j);
+			GuitarInformation lg = (GuitarInformation) aLGuitar.get(j);
+
+			if(j == 0) {
+				this.unitsInMeasure = setUnitsInMeasure(lg, whichMeasure);
+			}
+
 			String note = "" + lg.getFret() + "";
 			int yLocation = lg.getYCoord();	
 
@@ -85,7 +89,7 @@ public class DrawGuitarNotes {
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						timeDuration = 0;
 						whichMeasure++;
-						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
+						this.unitsInMeasure = setUnitsInMeasure(lg, whichMeasure);
 					}
 
 				}
@@ -109,25 +113,30 @@ public class DrawGuitarNotes {
 						measureNumber++;
 						whichMeasure++;
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
-						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
+						this.unitsInMeasure = setUnitsInMeasure(lg, whichMeasure);
 					}
 				}
 			}
 		}
 	}
 
-	private int setUnitsInMeasure(int whichMeasure) {
-		/* GET AMOUNT OF NOTES IN MEASURE */
-		int unitsInMeasure = 0;
-		int j =  sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().size();
-		for(int i = 0; i < j; i++) {
-			Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
-			if(n.getChord() == null && n.getDuration() != null) {
-				unitsInMeasure+= n.getDuration();
-			} else if(n.getChord() == null) {
-				unitsInMeasure+=findDuration(n.getType());
-			}
-		}
+	private int setUnitsInMeasure(GuitarInformation gi, int whichMeasure) {
+//		/* GET AMOUNT OF NOTES IN MEASURE */
+//		int unitsInMeasure = 0;
+//		int j = 0;
+//		
+//		while(gi.getMeasure() == whichMeasure) {
+//			j++;
+//		}
+//		aLGuitar.get(j)
+//		for(int i = 0; i < j; i++) {
+//			Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
+//			if(n.getChord() == null && n.getDuration() != null) {
+//				unitsInMeasure+= n.getDuration();
+//			} else if(n.getChord() == null) {
+//				unitsInMeasure+=findDuration(n.getType());
+//			}
+//		}
 		return unitsInMeasure;
 	}
 
@@ -154,12 +163,8 @@ public class DrawGuitarNotes {
 		p.getChildren().add(r); //WHITE BACKGROUND
 	}
 
-	public void drawSlurs() {
-		//if slur != null
-		sp.getParts().get(0).getMeasures().get(0).getNotesBeforeBackup().get(0).getNotations().getSlurs().get(0).getNumber();
-	}
-	
-	public LinkedList<LocationGuitar> getNoteObject(){return this.aLGuitar;}
+
+	public LinkedList<GuitarInformation> getNoteObject(){return this.aLGuitar;}
 	public int getMeasureWidth() {return this.measureWidth;}
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}

@@ -5,7 +5,7 @@ import drawings.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 
-public class LocationDrums {
+public class DrumInformation {
 	private int octave;
 	private String note;
 	private int duration;
@@ -17,7 +17,7 @@ public class LocationDrums {
 	private Pane pane;
 	private double octaveDifference = 59.5;//17/2 because 2 notes fit on one line and (17/2)*7 because 7 different notes
 	private double differenceBetweenNotes=8.5; // 17*6 lines / 12 possible notes on 6 lines
-	public LocationDrums(String note, int duration, int octave, String type, Boolean c) {
+	public DrumInformation(String note, int duration, int octave, String type, Boolean c) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;

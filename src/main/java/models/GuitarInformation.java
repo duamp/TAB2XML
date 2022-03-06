@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import models.measure.note.notations.Slur;
 
-public class LocationGuitar {
+public class GuitarInformation {
 	private int string;
 	private int fret;
 	private int duration;
@@ -18,10 +18,11 @@ public class LocationGuitar {
 	private List<Slur> slur;
 	private int noteX;
 	private int noteY;
+	private int measure;
 	@FXML
 	private Pane pane;
 
-	public LocationGuitar(int string, int fret, int duration, boolean c, List<Slur> slur, int noteX, int noteY)  {
+	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int noteX, int noteY, int measure)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
@@ -30,6 +31,7 @@ public class LocationGuitar {
 		this.slur = slur;
 		this.noteX = noteX;
 		this.noteY = noteY;
+		this.measure = measure;
 	}
 
 	public int getYCoord() {
@@ -61,4 +63,5 @@ public class LocationGuitar {
 	public int getNoteX() {return this.noteX;}
 	public int getNoteY() {return this.noteY;}
 	public List<Slur> getSlur() {return this.slur;}
+	public int getMeasure() {return this.measure;}
 }
