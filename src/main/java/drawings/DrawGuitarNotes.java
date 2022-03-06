@@ -22,13 +22,14 @@ public class DrawGuitarNotes {
 	private int unitsInMeasure = 0;
 	private int currentNoteYLocation = 0;
 	private ScorePartwise sp;
+	private double divisionConstant = 1.1;
 
 	public DrawGuitarNotes(Pane p, LinkedList<LocationGuitar> aL, ScorePartwise sp) {
 		this.p = p;
 		this.aLGuitar = aL;
 		this.sp = sp;
 	}
-	
+
 	public void drawGuitarNotes() {
 		int noteX = 40;
 		int measureNumber = 0;
@@ -61,21 +62,21 @@ public class DrawGuitarNotes {
 				 * 1. ADD WHITE BACKGROUND TO REMOVE LINE BEHIND NOTEX LOCATION
 				 * 2. ADD NEW NOTE (i.e., A, B in form on TABS ... 1, 2) IN LOCATION WITH NO BACKGROUND
 				 */
-				
+
 				removeLineBehindNote(noteX, yLocation, flag);
-			
+
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 				p.getChildren().add(t); //TEXT
 
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
 				lg.setNoteY(currentNoteYLocation + yLocation);
-				
+
 				//IF NEXT CHORD, DON'T CHANGE X YET!
 				if(j < aLGuitar.size() - 2 && !aLGuitar.get(j+1).isChord()) {
 
 					/* DETERMINES HOW CLOSE NEXT NOTE SHOULD BE */
-					noteX += ((double)lg.getDuration()/(unitsInMeasure*1.1) * this.measureWidth); 
+					noteX += ((double)lg.getDuration()/(unitsInMeasure*divisionConstant) * this.measureWidth); 
 
 					/* KEEPS TRACK OF CURRENT MEASURE  */
 					if(timeDuration == unitsInMeasure) {
@@ -129,7 +130,7 @@ public class DrawGuitarNotes {
 		}
 		return unitsInMeasure;
 	}
-	
+
 	public int findDuration(String type) {
 		switch (type){
 		case "16th":
@@ -139,7 +140,7 @@ public class DrawGuitarNotes {
 		}
 		return 8;
 	}
-	
+
 	public void removeLineBehindNote(int noteX, int yLocation, boolean flag) {
 		Rectangle r;
 		if(flag) {
@@ -152,9 +153,14 @@ public class DrawGuitarNotes {
 		r.opacityProperty().set(1);
 		p.getChildren().add(r); //WHITE BACKGROUND
 	}
-	
+
 	public void drawSlurs() {
 		//if slur != null
 		sp.getParts().get(0).getMeasures().get(0).getNotesBeforeBackup().get(0).getNotations().getSlurs().get(0).getNumber();
 	}
+	
+	public LinkedList<LocationGuitar> getNoteObject(){return this.aLGuitar;}
+	public int getMeasureWidth() {return this.measureWidth;}
+	public int getUnitsInMeasure() {return this.unitsInMeasure;}
+	public double getDivisionConstant() {return this.divisionConstant;}
 }

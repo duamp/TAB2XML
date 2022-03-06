@@ -25,6 +25,7 @@ public class Measure {
 	private final int TABx = 15;
 	private int currentMeasureCount = 0;
 	private int currentTopOfMeasureHeight = 0;
+	private int tabsDrawnAmount = 0;
 
 	public Measure(int numberofLines, Pane p, int numberOfMeasures) {
 		lines = numberofLines;
@@ -58,8 +59,6 @@ public class Measure {
 			l = new Line(measureXAdjusted, this.startingYSpace + currentTopOfMeasureHeight, this.measureWidth+measureXAdjusted, this.startingYSpace + currentTopOfMeasureHeight);	//BOTTOM
 			p.getChildren().add(l);
 
-
-
 			//Lines in Rectangle
 			for(int y = 1; y < lines; y++) {
 				l = new Line(measureXAdjusted, spaceBetweenBarsHorizontal*y + currentTopOfMeasureHeight, this.measureWidth+measureXAdjusted, spaceBetweenBarsHorizontal*y + currentTopOfMeasureHeight);	
@@ -72,7 +71,7 @@ public class Measure {
 	}
 
 	public int getCurrentMeasureCount() {
-		return this.currentMeasureCount + 1;
+		return this.currentMeasureCount;
 	}
 
 	public int getCurrentTopOfMeasureHeight() {
@@ -82,6 +81,7 @@ public class Measure {
 	public int getSpaceBetweenBarsHorizontal() {return spaceBetweenBarsHorizontal;}
 
 	public void drawTabs() {
+		
 		//WRITE TAB
 		Text T = new Text(TABx, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "T");
 		Text A = new Text(TABx, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "A");
@@ -97,14 +97,20 @@ public class Measure {
 		p.getChildren().add(T); 
 		p.getChildren().add(A); 
 		p.getChildren().add(B); 
+		
+		tabsDrawnAmount++;
 	}
 
 	public void drawMeasureNumber() {	
-		Text number = new Text(TABx - 5, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight - 60, "" + getCurrentMeasureCount() + "");
+		Text number = new Text(TABx - 5, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight - 60, "" + getCurrentMeasureCount() + 1 + "");
 		number.setFont(new Font(14));
 		p.getChildren().add(number); 
 
 	}
+
+	public int getMoveMeasureDownValue() {return this.moveMeasureDownValue;}
+	public int getHorizontalLinesInMeasure() {return this.lines;}
+	public int getTabsDrawnAmount() {return this.tabsDrawnAmount;}
 
 
 }

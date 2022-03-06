@@ -49,10 +49,10 @@ public class Slurs {
 				} else {
 					makeSlurLine(lg.getNoteX() + 3, aL.get(i+1).getNoteX() + 3, lg.getNoteY() -  10);
 				}
-				
-				if(lg.getSlur().size() == 2 && lg.getSlur().get(0).getType() == "start" && lg.getSlur().get(1).getType() == "end") {
-					i--;
-				} 
+
+//				if(aL.get(i+1).getSlur().size() == 2 && aL.get(i+1).getSlur().get(0).getType() == "start" && aL.get(i+1).getSlur().get(1).getType() == "end") {
+//					i--;
+//				} 
 				i++;
 
 			}
