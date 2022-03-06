@@ -1,16 +1,9 @@
 package drawings;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.util.LinkedList;
-
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import models.DrumInformation;
-import models.GuitarInformation;
 
 public class Measure {
 	private Pane p;

@@ -1,9 +1,7 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import GUI.Draw;
 import drawings.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;

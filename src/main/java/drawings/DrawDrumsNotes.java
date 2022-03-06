@@ -7,9 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.DrumInformation;
-import models.GuitarInformation;
-import models.ScorePartwise;
-import models.measure.note.Note;
+
 
 public class DrawDrumsNotes {
 

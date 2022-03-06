@@ -1,6 +1,5 @@
 package models;
 
-import GUI.Draw;
 import drawings.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;

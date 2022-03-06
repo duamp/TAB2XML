@@ -1,48 +1,22 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.LinkedList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import org.fxmisc.richtext.CodeArea;
 
 import drawings.DrawDrumsNotes;
 import drawings.DrawGuitarNotes;
 import drawings.Measure;
 import drawings.Slurs;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
 import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.ScorePartwise;
-import models.measure.note.Note;
-import models.Location;
 import models.DrumInformation;
-import models.GuitarInformation;
 import models.GuitarInformation;
 
 public class PreviewFileController extends Application {

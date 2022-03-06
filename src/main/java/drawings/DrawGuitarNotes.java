@@ -1,16 +1,12 @@
 package drawings;
 
-import java.awt.FontMetrics;
 import java.util.LinkedList;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.GuitarInformation;
-import models.ScorePartwise;
-import models.measure.note.Note;
 
 public class DrawGuitarNotes {
 	private LinkedList<GuitarInformation> aLGuitar;
