@@ -105,15 +105,16 @@ public class PreviewFileController extends Application {
 			aLDrums = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					DrumInformation noteInformation = new DrumInformation(
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave(),
+					DrumInformation noteInformation;
+					noteInformation = new DrumInformation(
+							this.getDisplayedStepNote(i, j),
+							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
+							this.getDisplayedStepOctave(i, j),
 							getXorO(i, j),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
-							i+1
+							i+1,
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
 							);
-
 					aLDrums.add(noteInformation);
 				}
 			}
@@ -122,32 +123,19 @@ public class PreviewFileController extends Application {
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
 					GuitarInformation noteInformation;
-					if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() != null) {
-						//(STRING, FRET, DURATION, CHORD, SLUR, ORIGINAL NOTEX, ORIGINAL NOTEY)
-						noteInformation = new GuitarInformation(
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
-								0, 
-								0, 
-								i + 1,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
-								);
-					} else {
-						noteInformation = new GuitarInformation(	
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
-								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()),
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
-								0,
-								0,
-								i + 1,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
-								);
-					}
+
+					noteInformation = new GuitarInformation(	
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
+							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
+							0,
+							0,
+							i + 1,
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+							);
+
 					aLGuitar.add(noteInformation);
 				}
 			}
@@ -156,12 +144,19 @@ public class PreviewFileController extends Application {
 
 	public void initialize() {}
 
-	public int findDuration(String type) {
-		switch (type){
-		case "16th":
-			return 16;
+	public int findDuration(String type, int i, int j) {
+		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() == null) {
+			switch (type){
+			case "16th":
+				return 16;
+			case "8":
+				return 8;
+			}
+			return 0;
+		} else {
+			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration();
 		}
-		return 0;
+
 	}
 
 	public void printSSHandle() {
@@ -175,6 +170,22 @@ public class PreviewFileController extends Application {
 		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype();
 	}
 	
+	public String getDisplayedStepNote(int i, int j) {
+		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
+			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep();
+		}
+		return "R";
+	}
+	
+	public int getDisplayedStepOctave(int i, int j) {
+		if(	sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
+			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave();
+		}
+		return -1;
+	}
+	
+	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub

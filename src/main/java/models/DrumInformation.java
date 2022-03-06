@@ -8,19 +8,20 @@ import javafx.scene.layout.Pane;
 public class DrumInformation {
 	private int octave;
 	private String note;
-	private int duration;
+	private Integer duration;
 	private double yCoord;
 	private String XorO;
 	private boolean chord;
 	private int noteX;
 	private int noteY;
 	private int measure;
+	private String type;
 
 	@FXML
 	private Pane pane;
 	private double octaveDifference = 59.5;//17/2 because 2 notes fit on one line and (17/2)*7 because 7 different notes
-	private double differenceBetweenNotes=8.5; // 17*6 lines / 12 possible notes on 6 lines
-	public DrumInformation(String note, int duration, int octave, String XorO, Boolean c, int measure) {
+	private double differenceBetweenNotes = 8.5; // 17*6 lines / 12 possible notes on 6 lines
+	public DrumInformation(String note, Integer duration, int octave, String XorO, Boolean c, int measure, String type) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;
@@ -28,6 +29,7 @@ public class DrumInformation {
 		this.XorO = XorO;
 		this.chord = c;
 		this.measure = measure;
+		this.type = type;
 	}
 
 	public double getYCoord() {
@@ -66,10 +68,9 @@ public class DrumInformation {
 		}
 		return this.yCoord;
 	}
-	public int getDuration() {return this.duration;}
 	public int getOctave() {return this.octave;}
 	public String getNote() {return this.note;}
-	public int getDutation() {return this.duration;}
+	public Integer getDuration() {return this.duration;}
 	public boolean isChord() {return this.chord;} // implement the actual value of if it is multiple notes.
 	public void setNoteX(int x) {this.noteX = x;}
 	public void setNoteY(int y) {this.noteY = y;}
@@ -77,5 +78,6 @@ public class DrumInformation {
 	public int getNoteY() {return this.noteY;}
 	public int getMeasure() {return this.measure;}
 	public String getXorO() {return this.XorO;}
+	public String getType() {return this.type;}
 
 }

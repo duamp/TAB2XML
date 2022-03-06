@@ -43,7 +43,7 @@ public class DrawDrumsNotes {
 				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 				flagMeasureChange = !flagMeasureChange;
 			}
-			
+
 			double yLocation = ld.getYCoord();
 			String note;
 			if(ld.getXorO() != null) {
@@ -124,10 +124,10 @@ public class DrawDrumsNotes {
 
 		for(int i = currentNotesPrinted; i < notesPerMeasure+currentNotesPrinted; i++) {
 			DrumInformation l = aLDrums.get(i);
-			if(!l.isChord() && l.getDuration() != 0 ) {
+			if(!l.isChord() && l.getDuration() != null ) {
 				unitsInMeasure+= l.getDuration();
 			} else if(!l.isChord()) {
-				//unitsInMeasure+=findDuration(l.getXorO());
+				unitsInMeasure+=findDuration(l.getXorO());
 			}
 		}
 

@@ -75,7 +75,7 @@ class TestingGuitar {
 	}
 
 	@Test
-	void correct__added_one_notes() {
+	void correctly_added__one_note() {
 		Pane p = new Pane();
 		Measure m = new Measure(5, p, 1); 
 		m.drawMeasure();
