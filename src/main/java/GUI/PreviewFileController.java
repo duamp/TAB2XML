@@ -86,7 +86,7 @@ public class PreviewFileController extends Application {
 
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
-			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums, sp);
+			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums);
 			m.drawMeasure(); //DRAWS MEASURES
 			d.drawDrumNotes();
 		}
@@ -109,8 +109,9 @@ public class PreviewFileController extends Application {
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null
+							getXorO(i, j),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
+							i+1
 							);
 
 					aLDrums.add(noteInformation);
@@ -167,6 +168,13 @@ public class PreviewFileController extends Application {
 		System.out.println("works");
 	}
 
+	public String getXorO(int i, int j) {
+		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead() == null) {
+			return null;
+		}
+		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype();
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub

@@ -107,7 +107,7 @@ public class DrawGuitarNotes {
 				lg.setNoteY(currentNoteYLocation + yLocation);
 
 				if((aLGuitar.size() - 2 > j+1) && !aLGuitar.get(j+1).isChord()) {
-					noteX += ((double)lg.getDuration()/(unitsInMeasure*1.1) * measureWidth); 
+					noteX += ((double)lg.getDuration()/(unitsInMeasure*divisionConstant) * measureWidth); 
 					if(timeDuration == unitsInMeasure) {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */

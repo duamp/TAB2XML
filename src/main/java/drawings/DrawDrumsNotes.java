@@ -7,6 +7,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import models.DrumInformation;
+import models.GuitarInformation;
 import models.ScorePartwise;
 import models.measure.note.Note;
 
@@ -19,25 +20,38 @@ public class DrawDrumsNotes {
 	private int currentNoteYLocation = 0;
 	private int unitsInMeasure = 0;
 	private Pane p;
-	private ScorePartwise sp;
+	private 	int currentNotesPrinted = 0;
+	private double divisionConstant = 1.1;
 
 
-	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums, ScorePartwise sp) {
+	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums) {
 		this.aLDrums = aLDrums;
 		this.p = pane;
-		this.sp =sp;
 	}
 
 
 	public void drawDrumNotes() {
-		int noteX = 40;
+		int noteX = 35;
 		int measureNumber = 0;
 		int timeDuration = 0;
 		int whichMeasure = 0;
-		this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
-
+		boolean flagMeasureChange = true;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
+
+			if(flagMeasureChange) {
+				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
+				flagMeasureChange = !flagMeasureChange;
+			}
+			
+			double yLocation = ld.getYCoord();
+			String note;
+			if(ld.getXorO() != null) {
+				note= "x";
+			}else {
+				note="o";
+			}
+
 			if(!ld.isChord()) {
 				timeDuration += ld.getDuration();
 				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
@@ -46,16 +60,20 @@ public class DrawDrumsNotes {
 					measureNumber = 0;
 					noteX = this.startingXSpace + 20;
 				}
-				double yLocation = ld.getYCoord();
-				Rectangle r = new Rectangle(noteX, currentNoteYLocation + yLocation - 15, 10, 15);
-				r.setFill(Color.WHITE);
-				r.opacityProperty().set(1);
-				Text t = new Text(noteX, currentNoteYLocation + yLocation, ld.getNote());// implement notes to actually draw here
-				p.getChildren().add(r); //WHITE BACKGROUND
+
+				removeLineBehindNote(noteX, yLocation);
+
+				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				p.getChildren().add(t); //TEXT
+				currentNotesPrinted++;
+
+				//RECORDS noteX && noteY in arraylist for later access
+				ld.setNoteX(noteX); 	
+				ld.setNoteY((int)(currentNoteYLocation + yLocation));
 
 				if(j < aLDrums.size() - 2 && !aLDrums.get(j+1).isChord()) {
-					noteX += ((double)ld.getDuration()/unitsInMeasure * this.measureWidth); 
+					noteX += (((double)ld.getDuration()/(unitsInMeasure*divisionConstant)) * this.measureWidth); 
+
 					/* KEEPS TRACK OF CURRENT MEASURE  */
 					if(timeDuration == unitsInMeasure) {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
@@ -64,19 +82,21 @@ public class DrawDrumsNotes {
 						timeDuration = 0;
 						whichMeasure++;
 						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
-
+						flagMeasureChange=!flagMeasureChange;
 					}
 				}
-			}else {
-				double yLocation = ld.getYCoord();
-				Rectangle r = new Rectangle(noteX, currentNoteYLocation + yLocation-15, 10, 15);
-				r.setFill(Color.WHITE);
-				r.opacityProperty().set(1);
-				Text t = new Text(noteX, currentNoteYLocation + yLocation, "o");// implement notes to actually draw here
-				p.getChildren().add(r);
+			} else {
+				removeLineBehindNote(noteX, yLocation);
+				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				p.getChildren().add(t);
+				currentNotesPrinted++;
+
+				//RECORDS noteX && noteY in arraylist for later access
+				ld.setNoteX(noteX); 	
+				ld.setNoteY((int)(currentNoteYLocation + yLocation));
+
 				if((aLDrums.size() - 2 > j+1) && !aLDrums.get(j+1).isChord()) {
-					noteX += ((double)ld.getDuration()/unitsInMeasure * measureWidth) + 10; 
+					noteX += ((double)ld.getDuration()/(unitsInMeasure*divisionConstant) * measureWidth); 
 					if(timeDuration == unitsInMeasure) {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
@@ -84,7 +104,7 @@ public class DrawDrumsNotes {
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						whichMeasure++;
 						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
-
+						flagMeasureChange=!flagMeasureChange;
 					}
 				}
 			}
@@ -92,18 +112,25 @@ public class DrawDrumsNotes {
 		}
 	}
 
-	public int setUnitsInMeasure(int whichMeasure) {
+	private int setUnitsInMeasure(int whichMeasure) {
 		/* GET AMOUNT OF NOTES IN MEASURE */
 		int unitsInMeasure = 0;
-		int j =  sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().size();
-		for(int i = 0; i < j; i++) {
-			Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
-			if(n.getChord() == null && n.getDuration() != null) {
-				unitsInMeasure+= n.getDuration();
-			} else if(n.getChord() == null) {
-				unitsInMeasure+=findDuration(n.getType());
+		int k = 0;
+		int notesPerMeasure = 0;
+		while(this.currentNotesPrinted + k < aLDrums.size() && aLDrums.get(this.currentNotesPrinted + k).getMeasure() == whichMeasure + 1) {
+			notesPerMeasure++;
+			k++;
+		}
+
+		for(int i = currentNotesPrinted; i < notesPerMeasure+currentNotesPrinted; i++) {
+			DrumInformation l = aLDrums.get(i);
+			if(!l.isChord() && l.getDuration() != 0 ) {
+				unitsInMeasure+= l.getDuration();
+			} else if(!l.isChord()) {
+				//unitsInMeasure+=findDuration(l.getXorO());
 			}
 		}
+
 		return unitsInMeasure;
 	}
 
@@ -116,5 +143,19 @@ public class DrawDrumsNotes {
 		}
 		return 8;
 	}
+
+	public void removeLineBehindNote(int noteX, double yLocation) {
+		Rectangle r;
+		r = new Rectangle(noteX, currentNoteYLocation + yLocation, 10, 15);
+		r.setFill(Color.WHITE);
+		r.opacityProperty().set(1);
+		p.getChildren().add(r); //WHITE BACKGROUND
+	}
+
+	public LinkedList<DrumInformation> getNoteObject(){return this.aLDrums;}
+	public int getMeasureWidth() {return this.measureWidth;}
+	public int getUnitsInMeasure() {return this.unitsInMeasure;}
+	public double getDivisionConstant() {return this.divisionConstant;}
+	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
 
 }
