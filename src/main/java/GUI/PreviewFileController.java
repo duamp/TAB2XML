@@ -68,7 +68,7 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
-	
+
 
 	public void update(ScorePartwise sp) throws IOException{
 		instrument = sp.getPartList().getScoreParts().get(0).getPartName();
@@ -82,12 +82,14 @@ public class PreviewFileController extends Application {
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
 			Slurs s = new Slurs(aLGuitar, this.pane, sp);
 			s.drawNotesWithSlurs();
-			
+
 		} else {
-			m = new Measure(6,this.pane, this.getMeasureNumber());
-			DrawDrumsNotes d = new DrawDrumsNotes();
+			m = new Measure(4,this.pane, this.getMeasureNumber());
+			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums, sp);
+			m.drawMeasure(); //DRAWS MEASURES
+			d.drawDrumNotes();
 		}
-		
+
 	}
 
 	public PreviewFileController ()  {}
@@ -105,7 +107,10 @@ public class PreviewFileController extends Application {
 					LocationDrums noteInformation = new LocationDrums(
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave());
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null
+							);
 
 					aLDrums.add(noteInformation);
 				}
@@ -116,7 +121,7 @@ public class PreviewFileController extends Application {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
 					LocationGuitar noteInformation;
 					if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() != null) {
-						 //(STRING, FRET, DURATION, CHORD, SLUR, ORIGINAL NOTEX, ORIGINAL NOTEY)
+						//(STRING, FRET, DURATION, CHORD, SLUR, ORIGINAL NOTEX, ORIGINAL NOTEY)
 						noteInformation = new LocationGuitar(
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
 								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
@@ -146,7 +151,7 @@ public class PreviewFileController extends Application {
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// TODO Auto-generated method stub

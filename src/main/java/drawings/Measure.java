@@ -37,15 +37,15 @@ public class Measure {
 		startingYSpace=spaceBetweenBarsHorizontal*lines-1; //GUITAR TAB HAS 6 LINES
 		int measureXAdjusted = startingXSpace;
 		//draw measure box
-		drawTabs();
+		drawTabsorClef();
 		drawMeasureNumber();
 		for(int i = 0; i < this.numberOfMeasures; i++) {
 			if(currentMeasureCount % measuresPerLine == 0 && currentMeasureCount != 0) {
 				currentTopOfMeasureHeight += moveMeasureDownValue;
 				measureXAdjusted = startingXSpace;
-				
+
 				/* DRAW T A B && MEASURE NUMBER BEGINNING OF EACH MEASURE */
-				drawTabs();
+				drawTabsorClef();
 				drawMeasureNumber();
 			}
 
@@ -80,29 +80,32 @@ public class Measure {
 
 	public int getSpaceBetweenBarsHorizontal() {return spaceBetweenBarsHorizontal;}
 
-	public void drawTabs() {
-		
-		//WRITE TAB
-		Text T = new Text(TABx, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "T");
-		Text A = new Text(TABx, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "A");
-		Text B = new Text(TABx, spaceBetweenBarsHorizontal*4 + currentTopOfMeasureHeight, "B");
+	public void drawTabsorClef() {
+		if(this.lines == 5) {
+			//WRITE TAB
+			Text T = new Text(TABx, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "T");
+			Text A = new Text(TABx, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "A");
+			Text B = new Text(TABx, spaceBetweenBarsHorizontal*4 + currentTopOfMeasureHeight, "B");
 
 
-		/* BOLD T A B */
-		T.setFont(new Font(20));
-		A.setFont(new Font(20));
-		B.setFont(new Font(20));
+			/* BOLD T A B */
+			T.setFont(new Font(20));
+			A.setFont(new Font(20));
+			B.setFont(new Font(20));
 
-		/* add T A B to pane */
-		p.getChildren().add(T); 
-		p.getChildren().add(A); 
-		p.getChildren().add(B); 
-		
-		tabsDrawnAmount++;
+			/* add T A B to pane */
+			p.getChildren().add(T); 
+			p.getChildren().add(A); 
+			p.getChildren().add(B); 
+
+			tabsDrawnAmount++;
+		} else {
+
+		}
 	}
 
 	public void drawMeasureNumber() {	
-		Text number = new Text(TABx - 5, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight - 60, "" + getCurrentMeasureCount() + 1 + "");
+		Text number = new Text(TABx - 5, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight - 60, "" + (getCurrentMeasureCount() + 1) + "");
 		number.setFont(new Font(14));
 		p.getChildren().add(number); 
 
