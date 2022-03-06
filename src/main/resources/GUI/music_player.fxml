@@ -51,7 +51,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Slider fx:id="volumeSlider" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
+                  <Slider fx:id="volumeSlider" disable="true" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

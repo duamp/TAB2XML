@@ -15,6 +15,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.jfugue.midi.MidiFileManager;
 import org.jfugue.midi.MidiParserListener;
@@ -38,7 +39,9 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
-public class PlayerController extends TimerTask {
+import nu.xom.ParsingException;
+import nu.xom.ValidityException;
+public class PlayerController {
 	
 	private Sequencer sequencer;
 	private Timeline mediaSliderAnimation;
@@ -48,26 +51,14 @@ public class PlayerController extends TimerTask {
 
 	 //TODO: remove awful scrolling sound
 	// TODO: remove play button restart bug
-	public PlayerController(String musicXML) {
+	public PlayerController(XmlSequence sequence) throws InvalidMidiDataException, MidiUnavailableException, ValidityException, ParserConfigurationException, ParsingException, IOException {
 
-	        try {
-		        sequencer = MidiSystem.getSequencer();
-		        sequencer.setSequence(XmlSequence.generate(musicXML));
-		        sequencer.open();
-		        
-			} catch (MidiUnavailableException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidMidiDataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+        sequencer = MidiSystem.getSequencer();
+        sequencer.setSequence(sequence.generateSequence());
+        sequencer.open();
 	       
 	}
 	
-	
-
-
 
 	// https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
 	@FXML 
@@ -83,8 +74,6 @@ public class PlayerController extends TimerTask {
 
 		 // both for dragging / clicking for scrubbing 
 		 videoSlider.setOnMouseDragged((event) -> {
-			 System.out.println(videoSlider.getValue());
-			 System.out.println(sequencer.getTickPosition());
 			 //TODO: remove awful scrolling sound
 			
 			 //??
@@ -98,7 +87,6 @@ public class PlayerController extends TimerTask {
 		 });
 		 
 		 videoSlider.setOnMousePressed((event) -> {
-			 System.out.println((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
 			 
 			 
@@ -128,7 +116,6 @@ public class PlayerController extends TimerTask {
 
 					@Override
 					public void handle(ActionEvent event) {
-						System.out.println((double) sequencer.getTickPosition() / sequencer.getTickLength());
 						double percentage = (double) sequencer.getTickPosition() / sequencer.getTickLength();
 						videoSlider.setValue(percentage * 100);						
 					}
@@ -162,9 +149,9 @@ public class PlayerController extends TimerTask {
 				new ExtensionFilter("MIDI file", "*.midi")
 				);
 		
-		// block; arbitrary component
+		// window; arbitrary component
 		File file = fileChooser.showSaveDialog(videoSlider.getScene().getWindow());
-		
+		System.out.println(file);
 		if (file != null) {
           try {
 			MidiFileManager.save(sequencer.getSequence(), file);
@@ -188,11 +175,7 @@ public class PlayerController extends TimerTask {
 
 
 
-	@Override
-	public void run() {
-		
-		System.out.println(sequencer.getTickPosition());
-	}
+	
 	
 	private void wait(int ms) {
 		try

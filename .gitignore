@@ -1,5 +1,6 @@
 .DS_Store
-.metadata
+.metadata/
+.metadata/.plugins/		
 .idea
 # Ignore Gradle project-specific cache directory
 .gradle
@@ -11,3 +12,11 @@ build
 /.settings/org.eclipse.jdt.core.prefs
 *.prefs
 *.cfs
+.metadata/.plugins/org.eclipse.core.resources/
+*.prefs
+*.resources
+*.tree
+*.index
+.metadata/.*
+.metadata/.log
+.metadata/.plugins/

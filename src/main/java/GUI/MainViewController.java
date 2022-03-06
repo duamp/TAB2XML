@@ -16,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.fxmisc.richtext.CodeArea;
@@ -23,6 +25,8 @@ import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 
 import converter.Converter;
+import converter.Score;
+import converter.TabSection;
 import converter.measure.TabMeasure;
 import custom_exceptions.TXMLException;
 import javafx.application.Application;
@@ -47,10 +51,12 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import models.ScorePartwise;
+import models.measure.Measure;
 import music_player.PlayerController;
 import music_player.XmlSequence;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
+import utility.MusicXMLCreator;
 import utility.Range;
 import utility.Settings;
 
@@ -78,6 +84,7 @@ public class MainViewController extends Application {
 	@FXML  Button saveMXLButton;
 	@FXML  Button showMXLButton;
 	@FXML  Button previewButton;
+	@FXML  Button playButton;
 	@FXML  Button goToline;
 	@FXML  ComboBox<String> cmbScoreType;
 
@@ -392,12 +399,14 @@ public class MainViewController extends Application {
 					saveMXLButton.setDisable(true);
 					previewButton.setDisable(true);
 					showMXLButton.setDisable(true);
+					playButton.setDisable(true);
 				}
 				else
 				{
 					saveMXLButton.setDisable(false);
 					previewButton.setDisable(false);
 					showMXLButton.setDisable(false);
+					playButton.setDisable(false);
 				}
 				return highlighter.computeHighlighting(text);
 			}
@@ -410,12 +419,19 @@ public class MainViewController extends Application {
 	// by me patrick 
 	@FXML
 	private void showPlayerHandle() throws IOException, TXMLException, ValidityException, ParserConfigurationException, ParsingException{
-		
+
+			XmlSequence sequence = new XmlSequence(mainText.getText(), converter);
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/music_player.fxml"));
 			
 			// need custom parameterized constructor
 			loader.setControllerFactory(c -> {
-				return new PlayerController(converter.getMusicXML());
+				try {
+						return new PlayerController(sequence);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				return c;
 			});
 			
 	        Parent root = (Parent) loader.load();
