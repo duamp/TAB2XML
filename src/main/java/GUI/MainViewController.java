@@ -91,8 +91,6 @@ public class MainViewController extends Application {
 
 	public int measureNumber;
 
-
-
 	public MainViewController() {
 		Settings s = Settings.getInstance();
 		prefs = Preferences.userRoot();
@@ -329,17 +327,28 @@ public class MainViewController extends Application {
 	@FXML
 	private void previewButtonHandle() throws IOException, TXMLException {
 		System.out.println("Preview Button Clicked!");
+		Parent root;
 		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
+			root = loader.load();
 			ScorePartwise sp = converter.getScore().getModel();
-			PreviewFileController controller = new PreviewFileController(sp);
+			PreviewFileController controller = loader.getController();
+			controller.setMainViewController(this);
+			controller.update(sp);
+			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
+
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
 	}
 
-
-
+//	E|-----------0-----|-0---------------|
+//	B|---------0---0---|-0---------------|
+//	G|-------1-------1-|-1---------------|
+//	D|-----2-----------|-2---------------|
+//	A|---2-------------|-2---------------|
+//	E|-0---------------|-0---------------|
 
 	public void refresh() {
 		mainText.replaceText(new IndexRange(0, mainText.getText().length()), mainText.getText()+" ");
