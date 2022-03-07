@@ -41,18 +41,22 @@ public class Slurs {
 		for(int i = 0; i < aL.size(); i++) {
 			GuitarInformation lg = aL.get(i);
 			if(lg.isSlur()) {
-				if(aL.get(i+1).isChord()) {
+
+				if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
+					continue;
+				}
+				else if(aL.get(i+1).isChord()) {
 					int moveforward = findHowManyNotesInChord(i + 1);
 					i += moveforward;
 					makeSlurLine(lg.getNoteX() + 3, aL.get(i).getNoteX() + 3, lg.getNoteY() -  10);
-				} else {
+				} 
+				else {
 					makeSlurLine(lg.getNoteX() + 3, aL.get(i+1).getNoteX() + 3, lg.getNoteY() -  10);
 				}
 
-//				if(aL.get(i+1).getSlur().size() == 2 && aL.get(i+1).getSlur().get(0).getType() == "start" && aL.get(i+1).getSlur().get(1).getType() == "end") {
-//					i--;
-//				} 
-				i++;
+				//				if(aL.get(i+1).getSlur().size() == 2 && aL.get(i+1).getSlur().get(0).getType() == "start" && aL.get(i+1).getSlur().get(1).getType() == "end") {
+				//					i--;
+				//				} 
 
 			}
 		}
