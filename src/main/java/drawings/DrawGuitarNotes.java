@@ -63,10 +63,7 @@ public class DrawGuitarNotes {
 				 */
 
 				removeLineBehindNote(noteX, yLocation, flag);
-
-				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
-				p.getChildren().add(t); //TEXT
-				currentNotesPrinted++;
+				printNote(lg, noteX, yLocation, note);
 
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
@@ -95,9 +92,8 @@ public class DrawGuitarNotes {
 				 * Flag indicates fret >= 10 because Rectange to remove background space should be wider
 				 */
 				removeLineBehindNote(noteX, yLocation, flag);
-				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
-				p.getChildren().add(t);
-				currentNotesPrinted++;
+				printNote(lg, noteX, yLocation, note);
+
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
 				lg.setNoteY(currentNoteYLocation + yLocation);
@@ -151,9 +147,9 @@ public class DrawGuitarNotes {
 	public int findDuration(String type) {
 		switch (type){
 		case "16th":
-			return 16;
-		case "8th":
 			return 8;
+		case "eight":
+			return 16;
 		}
 		return 8;
 	}
@@ -169,6 +165,16 @@ public class DrawGuitarNotes {
 		r.setFill(Color.WHITE);
 		r.opacityProperty().set(1);
 		p.getChildren().add(r); //WHITE BACKGROUND
+	}
+
+	public void printNote(GuitarInformation g, int noteX, int yLocation, String note) {
+		//if (g.getGrace() == null) {
+			Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
+			p.getChildren().add(t); //TEXT
+			currentNotesPrinted++;
+		//} else {
+			
+		//}
 	}
 
 

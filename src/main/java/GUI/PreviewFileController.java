@@ -98,18 +98,15 @@ public class PreviewFileController extends Application {
 			aLGuitar = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					GuitarInformation noteInformation;
-
-					noteInformation = new GuitarInformation(	
+					GuitarInformation noteInformation = new GuitarInformation(	
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
 							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
-							0,
-							0,
 							i + 1,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace()
 							);
 
 					aLGuitar.add(noteInformation);

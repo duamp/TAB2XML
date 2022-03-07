@@ -5,6 +5,7 @@ import java.util.List;
 import drawings.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import models.measure.note.Grace;
 import models.measure.note.notations.Slur;
 
 public class GuitarInformation {
@@ -18,20 +19,20 @@ public class GuitarInformation {
 	private int noteY;
 	private int measure;
 	private String type;
+	private Grace grace; 
 	@FXML
 	private Pane pane;
 
-	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int noteX, int noteY, int measure, String type)  {
+	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int measure, String type, Grace g)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
 		this.location = getYCoord();
 		this.chord = c;
 		this.slur = slur;
-		this.noteX = noteX;
-		this.noteY = noteY;
 		this.measure = measure;
 		this.type = type;
+		this.grace = g;
 	}
 
 	public int getYCoord() {
@@ -65,5 +66,7 @@ public class GuitarInformation {
 	public List<Slur> getSlur() {return this.slur;}
 	public int getMeasure() {return this.measure;}
 	public String getType() {return this.type;}
+	public Grace getGrace() {return this.grace;}
+
 
 }
