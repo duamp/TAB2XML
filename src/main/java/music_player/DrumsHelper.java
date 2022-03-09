@@ -31,7 +31,7 @@ public class DrumsHelper {
 		return 'q';
 	}
 
-     public static HashMap<String,Instrument> getInstruments() {
+     public static String getInstrument(String instrumentID) {
     	HashMap <String,Instrument>  map = new HashMap<>();
     	// some sounds might be off
     	map.put("P1-I52", Instrument.RIDE_CYMBAL_2);
@@ -47,8 +47,9 @@ public class DrumsHelper {
     	map.put("P1-I44", Instrument.HIGH_FLOOR_TOM);
     	map.put("P1-I36", Instrument.BASS_DRUM);
     	map.put("P1-I45", Instrument.PEDAL_HI_HAT);
-		return map;
     	
+    	
+		return map.get(instrumentID).toString();    	
     }
 	
 

@@ -92,11 +92,11 @@ public class XmlSequence {
 	    	return sequence;
     	
 	}
-	
+
+
 	private Sequence generateDrums() {
 		System.out.println("generating drums");
 		
-    	Map <String,Instrument> instruments = DrumsHelper.getInstruments();
     	
     	// appending several times
 		StringBuilder pattern = new StringBuilder("V9");
@@ -104,15 +104,29 @@ public class XmlSequence {
 		try {
 			for (Part i : score.getModel().getParts()) {
 				for (Measure j : i.getMeasures()) {
-					for (Note k : j.getNotesBeforeBackup()) {
-						
-						char duration = DrumsHelper.convertDuration(k.getType());
-						String instrumentID = instruments.get(k.getInstrument().getId()).toString();
-						String chord =  DrumsHelper.createChord(k.getChord(), instrumentID);
-						
-						pattern.append(String.format("%s[%s]%c", chord, instrumentID, duration));
+					// if measure is empty
+					if (j.getNotesBeforeBackup() != null) {
+						for (Note k : j.getNotesBeforeBackup()) {
+							System.out.println(k.getNotations().getSlurs().get(0));
+							System.out.println(k.getNotations().getTieds().get(0));
+							String instrument;
+							String format;
+							
+							if (k.getRest() != null) {
+								instrument = "R";
+								format = "%s%s%c";
+							}
+							// valid instrument
+							else {
+								instrument = DrumsHelper.getInstrument(k.getInstrument().getId());
+								format = "%s[%s]%c";
+							}
+							char duration = DrumsHelper.convertDuration(k.getType());
+							String chord =  DrumsHelper.createChord(k.getChord(), instrument);
+							pattern.append(String.format(format, chord, instrument, duration));
 					}
 				}
+			}
 			}
 		
 			}
@@ -131,9 +145,14 @@ public class XmlSequence {
 	public String getPattern() {
 		return pattern;
 	}
+	
+	public void getSlurs() {
+		
+	}
     
     public static void main(String[] args) {
-    
+    	Player play = new Player();
+    	play.play("A Rw Rw Rw Rw Rw Rw Rw Rw Rw Rw Rw Rw");
     }
 
 }

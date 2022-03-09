@@ -92,9 +92,8 @@ public class MusicPlayerTest {
 	@Test
 	public static void testUndefinedInstrument() {
 	
-		Map<String, Instrument> map = DrumsHelper.getInstruments();
 		// does not exist in list of suported instruments
-		assertNull(map.get("P1-1799"));
+		assertNull(DrumsHelper.getInstrument("P1-1799"));
 		
 		
 	}
