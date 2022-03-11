@@ -6,6 +6,7 @@ import drawings.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import models.measure.note.Grace;
+import models.measure.note.notations.Slide;
 import models.measure.note.notations.Slur;
 
 public class GuitarInformation {
@@ -20,10 +21,11 @@ public class GuitarInformation {
 	private int measure;
 	private String type;
 	private Grace grace; 
+	private List<Slide> slides;
 	@FXML
 	private Pane pane;
 
-	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int measure, String type, Grace g)  {
+	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int measure, String type, Grace g, List<Slide> s)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
@@ -33,6 +35,7 @@ public class GuitarInformation {
 		this.measure = measure;
 		this.type = type;
 		this.grace = g;
+		this.slides = s;
 	}
 
 	public int getYCoord() {
@@ -67,6 +70,9 @@ public class GuitarInformation {
 	public int getMeasure() {return this.measure;}
 	public String getType() {return this.type;}
 	public Grace getGrace() {return this.grace;}
+	public List<Slide> getSlide() {return this.slides;}
+	public boolean isSlide() {return this.slides == null;}
+
 
 
 }

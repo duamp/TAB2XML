@@ -181,7 +181,6 @@ public class DrawGuitarNotes {
 			p.getChildren().add(t); //TEXT
 			currentNotesPrinted++;
 			
-
 	}
 
 

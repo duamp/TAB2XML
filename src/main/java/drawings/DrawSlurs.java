@@ -8,15 +8,13 @@ import javafx.scene.shape.QuadCurve;
 import models.ScorePartwise;
 import note_information.GuitarInformation;
 
-public class Slurs {
+public class DrawSlurs {
 	private LinkedList<GuitarInformation> aL;
 	private Pane p;
-	private ScorePartwise sp;
 
-	public Slurs(LinkedList<GuitarInformation> aL, Pane p, ScorePartwise sp) {
+	public DrawSlurs(LinkedList<GuitarInformation> aL, Pane p) {
 		this.aL = aL;
 		this.p = p;
-		this.sp = sp;
 	}
 
 	public void makeSlurLine(int noteX1, int noteX2, int noteY) {

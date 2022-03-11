@@ -6,8 +6,9 @@ import java.util.LinkedList;
 
 import drawings.DrawDrumsNotes;
 import drawings.DrawGuitarNotes;
+import drawings.DrawSlides;
 import drawings.Measure;
-import drawings.Slurs;
+import drawings.DrawSlurs;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -63,8 +64,10 @@ public class PreviewFileController extends Application {
 			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar);
 			m.drawMeasure(); //DRAWS MEASURES
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
-			Slurs s = new Slurs(aLGuitar, this.pane, sp);
+			DrawSlurs s = new DrawSlurs(aLGuitar, this.pane);
 			s.drawNotesWithSlurs();
+			DrawSlides sl = new DrawSlides(aLGuitar, this.pane);
+		//	sl.drawSlides();
 
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
@@ -114,7 +117,8 @@ public class PreviewFileController extends Application {
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
 							i + 1,
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace()
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlides() 
 							);
 
 					aLGuitar.add(noteInformation);
