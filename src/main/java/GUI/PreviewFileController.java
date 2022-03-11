@@ -11,13 +11,21 @@ import drawings.Slurs;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Paper;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.ScorePartwise;
-import models.DrumInformation;
-import models.GuitarInformation;
+import note_information.DrumInformation;
+import note_information.*;
 
 public class PreviewFileController extends Application {
 
@@ -134,7 +142,28 @@ public class PreviewFileController extends Application {
 
 	@FXML
 	public void printSSHandle() {
-		System.out.println("works");
+		System.out.println("Printing");
+		WritableImage wi = pane.snapshot(null, null);
+		
+		Printer p = Printer.getDefaultPrinter();
+		PageLayout l = p.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+		
+		ImageView iv = new ImageView(wi);
+
+		System.out.println(l.getPrintableHeight());
+		System.out.println(l.getPrintableWidth());
+		
+		double s = Math.min(l.getPrintableWidth()/wi.getWidth(), l.getPrintableHeight()/wi.getHeight());
+		iv.getTransforms().add(new Scale(s,s));
+		PrinterJob pj = PrinterJob.createPrinterJob();
+		if(pj == null || !pj.showPageSetupDialog(pane.getScene().getWindow())) {
+			System.out.println("Error Printing");
+		}else {
+			if(pj.printPage(iv)) {
+				pj.endJob();
+			}
+		}
+		System.out.println("Saved");
 	}
 
 	public String getXorO(int i, int j) {

@@ -1,4 +1,4 @@
-package models;
+package note_information;
 
 import java.util.List;
 

@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.QuadCurve;
-import models.GuitarInformation;
 import models.ScorePartwise;
+import note_information.GuitarInformation;
 
 public class Slurs {
 	private LinkedList<GuitarInformation> aL;

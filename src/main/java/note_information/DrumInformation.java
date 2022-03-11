@@ -1,4 +1,4 @@
-package models;
+package note_information;
 
 import drawings.Measure;
 import javafx.fxml.FXML;

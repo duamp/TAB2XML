@@ -5,8 +5,11 @@ import java.util.LinkedList;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import models.GuitarInformation;
+import note_information.GuitarInformation;
 
 public class DrawGuitarNotes {
 	private LinkedList<GuitarInformation> aLGuitar;
@@ -168,13 +171,17 @@ public class DrawGuitarNotes {
 	}
 
 	public void printNote(GuitarInformation g, int noteX, int yLocation, String note) {
-		//if (g.getGrace() == null) {
 			Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
+			
+			if(g.getGrace() != null) {
+				t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);
+				t.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 9));
+			}
+			
 			p.getChildren().add(t); //TEXT
 			currentNotesPrinted++;
-		//} else {
 			
-		//}
+
 	}
 
 
