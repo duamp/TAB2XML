@@ -38,6 +38,13 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <children>
+                  <Button fx:id="saveButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefWidth="115.0" text="Save Music" onAction="#saveSSHandle">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Button>
+               </children>
+               <children>
                   <Button fx:id="printButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefWidth="115.0" text="Print Music" onAction="#printSSHandle">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

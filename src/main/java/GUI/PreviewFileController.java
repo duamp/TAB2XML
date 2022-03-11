@@ -2,7 +2,8 @@ package GUI;
 
 import java.io.IOException;
 import java.util.LinkedList;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import drawings.DrawDrumsNotes;
 import drawings.DrawGuitarNotes;
@@ -11,8 +12,18 @@ import drawings.Slurs;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Paper;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
+import javafx.scene.Parent;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.ScorePartwise;
@@ -134,10 +145,45 @@ public class PreviewFileController extends Application {
 		}
 
 	}
-
+	@FXML
+	public void saveSSHandle() {
+		System.out.println("Saving");
+		Parent root;
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/SaveSheetMusic.fxml"));
+			root = loader.load();
+			SaveSheetMusic controller = loader.getController();
+			controller.setMainViewController(mvc, pane);
+			Window convertWindow = mvc.openNewWindow(root, "Save MusicXML");
+		} catch (IOException e) {
+			Logger logger = Logger.getLogger(getClass().getName());
+			logger.log(Level.SEVERE, "Failed to create new Window.", e);
+		}		
+	}
 	@FXML
 	public void printSSHandle() {
-		System.out.println("works");
+		System.out.println("Printing");
+		WritableImage wi = pane.snapshot(null, null);
+		
+		Printer p = Printer.getDefaultPrinter();
+		double s;
+		if(p == null) {
+			s = Math.min(487.0/wi.getWidth(),734.0/wi.getHeight());
+		}else {
+			PageLayout l = p.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+			s = Math.min(l.getPrintableWidth()/wi.getWidth(), l.getPrintableHeight()/wi.getHeight());
+		}
+		ImageView iv = new ImageView(wi);
+		iv.getTransforms().add(new Scale(s,s));
+		PrinterJob pj = PrinterJob.createPrinterJob();
+		if(pj == null || !pj.showPageSetupDialog(pane.getScene().getWindow())) {
+			System.out.println("Error Printing");
+		}else {
+			if(pj.printPage(iv)) {
+				pj.endJob();
+			}
+		}
+		System.out.println("Saved");
 	}
 
 	public String getXorO(int i, int j) {

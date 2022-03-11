@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -18,7 +19,6 @@ public class SaveMXLController extends Application {
     @FXML private TextField titleField;
     @FXML private TextField artistField;
     @FXML private TextField fileNameField;
-    
     public void setMainViewController(MainViewController mvcInput) {
     	mvc = mvcInput;
     }
