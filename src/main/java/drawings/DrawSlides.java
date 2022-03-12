@@ -23,28 +23,34 @@ public class DrawSlides {
 			GuitarInformation lg = aL.get(i);
 			if(lg.isSlide()) {
 
-				if (lg.getSlide().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
+				if (lg.getSlide().get(0).getType().equals("stop") && lg.getSlide().size() == 1) {
 					continue;
 				}
 				else if(aL.get(i+1).isChord()) {
 					int moveforward = findHowManyNotesInChord(i + 1);
 					i += moveforward;
-					makeSlideLine(lg.getNoteX() + 3, aL.get(i).getNoteX() + 3, lg.getNoteY() -  10);
+					makeSlideLine(lg.getNoteX() + 3, aL.get(i).getNoteX() + 3, lg.getNoteY() -  10, i);
 				} 
 				else {
-					makeSlideLine(lg.getNoteX() + 3, aL.get(i+1).getNoteX() + 3, lg.getNoteY() -  10);
+					makeSlideLine(lg.getNoteX() + 3, aL.get(i+1).getNoteX() + 3, lg.getNoteY() -  10, i);
 				}
 
-				//				if(aL.get(i+1).getSlur().size() == 2 && aL.get(i+1).getSlur().get(0).getType() == "start" && aL.get(i+1).getSlur().get(1).getType() == "end") {
-				//					i--;
-				//				} 
 
 			}
 		}
 	}
 	
-	public void makeSlideLine(int noteX1, int noteX2, int noteY) {
-		Line l = new Line(noteX1, noteY, noteX2, noteY);
+	public void makeSlideLine(int noteX1, int noteX2, int noteY, int index) {
+		int noteYfirst = noteY;
+		int noteYsecond = noteY;
+		if(aL.get(index + 1) != null && aL.get(index).getFret() > aL.get(index + 1).getFret()) {
+			noteYfirst = noteY + 9;
+			noteYsecond = noteY + 3;
+		} else {
+			noteYfirst = noteY + 3;
+			noteYsecond = noteY + 9;
+		}
+		Line l = new Line(noteX1 + 10, noteYfirst, noteX2 - 10, noteYsecond);
 		p.getChildren().add(l);
 	}
 	

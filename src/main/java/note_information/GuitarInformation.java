@@ -71,7 +71,7 @@ public class GuitarInformation {
 	public String getType() {return this.type;}
 	public Grace getGrace() {return this.grace;}
 	public List<Slide> getSlide() {return this.slides;}
-	public boolean isSlide() {return this.slides == null;}
+	public boolean isSlide() {return this.slides != null;}
 
 
 

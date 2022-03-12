@@ -67,7 +67,7 @@ public class PreviewFileController extends Application {
 			DrawSlurs s = new DrawSlurs(aLGuitar, this.pane);
 			s.drawNotesWithSlurs();
 			DrawSlides sl = new DrawSlides(aLGuitar, this.pane);
-		//	sl.drawSlides();
+			sl.drawSlides();
 
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
@@ -148,15 +148,15 @@ public class PreviewFileController extends Application {
 	public void printSSHandle() {
 		System.out.println("Printing");
 		WritableImage wi = pane.snapshot(null, null);
-		
+
 		Printer p = Printer.getDefaultPrinter();
 		PageLayout l = p.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
-		
+
 		ImageView iv = new ImageView(wi);
 
 		System.out.println(l.getPrintableHeight());
 		System.out.println(l.getPrintableWidth());
-		
+
 		double s = Math.min(l.getPrintableWidth()/wi.getWidth(), l.getPrintableHeight()/wi.getHeight());
 		iv.getTransforms().add(new Scale(s,s));
 		PrinterJob pj = PrinterJob.createPrinterJob();
