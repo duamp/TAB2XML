@@ -336,13 +336,6 @@ public class MainViewController extends Application {
 		}
 	}
 
-//	E|-----------0-----|-0---------------|
-//	B|---------0---0---|-0---------------|
-//	G|-------1-------1-|-1---------------|
-//	D|-----2-----------|-2---------------|
-//	A|---2-------------|-2---------------|
-//	E|-0---------------|-0---------------|
-
 	public void refresh() {
 		mainText.replaceText(new IndexRange(0, mainText.getText().length()), mainText.getText()+" ");
 	}

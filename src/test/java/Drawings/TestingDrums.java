@@ -10,8 +10,8 @@ import drawings.DrawDrumsNotes;
 import drawings.DrawGuitarNotes;
 import drawings.Measure;
 import javafx.scene.layout.Pane;
-import models.DrumInformation;
-import models.GuitarInformation;
+import note_information.DrumInformation;
+import note_information.GuitarInformation;
 
 class TestingDrums {
 

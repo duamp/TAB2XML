@@ -7,18 +7,24 @@ import java.util.logging.Logger;
 
 import drawings.DrawDrumsNotes;
 import drawings.DrawGuitarNotes;
+import drawings.DrawSlides;
 import drawings.Measure;
-import drawings.Slurs;
+import drawings.DrawSlurs;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
+
 import javafx.fxml.FXMLLoader;
+
+
 import javafx.print.PageLayout;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
+
 import javafx.scene.Parent;
+
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
@@ -27,8 +33,8 @@ import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.ScorePartwise;
-import models.DrumInformation;
-import models.GuitarInformation;
+import note_information.DrumInformation;
+import note_information.*;
 
 public class PreviewFileController extends Application {
 
@@ -66,8 +72,10 @@ public class PreviewFileController extends Application {
 			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar);
 			m.drawMeasure(); //DRAWS MEASURES
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
-			Slurs s = new Slurs(aLGuitar, this.pane, sp);
+			DrawSlurs s = new DrawSlurs(aLGuitar, this.pane);
 			s.drawNotesWithSlurs();
+			DrawSlides sl = new DrawSlides(aLGuitar, this.pane);
+			sl.drawSlides();
 
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
@@ -109,18 +117,16 @@ public class PreviewFileController extends Application {
 			aLGuitar = new LinkedList<>();
 			for(int i = 0; i < this.getMeasureNumber(); i++) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					GuitarInformation noteInformation;
-
-					noteInformation = new GuitarInformation(	
+					GuitarInformation noteInformation = new GuitarInformation(	
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
 							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
-							0,
-							0,
 							i + 1,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace(),
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlides() 
 							);
 
 					aLGuitar.add(noteInformation);
@@ -164,16 +170,16 @@ public class PreviewFileController extends Application {
 	public void printSSHandle() {
 		System.out.println("Printing");
 		WritableImage wi = pane.snapshot(null, null);
-		
+
 		Printer p = Printer.getDefaultPrinter();
-		double s;
-		if(p == null) {
-			s = Math.min(487.0/wi.getWidth(),734.0/wi.getHeight());
-		}else {
-			PageLayout l = p.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
-			s = Math.min(l.getPrintableWidth()/wi.getWidth(), l.getPrintableHeight()/wi.getHeight());
-		}
+		PageLayout l = p.createPageLayout(Paper.A4, PageOrientation.PORTRAIT, Printer.MarginType.DEFAULT);
+
 		ImageView iv = new ImageView(wi);
+
+		System.out.println(l.getPrintableHeight());
+		System.out.println(l.getPrintableWidth());
+
+		double s = Math.min(l.getPrintableWidth()/wi.getWidth(), l.getPrintableHeight()/wi.getHeight());
 		iv.getTransforms().add(new Scale(s,s));
 		PrinterJob pj = PrinterJob.createPrinterJob();
 		if(pj == null || !pj.showPageSetupDialog(pane.getScene().getWindow())) {

@@ -10,13 +10,13 @@ import org.junit.jupiter.api.Test;
 import drawings.DrawGuitarNotes;
 import drawings.Measure;
 import javafx.scene.layout.Pane;
-import models.GuitarInformation;
 import models.Part;
 import models.ScorePartwise;
+import note_information.GuitarInformation;
 
 class TestingGuitar {
 
-	@Test
+	//@Test
 	void note_X_position() {
 		Pane p = new Pane();
 		Measure m = new Measure(5, p, 1); 
