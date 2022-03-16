@@ -47,7 +47,7 @@ public class DrawDrumsNotes {
 			if(ld.getXorO() != null) {
 				note= "x";
 			}else {
-				note="o";
+				note="⚫";
 			}
 
 			if(!ld.isChord()) {
