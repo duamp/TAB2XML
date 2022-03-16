@@ -14,7 +14,7 @@ import org.jfugue.midi.MidiFileManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -31,7 +31,7 @@ public class PlayerController {
 	private Sequencer sequencer;
 	private Timeline mediaSliderAnimation;
 	@FXML private Slider videoSlider;
-	@FXML private Slider volumeSlider;
+	@FXML private Slider tempoSlider;
 	@FXML private VBox GUI;
 
 	 //TODO: remove awful scrolling sound
@@ -40,6 +40,7 @@ public class PlayerController {
         sequencer = MidiSystem.getSequencer();
         sequencer.setSequence(sequence.generateSequence());
         sequencer.open();
+        
 	       
 	}
 	
@@ -48,7 +49,12 @@ public class PlayerController {
 	// all fxml components are injected
 	@FXML 
 	private void initialize() throws IOException {
+		
 
+		tempoSlider.valueProperty().addListener((bservableValue, oldValue, newValue) -> {
+			sequencer.setTempoInBPM(newValue.floatValue());
+		});
+		
 		  // both for dragging / clicking for scrubbing 
 		 videoSlider.setOnMouseDragged((event) -> {
 			 try {
@@ -58,7 +64,7 @@ public class PlayerController {
 					e.printStackTrace();
 				}
 			 //TODO: remove awful scrolling sound
-			 System.out.println("sus");
+//			 System.out.println("sus");
 			 
 			 mediaSliderAnimation.pause();
 			 
@@ -69,12 +75,12 @@ public class PlayerController {
 			 
 			 
 		 });
-		
+			
 		videoSlider.setOnMouseDragReleased((event) -> mediaSliderAnimation.play());
 		 
 		 videoSlider.setOnMousePressed((event) -> {
 			 mediaSliderAnimation.pause();
-			 System.out.println("su1");
+//			 System.out.println("su1");
 			 
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
 		 });

@@ -12,6 +12,7 @@ import org.jfugue.midi.MidiParserListener;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.player.Player;
 
+
 import org.staccato.StaccatoParserListener;
 
 import converter.Converter;
@@ -25,6 +26,7 @@ import models.measure.barline.BarLine;
 import models.measure.note.Note;
 import models.measure.note.notations.Tied;
 import utility.MusicXMLCreator;
+
 
 public class XmlSequence {
 	
@@ -46,59 +48,24 @@ public class XmlSequence {
 		this.score = score;
 		this.musicXML = musicXML;
 	}
-	
+	//TODO: GRACE, BEND
 	public Sequence generateSequence() {
 		
 		Clef clef = score.getMeasure(1).getModel().getAttributes().getClef();
+		String tabType = "";
+		StringBuilder mainPattern = new StringBuilder();
 
-		if (clef.getSign().equals("TAB")) return generateGuitar1();
-		else if (clef.getSign().equals("percussion")) return generateDrums();
-			
-		return null;
 		
-	}
-	
-	private Sequence generateGuitar()  {
-			
-		
-		TabMeasure firstMeasure = score.getTabSectionList().get(0).getTabRow().getMeasureList().get(0);
-		boolean noTimeSignature = (firstMeasure.getBeatCount() == 4 && firstMeasure.getBeatType() == 4);
-		
-		
-		
-		// musicXML does not specify explicit time signature if default 4/4
-		if (noTimeSignature) {
-//			System.out.println("  4/4\n" + tab.trim());
-			Score score = new Score("  4/4\n" + tab.trim());
-			musicXML = new MusicXMLCreator(score).generateMusicXML();
+		if (clef.getSign().equals("TAB")) {
+			tabType = "TAB";
+			mainPattern = new StringBuilder("V0 I[Guitar]");
 		}
-		
-			MusicXmlParser parser;
-			Sequence sequence = null;
-    	
-			try {
-				parser = new MusicXmlParser();
-				MidiParserListener listener = new MidiParserListener();
-		    	parser.addParserListener(listener);
-		    	parser.parse(musicXML);
-		    	MidiParser parser1 = new MidiParser();
-		    	StaccatoParserListener listen1 = new StaccatoParserListener();
-		    	parser1.addParserListener(listen1);
-		    	parser1.parse(listener.getSequence());
-		    	listen1.getPattern().setInstrument("Guitar");
-		    	pattern = listen1.getPattern();
-		    	System.out.println(pattern.toString());
-		    	sequence =  new Player().getSequence(listen1);
-			} 
-			catch (Exception e) {
-				
-			}
-	    	return sequence;
-    	
-	}
-	//TODO: GRACE, BEND
-	private Sequence generateGuitar1() {
-		StringBuilder mainPattern = new StringBuilder("V0 I[Guitar]");
+		else if (clef.getSign().equals("percussion")) {
+			tabType = "percussion";
+			mainPattern = new StringBuilder("V9");
+		}
+		else return null;
+			
 		StringBuilder repeatPattern = new StringBuilder();
 		boolean repeat = false;
 		try {
@@ -112,12 +79,20 @@ public class XmlSequence {
 					if (j.getNotesBeforeBackup() != null) {
 						j.getBarlines();
 						for (Note k : j.getNotesBeforeBackup()) {
-							String note;
+							String note = null;
+							String format = null;
 							
 							if (k.getRest() != null) {
 								note = "R";
-							} else {
+								format = "%s%s%s";
+							} 
+							else if (tabType.equals("TAB")) {
 								note = k.getPitch().getStep() + StaccatoHelper.getChromaticAlteration(k.getPitch().getAlter()) +k.getPitch().getOctave();
+								format = "%s%s%s";
+							}
+							else if (tabType.equals("percussion")) {
+								note = StaccatoHelper.getInstrument(k.getInstrument().getId());
+								format = "%s[%s]%s";
 							}
 							
 							char duration =  StaccatoHelper.convertDuration(k.getType());
@@ -125,8 +100,8 @@ public class XmlSequence {
 							String chord =  StaccatoHelper.createChord(k.getChord());
 							
 							
-							mainPattern.append(String.format("%s%s%s", chord, note, tie));
-							if (repeat) repeatPattern.append(String.format("%s%s%s", chord, note, tie));
+							mainPattern.append(String.format(format, chord, note, tie));
+							if (repeat) repeatPattern.append(String.format(format, chord, note, tie));
 
 					}
 				}
@@ -156,61 +131,49 @@ public class XmlSequence {
 		return player.getSequence(mainPattern.toString());
 		
 	}
-
-
-	private Sequence generateDrums() {
-		System.out.println("generating drums");
-		
-    	
-    	// appending several times
-		StringBuilder pattern = new StringBuilder("V9");
 	
-		try {
-			for (Part i : score.getModel().getParts()) {
-				for (Measure j : i.getMeasures()) {
-				
-					
-					// if measure is not empty
-					if (j.getNotesBeforeBackup() != null) {
-						
-						for (Note k : j.getNotesBeforeBackup()) {
-							String instrument;
-							String format;
-							
-							if (k.getRest() != null) {
-								instrument = "R";
-								format = "%s%s%s";
-							}
-							// valid instrument
-							else {
-								instrument = StaccatoHelper.getInstrument(k.getInstrument().getId());
-								format = "%s[%s]%s";
-							}
-							
-							char duration = StaccatoHelper.convertDuration(k.getType());
-							String tie = StaccatoHelper.getDurationWithTies(duration, k);
-							String chord =  StaccatoHelper.createChord(k.getChord());
-							
-							pattern.append(String.format(format, chord, instrument, tie));
-					}
-				}
-						
-			}
-				
-			}
-		
-			}
-		 catch (TXMLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//	private Sequence generateGuitar()  {
+//			
+//		
+//		TabMeasure firstMeasure = score.getTabSectionList().get(0).getTabRow().getMeasureList().get(0);
+//		boolean noTimeSignature = (firstMeasure.getBeatCount() == 4 && firstMeasure.getBeatType() == 4);
+//		
+//		
+//		
+//		// musicXML does not specify explicit time signature if default 4/4
+//		if (noTimeSignature) {
+////			System.out.println("  4/4\n" + tab.trim());
+//			Score score = new Score("  4/4\n" + tab.trim());
+//			musicXML = new MusicXMLCreator(score).generateMusicXML();
+//		}
+//		
+//			MusicXmlParser parser;
+//			Sequence sequence = null;
+//    	
+//			try {
+//				parser = new MusicXmlParser();
+//				MidiParserListener listener = new MidiParserListener();
+//		    	parser.addParserListener(listener);
+//		    	parser.parse(musicXML);
+//		    	MidiParser parser1 = new MidiParser();
+//		    	StaccatoParserListener listen1 = new StaccatoParserListener();
+//		    	parser1.addParserListener(listen1);
+//		    	parser1.parse(listener.getSequence());
+//		    	listen1.getPattern().setInstrument("Guitar");
+//		    	pattern = listen1.getPattern();
+//		    	System.out.println(pattern.toString());
+//		    	sequence =  new Player().getSequence(listen1);
+//			} 
+//			catch (Exception e) {
+//				
+//			}
+//	    	return sequence;
+//    	
+//	}
 
-		Player player = new Player();
-		System.out.println(pattern.toString());
-		this.pattern = new Pattern(pattern.toString());
-		return player.getSequence(pattern.toString());
-	}
+
+
+	
 	
 	public Pattern getPattern() {
 		return pattern;
@@ -229,15 +192,16 @@ public class XmlSequence {
 		
     }
     public static void main(String[] args) {
-    	String tab ="";
-	
-		Score score = new Score(tab);
-		MusicXMLCreator creator = new MusicXMLCreator(score);
-		XmlSequence sequence = new XmlSequence(tab, score, creator.generateMusicXML());
+//    	String tab ="";
+//	
+//		Score score = new Score(tab);
+//		MusicXMLCreator creator = new MusicXMLCreator(score);
+//		XmlSequence sequence = new XmlSequence(tab, score, creator.generateMusicXML());
 		Player player = new Player();
 
-		sequence.generateSequence();
-		player.play(sequence.getPattern());
+//		sequence.generateSequence();
+		player.play("V0 I[Guitar] D3i G#4s-+G#5-s- A4-i+E4-i F4i+F3i A3i G4s+E3s A4s A#4s A4s A4i+D2i A4s F4s+A3s");
+		
     }
     // "A grace note is a note played ever so slighty before the following note"
 }

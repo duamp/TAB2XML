@@ -37,7 +37,6 @@ public class StaccatoHelper {
 	// wat???????????????
 	public static String getChromaticAlteration(Integer alter) {
 		if (alter == null) return "";
-		
 		else if (alter == -1) return "b";
 		else if (alter == 1) return "#";
 		
