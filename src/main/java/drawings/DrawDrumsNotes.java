@@ -63,7 +63,10 @@ public class DrawDrumsNotes {
 				removeLineBehindNote(noteX, yLocation);
 
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
+				
+				//harden this later and implement for chords
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
+				
 				p.getChildren().add(t); //TEXT
 				p.getChildren().add(l); //TEXT note's line
 				currentNotesPrinted++;
@@ -89,7 +92,10 @@ public class DrawDrumsNotes {
 			} else {
 				removeLineBehindNote(noteX, yLocation);
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
+				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
+				
 				p.getChildren().add(t);
+				p.getChildren().add(l);
 				currentNotesPrinted++;
 
 				//RECORDS noteX && noteY in arraylist for later access
