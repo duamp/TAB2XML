@@ -40,8 +40,6 @@ public class PlayerController {
         sequencer = MidiSystem.getSequencer();
         sequencer.setSequence(sequence.generateSequence());
         sequencer.open();
-        
-	       
 	}
 	
 
@@ -50,44 +48,39 @@ public class PlayerController {
 	@FXML 
 	private void initialize() throws IOException {
 		
-
-		tempoSlider.valueProperty().addListener((bservableValue, oldValue, newValue) -> {
-			sequencer.setTempoInBPM(newValue.floatValue());
-		});
 		
-		  // both for dragging / clicking for scrubbing 
+		tempoSlider.valueProperty().addListener((bservableValue, oldValue, newValue) -> {
+			sequencer.setTempoFactor(newValue.floatValue() / 120f);	
+		});
+
+		
+		  // stop playing when dragging, resumes when let go 
 		 videoSlider.setOnMouseDragged((event) -> {
-			 try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			 //TODO: remove awful scrolling sound
-//			 System.out.println("sus");
-			 
+
 			 mediaSliderAnimation.pause();
-			 
+			 sequencer.stop();
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
-//			 videoSlider.valueChangingProperty().addListener((observe, prevChanging, currChanging) -> {
-//				 if (!currChanging) sequencer.start();
-//			 });
-			 
 			 
 		 });
 			
-		videoSlider.setOnMouseDragReleased((event) -> mediaSliderAnimation.play());
+		videoSlider.setOnMouseDragReleased((event) -> {
+			mediaSliderAnimation.play();
+			sequencer.start();
+		});
 		 
+		
+		
 		 videoSlider.setOnMousePressed((event) -> {
 			 mediaSliderAnimation.pause();
-//			 System.out.println("su1");
-			 
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
 		 });
+		 
 		 videoSlider.setOnMouseReleased((event) ->{
 			mediaSliderAnimation.play(); 
+			sequencer.start();
 		 });
 		 
+	
 
 		 mediaSliderAnimation = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), 
@@ -111,11 +104,13 @@ public class PlayerController {
 	public void play() throws InvalidMidiDataException, MidiUnavailableException {	
 		System.out.println("started music");
 
+		
 		// if at end, rewind to start 
 		if (sequencer.getTickPosition() == sequencer.getTickLength()) sequencer.setTickPosition(0);
-		
+	
 		sequencer.start();
 		mediaSliderAnimation.play();
+		
 		
 	}
 	

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 
 import models.measure.note.Chord;
+import models.measure.note.Grace;
 import models.measure.note.Note;
 import models.measure.note.notations.Tied;
 
@@ -33,8 +34,7 @@ public class StaccatoHelper {
 		//"If duration is not specified, the default duration of a quarter-note will be used."  
 		return 'q';
 	}
-	
-	// wat???????????????
+
 	public static String getChromaticAlteration(Integer alter) {
 		if (alter == null) return "";
 		else if (alter == -1) return "b";
@@ -44,6 +44,7 @@ public class StaccatoHelper {
 		
 	}
 	
+	public static void getGrace(Grace grace) {}
 
     public static String getInstrument(String instrumentID) {
 	   	HashMap <String,Instrument>  map = new HashMap<>();
