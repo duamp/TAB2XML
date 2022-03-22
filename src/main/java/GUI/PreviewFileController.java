@@ -17,6 +17,8 @@ import javafx.print.PageOrientation;
 import javafx.print.Paper;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
@@ -33,12 +35,14 @@ public class PreviewFileController extends Application {
 	private MainViewController mvc;
 	public Window window;
 	public Highlighter highlighter;
-	@FXML private Pane pane;
 	private ScorePartwise sp;
 	private LinkedList<DrumInformation> aLDrums;
 	private LinkedList<GuitarInformation> aLGuitar;
-	@FXML private AnchorPane ancorPane;
 	private String instrument;
+
+	@FXML private AnchorPane ancorPane;
+	@FXML TextField gotoMeasureField;
+	@FXML private Pane pane;
 
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
@@ -52,8 +56,27 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
+	
+	
+	
+	
+	
+	@FXML
+	private void handleGotoMeasure() {
+		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+		System.out.println(measureNumber);
+//		ancorPane.
+	// need to finish go to measure implementation
+	}
 
-
+	
+	
+	
+	
+	
+	
+	
+	
 	public void update(ScorePartwise sp) throws IOException{
 		instrument = sp.getPartList().getScoreParts().get(0).getPartName();
 		this.sp = sp;
