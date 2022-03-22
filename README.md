@@ -8,3 +8,5 @@ This application requires Java 17 and the JavaFX library, along with Gradle 7.3.
 
 Issues upon installation. 
 1. Make sure to `Gradle -> Refresh gradle projects` to update dependencies.
+
+DOES NOT SUPPORT BENDS
