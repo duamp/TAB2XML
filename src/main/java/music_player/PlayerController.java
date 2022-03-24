@@ -14,7 +14,7 @@ import org.jfugue.midi.MidiFileManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +22,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;
@@ -30,88 +31,85 @@ public class PlayerController {
 	private Sequencer sequencer;
 	private Timeline mediaSliderAnimation;
 	@FXML private Slider videoSlider;
-	@FXML private Slider volumeSlider;
+	@FXML private Slider tempoSlider;
 	@FXML private VBox GUI;
 
 	 //TODO: remove awful scrolling sound
-	// TODO: remove play button restart bug
 	public PlayerController(XmlSequence sequence) throws InvalidMidiDataException, MidiUnavailableException, ValidityException, ParserConfigurationException, ParsingException, IOException {
 
         sequencer = MidiSystem.getSequencer();
         sequencer.setSequence(sequence.generateSequence());
         sequencer.open();
-	       
 	}
 	
 
 	// https://stackoverflow.com/questions/34785417/javafx-fxml-controller-constructor-vs-initialize-method
+	// all fxml components are injected
 	@FXML 
 	private void initialize() throws IOException {
+		
+		
+		tempoSlider.valueProperty().addListener((bservableValue, oldValue, newValue) -> {
+			sequencer.setTempoFactor(newValue.floatValue() / 120f);	
+		});
 
-		 volumeSlider.valueProperty().addListener(ov -> {
-		       if (volumeSlider.isValueChanging()) {
-
-//		           mediaPlayer.setVolume(volumeSlider.getValue() / 100.0);
-		       }
-		    }
-		);
-
-		 // both for dragging / clicking for scrubbing 
+		
+		  // stop playing when dragging, resumes when let go 
 		 videoSlider.setOnMouseDragged((event) -> {
-			 //TODO: remove awful scrolling sound
-			
-			 //??
+
+			 mediaSliderAnimation.pause();
 			 sequencer.stop();
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
 			 
-			 videoSlider.valueChangingProperty().addListener((observe, prevChanging, currChanging) -> {
-				 if (!currChanging) sequencer.start();
-			 });
-			 
 		 });
+			
+		videoSlider.setOnMouseDragReleased((event) -> {
+			mediaSliderAnimation.play();
+			sequencer.start();
+		});
 		 
+		
+		
 		 videoSlider.setOnMousePressed((event) -> {
+			 mediaSliderAnimation.pause();
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
-			 
-			 
 		 });
 		 
+		 videoSlider.setOnMouseReleased((event) ->{
+			mediaSliderAnimation.play(); 
+			sequencer.start();
+		 });
 		 
-		
-		 
-
-	}
 	
-	@FXML
-	public void play() throws InvalidMidiDataException, MidiUnavailableException {
-		sequencer.start();
-		System.out.println("started music");
-		
-
-		// if at end, rewind to start 
-		if (sequencer.getMicrosecondPosition() == sequencer.getMicrosecondLength()) {
-			sequencer.setTickPosition(0);
-		}
-		
 
 		 mediaSliderAnimation = new Timeline(
                 new KeyFrame(Duration.seconds(0.1), 
                 new EventHandler<ActionEvent>() {
-
 					@Override
 					public void handle(ActionEvent event) {
-						double percentage = (double) sequencer.getTickPosition() / sequencer.getTickLength();
-						videoSlider.setValue(percentage * 100);						
+						// dont run if music stops playing by itself
+							double percentage = (double) sequencer.getTickPosition() / sequencer.getTickLength();
+							videoSlider.setValue(percentage * 100);	
+							if (videoSlider.getValue() == 100) mediaSliderAnimation.pause();
+						
 					}
 
                 }));
 		
 		mediaSliderAnimation.setCycleCount(Timeline.INDEFINITE);
-		mediaSliderAnimation.play();
 		
-		
+	}
+	
+	@FXML
+	public void play() throws InvalidMidiDataException, MidiUnavailableException {	
+		System.out.println("started music");
 
 		
+		// if at end, rewind to start 
+		if (sequencer.getTickPosition() == sequencer.getTickLength()) sequencer.setTickPosition(0);
+	
+		sequencer.start();
+		mediaSliderAnimation.play();
 		
 		
 	}
@@ -121,6 +119,7 @@ public class PlayerController {
 		if (sequencer.isRunning()) {
 			sequencer.stop();	
 			mediaSliderAnimation.pause();
+			
 		}
 		
 	}
@@ -149,6 +148,7 @@ public class PlayerController {
 		}
 		return false;
 	}
+	
 	
 	public void closeSequencer() {
 		sequencer.close();
