@@ -93,7 +93,24 @@ public class Measure {
 
 			tabsDrawnAmount++;
 		} else {
-
+			// adds the bars
+			int fontsize = 50;
+			Text i1 = new Text(TABx-8, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "I");
+			Text i2 = new Text(TABx, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "I");
+			i1.setFont(new Font(fontsize));
+			i2.setFont(new Font(fontsize));
+			p.getChildren().add(i1); 
+			p.getChildren().add(i2);
+			// adds the 44
+			if(this.tabsDrawnAmount%8 == 0) {
+				Text d14 = new Text(TABx+11, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "4");
+				Text d24 = new Text(TABx+11, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "4");
+				d14.setFont(new Font(fontsize-20));
+				d24.setFont(new Font(fontsize-20));
+				p.getChildren().add(d14); 
+				p.getChildren().add(d24);
+			}
+			this.tabsDrawnAmount++;
 		}
 	}
 

@@ -45,13 +45,13 @@
                   </Button>
                   <Button mnemonicParsing="false" onAction="#pause" text="Pause">
                      <HBox.margin>
-                        <Insets left="7.0" right="7.0" />
+                        <Insets left="7.0" right="40.0" />
                      </HBox.margin>
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </Button>
-                  <Slider fx:id="volumeSlider" disable="true" orientation="VERTICAL" prefHeight="62.0" prefWidth="27.0">
+                  <Slider fx:id="tempoSlider" majorTickUnit="35.0" max="180.0" min="60.0" minorTickCount="5" prefHeight="46.0" prefWidth="191.0" showTickLabels="true" showTickMarks="true" value="120.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
