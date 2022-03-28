@@ -35,6 +35,9 @@ public class DrawDrumsNotes {
 		int timeDuration = 0;
 		int whichMeasure = 0;
 		boolean flagMeasureChange = true;
+		int durationcounter = 0;
+		int xStart = 0;
+		int loc = 0;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
 
@@ -59,14 +62,10 @@ public class DrawDrumsNotes {
 					measureNumber = 0;
 					noteX = this.startingXSpace + 20;
 				}
-
 				removeLineBehindNote(noteX, yLocation);
-
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
-				
-				//harden this later and implement for chords
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
-				
+				loc = noteX;
 				p.getChildren().add(t); //TEXT
 				p.getChildren().add(l); //TEXT note's line
 				currentNotesPrinted++;
@@ -93,7 +92,7 @@ public class DrawDrumsNotes {
 				removeLineBehindNote(noteX, yLocation);
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
-				
+				loc = noteX;
 				p.getChildren().add(t);
 				p.getChildren().add(l);
 				currentNotesPrinted++;
@@ -115,6 +114,31 @@ public class DrawDrumsNotes {
 					}
 				}
 			}
+			if(j+1 < this.aLDrums.size() && ld.isChord() && this.aLDrums.get(j+1).isChord()) {
+				if(durationcounter+ld.getDuration()>=12) {
+					durationcounter = 0;
+					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
+					p.getChildren().add(a);
+				}else if(durationcounter == 0) {
+					xStart = loc+7;
+				}
+				durationcounter += ld.getDuration();
+				
+			}else if(ld.isChord()){
+				
+			}else {				
+				if(durationcounter+ld.getDuration()>=12) {
+					durationcounter = 0;
+					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
+					p.getChildren().add(a);
+				}else if(durationcounter == 0) {
+					xStart = loc+7;
+				}
+				durationcounter += ld.getDuration();
+			}
+			
+//			ld.getDuration()
+//			ld.getType()
 
 		}
 	}

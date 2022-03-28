@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 public class DrumInformation {
 	private int octave;
 	private String note;
-	private Integer duration;
+	private int duration;
 	private double yCoord;
 	private String XorO;
 	private boolean chord;
@@ -15,12 +15,12 @@ public class DrumInformation {
 	private int noteY;
 	private int measure;
 	private String type;
-
+	
 	@FXML
 	private Pane pane;
 	private double octaveDifference = 59.5;//17/2 because 2 notes fit on one line and (17/2)*7 because 7 different notes
 	private double differenceBetweenNotes = 8.5; // 17*6 lines / 12 possible notes on 6 lines
-	public DrumInformation(String note, Integer duration, int octave, String XorO, Boolean c, int measure, String type) {
+	public DrumInformation(String note, int duration, int octave, String XorO, Boolean c, int measure, String type) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;
