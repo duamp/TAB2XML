@@ -2,9 +2,13 @@ package GUI;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.fxmisc.richtext.CodeArea;
+
+import converter.Converter;
 import drawings.DrawDrumsNotes;
 import drawings.DrawGuitarNotes;
 import drawings.DrawSlides;
@@ -24,18 +28,23 @@ import javafx.print.Printer;
 import javafx.print.PrinterJob;
 
 import javafx.scene.Parent;
-
-
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.transform.Scale;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import models.ScorePartwise;
+import music_player.PlayerController;
+import music_player.XmlSequence;
 import note_information.DrumInformation;
 import note_information.*;
 
@@ -48,7 +57,9 @@ public class PreviewFileController extends Application {
 	private LinkedList<DrumInformation> aLDrums;
 	private LinkedList<GuitarInformation> aLGuitar;
 	private String instrument;
+	public Converter converter;
 
+	@FXML public CodeArea mainText;
 	@FXML private AnchorPane ancorPane;
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
@@ -65,11 +76,60 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
-	
-	
-	
-	
-	
+	@FXML
+	private void SettingsHandle() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
+		
+	    Parent root = (Parent) loader.load();
+        Stage stage = (Stage) this.openNewWindow(root, "Music player");
+		PlayerController controller = loader.getController();
+		
+		
+	       
+    	// cannot be put in initialize() b/c stage/scene is not loaded yet
+		stage.setOnCloseRequest(event ->{
+			
+			event.consume();
+			controller.pause();
+			
+			ButtonType save = new ButtonType("Save", ButtonBar.ButtonData.YES);
+			ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
+			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+			
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", save, nSave, cancel);
+			alert.setHeaderText("Do you want to save changes?");
+			Optional<ButtonType> result = alert.showAndWait();
+			
+			if (result.isPresent()) {
+				
+				if (result.get() == save && controller.saveSong()) {
+					controller.closeSequencer();
+					stage.close();
+				}	
+				
+				else if (result.get() == nSave) {
+					controller.closeSequencer();
+					stage.close();
+				}
+				else alert.close();
+				
+			}
+		});  
+		
+    	
+	}
+	Window openNewWindow(Parent root, String windowName) {
+		Stage stage = new Stage();
+		stage.setTitle(windowName);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initOwner(MainApp.STAGE);
+		stage.setResizable(false);
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
+		return scene.getWindow();
+	}
+
 	@FXML
 	private void handleGotoMeasure() {
 		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
@@ -78,14 +138,6 @@ public class PreviewFileController extends Application {
 	// need to finish go to measure implementation
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
 	public void update(ScorePartwise sp) throws IOException{
 		instrument = sp.getPartList().getScoreParts().get(0).getPartName();
 		this.sp = sp;
@@ -109,8 +161,6 @@ public class PreviewFileController extends Application {
 		}
 
 	}
-
-	public PreviewFileController ()  {}
 
 	private void createList() {
 		/*

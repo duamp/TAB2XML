@@ -40,7 +40,7 @@ public class DrawDrumsNotes {
 		int loc = 0;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
-
+			xStart = 0;
 			if(flagMeasureChange) {
 				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 				flagMeasureChange = !flagMeasureChange;
