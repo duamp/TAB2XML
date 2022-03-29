@@ -165,11 +165,6 @@ public class PreviewFileController extends Application {
 	}
 
 	private void createList() {
-		/*
-		 * CREATE LINKED LIST OF NOTES FOLLOWED BY SPECIFIC Y-LOCATION
-		 * 1. Get <PITCH> STRING (STARTING POINT) + FRET (TIMES REPEATS i.e., add 17/2)
-		 */
-
 		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
 			ParseDrumNotes d = new ParseDrumNotes(sp);
 			d.createList();
@@ -181,23 +176,8 @@ public class PreviewFileController extends Application {
 		}
 	}
 
-	public void initialize() {
-	}
+	public void initialize() {}
 
-	public int findDuration(String type, int i, int j) {
-		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() == null) {
-			switch (type){
-			case "16th":
-				return 16;
-			case "8":
-				return 8;
-			}
-			return 0;
-		} else {
-			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration();
-		}
-
-	}
 	@FXML
 	public void saveSSHandle() {
 		System.out.println("Saving");
@@ -237,27 +217,6 @@ public class PreviewFileController extends Application {
 			}
 		}
 		System.out.println("Saved");
-	}
-
-	public String getXorO(int i, int j) {
-		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead() == null) {
-			return null;
-		}
-		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype();
-	}
-
-	public String getDisplayedStepNote(int i, int j) {
-		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
-			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep();
-		}
-		return "R";
-	}
-
-	public int getDisplayedStepOctave(int i, int j) {
-		if(	sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
-			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayOctave();
-		}
-		return -1;
 	}
 
 	@Override
