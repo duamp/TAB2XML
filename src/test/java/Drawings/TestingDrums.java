@@ -6,9 +6,9 @@ import java.util.LinkedList;
 
 import org.junit.jupiter.api.Test;
 
-import drawings.DrawDrumsNotes;
-import drawings.DrawGuitarNotes;
-import drawings.Measure;
+import drawMusic.DrawDrumsNotes;
+import drawMusic.DrawGuitarNotes;
+import drawMusic.Measure;
 import javafx.scene.layout.Pane;
 import note_information.DrumInformation;
 import note_information.GuitarInformation;

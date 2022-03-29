@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import drawings.DrawGuitarNotes;
-import drawings.Measure;
+import drawMusic.DrawGuitarNotes;
+import drawMusic.Measure;
 import javafx.scene.layout.Pane;
 import models.Part;
 import models.ScorePartwise;

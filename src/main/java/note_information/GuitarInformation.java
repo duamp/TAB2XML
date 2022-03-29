@@ -2,7 +2,7 @@ package note_information;
 
 import java.util.List;
 
-import drawings.Measure;
+import drawMusic.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import models.measure.note.Grace;

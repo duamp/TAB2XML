@@ -2,19 +2,19 @@ package GUI;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.fxmisc.richtext.CodeArea;
 
 import converter.Converter;
-import drawings.DrawDrumsNotes;
-import drawings.DrawGuitarNotes;
-import drawings.DrawSlides;
-import drawings.Measure;
-import drawings.DrawSlurs;
-
+import drawMusic.DrawDrumsNotes;
+import drawMusic.DrawGuitarNotes;
+import drawMusic.DrawSlides;
+import drawMusic.DrawSlurs;
+import drawMusic.Measure;
+import drawMusic.ParseDrumNotes;
+import drawMusic.ParseGuitarNotes;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 
@@ -63,7 +63,7 @@ public class PreviewFileController extends Application {
 	@FXML private AnchorPane ancorPane;
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
-
+	
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
 	}
@@ -79,45 +79,41 @@ public class PreviewFileController extends Application {
 	@FXML
 	private void SettingsHandle() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
-		
+		XmlSequence sequence = new XmlSequence(mainText.getText(), converter);
+
+		// need custom parameterized constructor
+					loader.setControllerFactory(c -> {
+						try {
+								return new PlayerController(sequence);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						return c;
+					});
+					
 	    Parent root = (Parent) loader.load();
-        Stage stage = (Stage) this.openNewWindow(root, "Music player");
+        Stage stage = (Stage) this.openNewWindow(root, "Settings");
 		PlayerController controller = loader.getController();
 		
-		
-	       
     	// cannot be put in initialize() b/c stage/scene is not loaded yet
 		stage.setOnCloseRequest(event ->{
 			
 			event.consume();
 			controller.pause();
 			
-			ButtonType save = new ButtonType("Save", ButtonBar.ButtonData.YES);
-			ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
-			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+			ButtonType update = new ButtonType("Save", ButtonBar.ButtonData.YES);
+//			ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
+//			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 			
-			Alert alert = new Alert(AlertType.CONFIRMATION, "", save, nSave, cancel);
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", update);
 			alert.setHeaderText("Do you want to save changes?");
-			Optional<ButtonType> result = alert.showAndWait();
-			
-			if (result.isPresent()) {
-				
-				if (result.get() == save && controller.saveSong()) {
-					controller.closeSequencer();
-					stage.close();
-				}	
-				
-				else if (result.get() == nSave) {
-					controller.closeSequencer();
-					stage.close();
-				}
-				else alert.close();
-				
-			}
+
 		});  
 		
     	
 	}
+	
 	Window openNewWindow(Parent root, String windowName) {
 		Stage stage = new Stage();
 		stage.setTitle(windowName);
@@ -138,9 +134,15 @@ public class PreviewFileController extends Application {
 	// need to finish go to measure implementation
 	}
 
-	public void update(ScorePartwise sp) throws IOException{
+	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException{
+		this.mainText = mainText;
+		this.converter = converter;
 		instrument = sp.getPartList().getScoreParts().get(0).getPartName();
 		this.sp = sp;
+		this.update();
+	}
+	
+	public void update() throws IOException{
 		createList();
 		Measure m;
 		if(instrument.equals("Guitar")) {
@@ -169,47 +171,18 @@ public class PreviewFileController extends Application {
 		 */
 
 		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
-			aLDrums = new LinkedList<>();
-			for(int i = 0; i < this.getMeasureNumber(); i++) {
-				if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup() != null) {
-					for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-						DrumInformation noteInformation;
-						noteInformation = new DrumInformation(
-								this.getDisplayedStepNote(i, j),
-								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
-								this.getDisplayedStepOctave(i, j),
-								getXorO(i, j),
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
-								i+1,
-								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
-								);
-						aLDrums.add(noteInformation);
-					}
-				}
-			}
+			ParseDrumNotes d = new ParseDrumNotes(sp);
+			d.createList();
+			aLDrums = d.getDrumInformation();
 		} else {
-			aLGuitar = new LinkedList<>();
-			for(int i = 0; i < this.getMeasureNumber(); i++) {
-				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
-					GuitarInformation noteInformation = new GuitarInformation(	
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getString(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getTechnical().getFret(),
-							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(), 
-							i + 1,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace(),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlides() 
-							);
-
-					aLGuitar.add(noteInformation);
-				}
-			}
+			ParseGuitarNotes d = new ParseGuitarNotes(sp);
+			d.createList();
+			aLGuitar = d.getGuitarInformation();
 		}
 	}
 
-	public void initialize() {}
+	public void initialize() {
+	}
 
 	public int findDuration(String type, int i, int j) {
 		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration() == null) {
@@ -286,8 +259,6 @@ public class PreviewFileController extends Application {
 		}
 		return -1;
 	}
-
-
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {

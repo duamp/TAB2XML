@@ -1,6 +1,6 @@
 package note_information;
 
-import drawings.Measure;
+import drawMusic.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 

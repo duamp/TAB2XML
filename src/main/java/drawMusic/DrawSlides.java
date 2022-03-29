@@ -1,4 +1,4 @@
-package drawings;
+package drawMusic;
 
 import java.util.LinkedList;
 

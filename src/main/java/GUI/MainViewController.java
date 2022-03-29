@@ -327,7 +327,7 @@ public class MainViewController extends Application {
 			ScorePartwise sp = converter.getScore().getModel();
 			PreviewFileController controller = loader.getController();
 			controller.setMainViewController(this);
-			controller.update(sp);
+			controller.startup(sp, mainText, converter);
 			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
 
 		} catch (IOException e) {

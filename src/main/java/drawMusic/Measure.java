@@ -1,4 +1,4 @@
-package drawings;
+package drawMusic;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;

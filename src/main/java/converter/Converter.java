@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import GUI.MainViewController;
+import GUI.PreviewFileController;
 import utility.MusicXMLCreator;
 import utility.ValidationError;
 
@@ -14,6 +15,7 @@ public class Converter {
 	private Score score;
 	private MusicXMLCreator mxlc;
 	private MainViewController mvc;
+	private PreviewFileController pfc;
 	
 	public Converter(MainViewController mvc) {
 		this.mvc = mvc;
@@ -39,6 +41,7 @@ public class Converter {
 	public List<ValidationError> validate() {
 		return score.validate();
 	}
+	
     public void saveMusicXMLFile(File file) {
         try {
             PrintWriter writer;

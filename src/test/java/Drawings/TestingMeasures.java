@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import drawings.Measure;
+import drawMusic.Measure;
 import javafx.scene.layout.Pane;
 
 class TestingMeasures {
