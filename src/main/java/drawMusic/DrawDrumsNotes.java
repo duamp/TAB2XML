@@ -19,7 +19,7 @@ public class DrawDrumsNotes {
 	private int currentNoteYLocation = 0;
 	private int unitsInMeasure = 0;
 	private Pane p;
-	private 	int currentNotesPrinted = 0;
+	private int currentNotesPrinted = 0;
 	private double divisionConstant = 1.1;
 
 
@@ -27,7 +27,6 @@ public class DrawDrumsNotes {
 		this.aLDrums = aLDrums;
 		this.p = pane;
 	}
-
 
 	public void drawDrumNotes() {
 		int noteX = 35;

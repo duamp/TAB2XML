@@ -16,12 +16,12 @@ public class DrawGuitarNotes {
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
 	private final int startingXSpace = 15;
-	private int currentcurrentNoteYLocation = 0;
 	private Pane p;
 	private int unitsInMeasure = 0;
 	private int currentNoteYLocation = 0;
 	private double divisionConstant = 1.1;
 	private int currentNotesPrinted = 0;
+	private String fontType;
 
 	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL) {
 		this.p = p;
@@ -138,15 +138,7 @@ public class DrawGuitarNotes {
 		return unitsInMeasure;
 	}
 
-	//	for(int i = 0; i < notesPerMeasure; i++) {
-	//		Note n = sp.getParts().get(0).getMeasures().get(whichMeasure).getNotesBeforeBackup().get(i);
-	//		if(n.getChord() == null && n.getDuration() != null) {
-	//			unitsInMeasure+= n.getDuration();
-	//		} else if(n.getChord() == null) {
-	//			unitsInMeasure+=findDuration(n.getType());
-	//		}
-	//	}
-
+	//TODO
 	public int findDuration(String type) {
 		switch (type){
 		case "16th":
@@ -175,6 +167,18 @@ public class DrawGuitarNotes {
 			
 			if(g.getGrace() != null) {
 				t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);
+				/*
+				 * Type of fonts
+				 * 1. Helvetica
+				 * 2. Calibri
+				 * 3. Futura
+				 * 4. Garamond
+				 * 5. Times New Roman
+				 * 6. Arial
+				 * 7. Cambria
+				 * 8. Verdana
+				 */
+				
 				t.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 9));
 			}
 			
@@ -183,10 +187,11 @@ public class DrawGuitarNotes {
 			
 	}
 
-
+	public void setFontType(String fontType) {this.fontType = fontType;}
 	public LinkedList<GuitarInformation> getNoteObject(){return this.aLGuitar;}
 	public int getMeasureWidth() {return this.measureWidth;}
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
 	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
+	
 }

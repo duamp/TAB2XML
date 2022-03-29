@@ -96,20 +96,16 @@ public class PreviewFileController extends Application {
 					
 	    Parent root = (Parent) loader.load();
         Stage stage = (Stage) this.openNewWindow(root, "Settings");
-		PlayerController controller = loader.getController();
 		
+		/*
+		 *  setFontType(String)
+		 *  
+		 */
+        
     	// cannot be put in initialize() b/c stage/scene is not loaded yet
 		stage.setOnCloseRequest(event ->{
 			
 			event.consume();
-			controller.pause();
-			
-			ButtonType update = new ButtonType("Save", ButtonBar.ButtonData.YES);
-//			ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
-//			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-			
-			Alert alert = new Alert(AlertType.CONFIRMATION, "", update);
-			alert.setHeaderText("Do you want to save changes?");
 
 		});  
 		
