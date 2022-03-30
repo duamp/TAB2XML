@@ -2,14 +2,17 @@ package drawMusic;
 
 import java.util.LinkedList;
 
+import converter.Converter;
 import models.ScorePartwise;
 import note_information.DrumInformation;
 
 public class ParseDrumNotes extends MainParser {
 	private LinkedList<DrumInformation> aLDrums;
-	
-	public ParseDrumNotes(ScorePartwise sp) {
+	private Converter convertor;
+
+	public ParseDrumNotes(ScorePartwise sp, Converter convertor) {
 		super(sp);
+		this.convertor = convertor;
 	}
 
 	/*
@@ -30,7 +33,8 @@ public class ParseDrumNotes extends MainParser {
 							getXorO(i, j),
 							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
 							i+1,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType()
+							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
+							convertor.getScore().getMeasureList().get(i).getRepeatCount()
 							);
 					aLDrums.add(noteInformation);
 				}

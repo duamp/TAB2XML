@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.fxmisc.richtext.CodeArea;
 
 import converter.Converter;
+import converter.Score;
 import drawMusic.DrawDrumsNotes;
 import drawMusic.DrawGuitarNotes;
 import drawMusic.DrawSlides;
@@ -29,11 +30,7 @@ import javafx.print.PrinterJob;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -65,6 +62,7 @@ public class PreviewFileController extends Application {
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
 	@FXML private Button button;
+    
 
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
@@ -163,11 +161,11 @@ public class PreviewFileController extends Application {
 
 	private void createList() {
 		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
-			ParseDrumNotes d = new ParseDrumNotes(sp);
+			ParseDrumNotes d = new ParseDrumNotes(sp, converter);
 			d.createList();
 			aLDrums = d.getDrumInformation();
 		} else {
-			ParseGuitarNotes d = new ParseGuitarNotes(sp);
+			ParseGuitarNotes d = new ParseGuitarNotes(sp, converter);
 			d.createList();
 			aLGuitar = d.getGuitarInformation();
 		}

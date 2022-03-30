@@ -2,14 +2,17 @@ package drawMusic;
 
 import java.util.LinkedList;
 
+import converter.Converter;
 import models.ScorePartwise;
 import note_information.GuitarInformation;
 
 public class ParseGuitarNotes extends MainParser {
 	private LinkedList<GuitarInformation> aLGuitar;
+	private Converter convertor;
 	
-	public ParseGuitarNotes(ScorePartwise sp){
+	public ParseGuitarNotes(ScorePartwise sp, Converter convertor){
 		super(sp);
+		this.convertor = convertor;
 	}
 	
 	public void createList() {
@@ -26,7 +29,8 @@ public class ParseGuitarNotes extends MainParser {
 						i + 1,
 						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
 						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace(),
-						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlides() 
+						sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlides(),
+						convertor.getScore().getMeasureList().get(i).getRepeatCount()
 						);
 
 				aLGuitar.add(noteInformation);

@@ -22,10 +22,11 @@ public class GuitarInformation {
 	private String type;
 	private Grace grace; 
 	private List<Slide> slides;
+	private int repeat;
 	@FXML
 	private Pane pane;
 
-	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int measure, String type, Grace g, List<Slide> s)  {
+	public GuitarInformation(int string, int fret, int duration, boolean c, List<Slur> slur, int measure, String type, Grace g, List<Slide> s, int repeat)  {
 		this.string = string;
 		this.fret = fret;
 		this.duration = duration;
@@ -36,6 +37,7 @@ public class GuitarInformation {
 		this.type = type;
 		this.grace = g;
 		this.slides = s;
+		this.repeat = repeat;
 	}
 
 	public int getYCoord() {

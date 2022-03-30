@@ -13,7 +13,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="574.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#cancelButtonClicked" prefHeight="33.0" prefWidth="133.0" text="Cancel" />
+      <Button fx:id="CloseBtn" layoutX="574.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#cancelButtonClicked" prefHeight="33.0" prefWidth="133.0" text="Cancel" />
       <Button layoutX="16.0" layoutY="183.0" mnemonicParsing="false" onMouseClicked="#saveButtonClicked" prefHeight="33.0" prefWidth="133.0" text="Save" />
       <TextField fx:id="fileNameField" layoutX="13.0" layoutY="143.0" prefHeight="25.0" prefWidth="694.0" />
    </children>

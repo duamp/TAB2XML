@@ -15,12 +15,13 @@ public class DrumInformation {
 	private int noteY;
 	private int measure;
 	private String type;
+	private int repeat;
 	
 	@FXML
 	private Pane pane;
 	private double octaveDifference = 59.5;//17/2 because 2 notes fit on one line and (17/2)*7 because 7 different notes
 	private double differenceBetweenNotes = 8.5; // 17*6 lines / 12 possible notes on 6 lines
-	public DrumInformation(String note, int duration, int octave, String XorO, Boolean c, int measure, String type) {
+	public DrumInformation(String note, int duration, int octave, String XorO, Boolean c, int measure, String type, int repeat) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;
@@ -29,6 +30,7 @@ public class DrumInformation {
 		this.chord = c;
 		this.measure = measure;
 		this.type = type;
+		this.repeat = repeat;
 	}
 
 	public double getYCoord() {

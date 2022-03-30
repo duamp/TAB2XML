@@ -14,7 +14,6 @@ import org.jfugue.midi.MidiFileManager;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +21,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import nu.xom.ParsingException;
 import nu.xom.ValidityException;

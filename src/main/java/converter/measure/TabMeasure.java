@@ -537,5 +537,9 @@ public abstract class TabMeasure extends ScoreComponent {
 	    }
 	    return errors;
 	}
+	
+	public int getRepeatCount() {
+		return this.repeatCount;
+	}
 
 }
