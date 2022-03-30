@@ -1,8 +1,10 @@
 /GUI/
 /converter/
+/image_assets/
+/music_player/
+/org.openjfx/
+/utility/
 /custom_exceptions/
 /drawings/
 /models/
-/music_player/
 /note_information/
-/utility/

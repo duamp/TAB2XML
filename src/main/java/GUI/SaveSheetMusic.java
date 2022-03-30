@@ -3,7 +3,9 @@ package GUI;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
@@ -14,6 +16,7 @@ import javafx.print.PageLayout;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
 import javafx.print.Printer;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelFormat;
@@ -28,12 +31,14 @@ import javafx.stage.Window;
 import utility.Settings;
 
 public class SaveSheetMusic extends Application{
-
+		
+		File outputfile;
 		private MainViewController mvc;
 	    private static Window convertWindow = new Stage();
-	    
+	    @FXML private Button CloseBtn;
 	    @FXML private TextField fileNameField;
-	    ImageView iv = null;	    
+	    ImageView iv = null;	
+	    BufferedImage bi;
 	    public void setMainViewController(MainViewController mvcInput, Pane pane) {
 	    	mvc = mvcInput;
 	    	WritableImage wi = pane.snapshot(null, null);
@@ -56,7 +61,7 @@ public class SaveSheetMusic extends Application{
 		}
 	    
 	    @FXML
-	    private void saveButtonClicked() {
+	    private void saveButtonClicked() throws IOException {
 //	    	method which is being a bitch
 	        FileChooser fileChooser = new FileChooser();
 	        fileChooser.setTitle("Save As");
@@ -72,7 +77,7 @@ public class SaveSheetMusic extends Application{
 	        	int width = (int) Math.ceil(iv.getImage().getWidth());
 	            int height = (int) Math.ceil(iv.getImage().getHeight());
 
-	            BufferedImage bi = new BufferedImage(width, height,
+	                bi = new BufferedImage(width, height,
 	                BufferedImage.TYPE_INT_ARGB);
 
 	            int[] buffer = new int[width];
@@ -99,6 +104,8 @@ public class SaveSheetMusic extends Application{
 	        fileChooser.setInitialDirectory(initialDir);
 
 	        File file = fileChooser.showSaveDialog(convertWindow);
+	        
+	        System.out.println(outputfile.getPath());
 
 	        if (file != null) {
 //	        	need to do saving here
@@ -114,7 +121,9 @@ public class SaveSheetMusic extends Application{
 
 	    @FXML
 	    private void cancelButtonClicked()  {
-	    	mvc.convertWindow.hide();
+	    	Stage stage = (Stage) CloseBtn.getScene().getWindow();
+            mvc.convertWindow.hide();
+            stage.close();
 	    }
 
 	    @Override
