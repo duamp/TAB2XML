@@ -53,6 +53,7 @@ import nu.xom.ValidityException;
 import utility.Range;
 import utility.Settings;
 
+
 public class MainViewController extends Application {
 
 	private Preferences prefs;
@@ -415,7 +416,7 @@ public class MainViewController extends Application {
 	@FXML
 	private void showPlayerHandle() throws IOException, TXMLException, ValidityException, ParserConfigurationException, ParsingException{
 
-			XmlSequence sequence = new XmlSequence(mainText.getText(), converter);
+			XmlSequence sequence = new XmlSequence(converter.getScore());
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/music_player.fxml"));
 			
 			// need custom parameterized constructor
