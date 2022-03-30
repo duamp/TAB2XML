@@ -38,21 +38,26 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
                <children>
-                  <Button fx:id="saveButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefWidth="115.0" text="Save Music" onAction="#saveSSHandle">
+                  <Button fx:id="saveButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveSSHandle" prefWidth="115.0" text="Save Music">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Button>
                </children>
                <children>
-                  <Button fx:id="printButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefWidth="115.0" text="Print Music" onAction="#printSSHandle">
+                  <Button fx:id="printButton" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#printSSHandle" prefWidth="115.0" text="Print Music">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
                   </Button>
                </children>
                <children>
-                  <Button fx:id="Settings" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefWidth="115.0" text="Settings" onAction="#SettingsHandle">
+                  <Button fx:id="" mnemonicParsing="false" onAction="#playMusic" prefWidth="115.0" text="Play Music">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="Settings" layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#SettingsHandle" prefWidth="115.0" text="Settings">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
