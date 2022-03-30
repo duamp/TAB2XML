@@ -17,7 +17,6 @@ public class DrawSlides {
 		this.p = p;
 	}
 
-	
 	public void drawSlides() {
 		for(int i = 0; i < aL.size(); i++) {
 			GuitarInformation lg = aL.get(i);

@@ -11,6 +11,7 @@ import converter.Converter;
 import converter.Score;
 import drawMusic.DrawDrumsNotes;
 import drawMusic.DrawGuitarNotes;
+import drawMusic.DrawRepeats;
 import drawMusic.DrawSlides;
 import drawMusic.DrawSlurs;
 import drawMusic.Measure;
@@ -150,12 +151,16 @@ public class PreviewFileController extends Application {
 			s.drawNotesWithSlurs();
 			DrawSlides sl = new DrawSlides(aLGuitar, this.pane);
 			sl.drawSlides();
+			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
+			rep.drawRepeatsGuitar();
 
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
 			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums);
 			m.drawMeasure(); //DRAWS MEASURES
 			d.drawDrumNotes();
+			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
+			rep.drawRepeatsDrums();
 		}
 	}
 

@@ -47,7 +47,7 @@ public class ParseDrumNotes extends MainParser {
 		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead() == null) {
 			return null;
 		}
-		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype();
+		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype(true);
 	}
 	
 	public String getDisplayedStepNote(int i, int j) {

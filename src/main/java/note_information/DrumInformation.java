@@ -82,5 +82,7 @@ public class DrumInformation {
 	public int getMeasure() {return this.measure;}
 	public String getXorO() {return this.XorO;}
 	public String getType() {return this.type;}
+	public int getRepeats() {return this.repeat;}
+
 
 }

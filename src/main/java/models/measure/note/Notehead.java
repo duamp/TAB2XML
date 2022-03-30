@@ -24,7 +24,10 @@ public class Notehead {
         this.parentheses = parentheses;
     }
     
-    public String getXorOtype() {
-    	return this.type;
+    public String getXorOtype(boolean t) {
+    	if(t) {
+    		return this.type;
+    	}
+    	return null;
     }
 }
