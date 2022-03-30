@@ -39,8 +39,7 @@ public class MusicPlayerTest {
 	private static Pattern generatePattern(String tab) {
 		
 		Score score = new Score(tab);
-		MusicXMLCreator creator = new MusicXMLCreator(score);
-		XmlSequence sequence = new XmlSequence(tab, score, creator.generateMusicXML());
+		XmlSequence sequence = new XmlSequence(score);
 		sequence.generateSequence();
 		return sequence.getPattern();
 	}

@@ -30,30 +30,20 @@ import utility.MusicXMLCreator;
 
 public class XmlSequence {
 	
-	private String tab;
+
 	private Score score;
-	private String musicXML;
 	private Pattern pattern;
-	
-	public XmlSequence(String tab, Converter converter) {
-		this.tab = tab;
-		score = converter.getScore();
-		musicXML = converter.getMusicXML();
-		pattern = new Pattern();
-	}
-	
-	// maybe better but for ez testing
-	public XmlSequence(String tab, Score score, String musicXML) {
-		this.tab = tab;
+
+	public XmlSequence(Score score) {
 		this.score = score;
-		this.musicXML = musicXML;
 	}
+
 	//TODO: BEND
 	public Sequence generateSequence() {
 		
 		Clef clef = score.getMeasure(1).getModel().getAttributes().getClef();
 		String tabType = "";
-		StringBuilder mainPattern = new StringBuilder();
+		StringBuilder mainPattern;
 
 		
 		if (clef.getSign().equals("TAB")) {
@@ -136,61 +126,56 @@ public class XmlSequence {
 		
 		
 		Player player = new Player();
-		System.out.println(mainPattern.toString());
 		this.pattern = new Pattern(mainPattern.toString());
 		return player.getSequence(mainPattern.toString());
-		
 	}
 	
-	private Sequence generateGuitar()  {
-			
-		
-		TabMeasure firstMeasure = score.getTabSectionList().get(0).getTabRow().getMeasureList().get(0);
-		boolean noTimeSignature = (firstMeasure.getBeatCount() == 4 && firstMeasure.getBeatType() == 4);
-		
-		
-		
-		// musicXML does not specify explicit time signature if default 4/4
-		if (noTimeSignature) {
-//			System.out.println("  4/4\n" + tab.trim());
-			Score score = new Score("  4/4\n" + tab.trim());
-			musicXML = new MusicXMLCreator(score).generateMusicXML();
-		}
-		
-			MusicXmlParser parser;
-			Sequence sequence = null;
-    	
-			try {
-				parser = new MusicXmlParser();
-				MidiParserListener listener = new MidiParserListener();
-		    	parser.addParserListener(listener);
-		    	parser.parse(musicXML);
-		    	MidiParser parser1 = new MidiParser();
-		    	StaccatoParserListener listen1 = new StaccatoParserListener();
-		    	parser1.addParserListener(listen1);
-		    	parser1.parse(listener.getSequence());
-		    	listen1.getPattern().setInstrument("Guitar");
-		    	pattern = listen1.getPattern();
-		    	System.out.println(pattern.toString());
-		    	sequence =  new Player().getSequence(listen1);
-			} 
-			catch (Exception e) {
-				
-			}
-	    	return sequence;
-    	
-	}
+//	private Sequence generateGuitar()  {
+//
+//
+//		TabMeasure firstMeasure = score.getTabSectionList().get(0).getTabRow().getMeasureList().get(0);
+//		boolean noTimeSignature = (firstMeasure.getBeatCount() == 4 && firstMeasure.getBeatType() == 4);
+//
+//
+//
+//		// musicXML does not specify explicit time signature if default 4/4
+//		if (noTimeSignature) {
+////			System.out.println("  4/4\n" + tab.trim());
+//			Score score = new Score("  4/4\n" + tab.trim());
+//			musicXML = new MusicXMLCreator(score).generateMusicXML();
+//		}
+//
+//			MusicXmlParser parser;
+//			Sequence sequence = null;
+//
+//			try {
+//				parser = new MusicXmlParser();
+//				MidiParserListener listener = new MidiParserListener();
+//		    	parser.addParserListener(listener);
+//		    	parser.parse(musicXML);
+//		    	MidiParser parser1 = new MidiParser();
+//		    	StaccatoParserListener listen1 = new StaccatoParserListener();
+//		    	parser1.addParserListener(listen1);
+//		    	parser1.parse(listener.getSequence());
+//		    	listen1.getPattern().setInstrument("Guitar");
+//		    	pattern = listen1.getPattern();
+//		    	System.out.println(pattern.toString());
+//		    	sequence =  new Player().getSequence(listen1);
+//			}
+//			catch (Exception e) {
+//
+//			}
+//	    	return sequence;
+//
+//	}
 
-
-
-	
-	
+	// for testing purposes
 	public Pattern getPattern() {
 		return pattern;
 	}
 	
 
-    private BarLine getBarLine( List<BarLine> barlines,  String location) {
+    private BarLine getBarLine(List<BarLine> barlines,  String location) {
     	if (barlines != null) {
 			for (BarLine xd : barlines) {
 				   if (xd.getLocation().equals(location)) {
@@ -201,18 +186,7 @@ public class XmlSequence {
     	return null;
 		
     }
-    public static void main(String[] args) {
-//    	String tab ="";
-//	
-//		Score score = new Score(tab);
-//		MusicXMLCreator creator = new MusicXMLCreator(score);
-//		XmlSequence sequence = new XmlSequence(tab, score, creator.generateMusicXML());
-		Player player = new Player();
 
-//		sequence.generateSequence();
-		player.play("V0 I[Guitar] D3i A4i+E4i F4i+F3i A3i G4s+E3s A4s A#4s A4s A4i+D2i A4s F4s+A3s");
-		
-    }
-    // "A grace note is a note played ever so slighty before the following note"
+
 }
     	
