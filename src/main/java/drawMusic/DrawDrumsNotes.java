@@ -37,9 +37,9 @@ public class DrawDrumsNotes {
 		int durationcounter = 0;
 		int xStart = 0;
 		int loc = 0;
+		boolean skip = false;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
-			xStart = 0;
 			if(flagMeasureChange) {
 				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 				flagMeasureChange = !flagMeasureChange;
@@ -114,28 +114,35 @@ public class DrawDrumsNotes {
 				}
 			}
 			if(j+1 < this.aLDrums.size() && ld.isChord() && this.aLDrums.get(j+1).isChord()) {
-				if(durationcounter+ld.getDuration()>=12) {
-					durationcounter = 0;
-					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
-					p.getChildren().add(a);
-				}else if(durationcounter == 0) {
-					xStart = loc+7;
+					if(durationcounter+ld.getDuration()>=16) {
+						durationcounter = 0;
+						Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
+						p.getChildren().add(a);
+						skip = true;
+					}else if(durationcounter == 0) {
+						xStart = loc+7;
+						durationcounter += ld.getDuration();
+					}else {
+						durationcounter += ld.getDuration();
+					}
+				}else if(ld.isChord()){
+					
+				}else {				
+					if(durationcounter+ld.getDuration()>=16) {
+						durationcounter = 0;
+						Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
+						p.getChildren().add(a);
+						skip = true;
+					}else if(durationcounter == 0) {
+						xStart = loc+7;
+						durationcounter += ld.getDuration();
+					}else {
+						durationcounter += ld.getDuration();						
+					}
 				}
-				durationcounter += ld.getDuration();
-				
-			}else if(ld.isChord()){
-				
-			}else {				
-				if(durationcounter+ld.getDuration()>=12) {
-					durationcounter = 0;
-					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
-					p.getChildren().add(a);
-				}else if(durationcounter == 0) {
-					xStart = loc+7;
-				}
-				durationcounter += ld.getDuration();
-			}
 			
+//			ld.getDuration()
+//			ld.getType()
 //			ld.getDuration()
 //			ld.getType()
 
