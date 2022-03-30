@@ -88,7 +88,7 @@ public class SaveSheetMusic extends Application{
 	                reader.getPixels(0, y, width, 1, format, buffer, 0, width);
 	                bi.getRaster().setDataElements(0, y, width, 1, buffer);
 	            }
-	        	File outputfile = new File(String.format("%s.png",initialName));
+	            outputfile = new File(String.format("%s.png",initialName));
 	            try {
 					ImageIO.write(bi, "png", outputfile);
 				} catch (IOException e) {
@@ -113,7 +113,7 @@ public class SaveSheetMusic extends Application{
 //	            writer.println(mxlc.generateMusicXML());
 //	            mvc.saveFile = file;
 //	            
-	            mvc.converter.saveMusicXMLFile(file);
+	          //  mvc.converter.saveMusicXMLFile(file);
 	            mvc.saveFile = file;
 	            cancelButtonClicked();
 	        }
@@ -122,7 +122,7 @@ public class SaveSheetMusic extends Application{
 	    @FXML
 	    private void cancelButtonClicked()  {
 	    	Stage stage = (Stage) CloseBtn.getScene().getWindow();
-            mvc.convertWindow.hide();
+            //mvc.convertWindow.hide();
             stage.close();
 	    }
 
