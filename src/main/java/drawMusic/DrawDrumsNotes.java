@@ -6,14 +6,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import note_information.DrumInformation;
 
 
 public class DrawDrumsNotes {
+
 	private LinkedList<DrumInformation> aLDrums;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
@@ -23,9 +21,6 @@ public class DrawDrumsNotes {
 	private Pane p;
 	private int currentNotesPrinted = 0;
 	private double divisionConstant = 1.1;
-	private String fontType = "verdana"; //DEFAULT
-	private int noteSize = 9; //DEFAULT
-
 
 
 	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums) {
@@ -42,7 +37,9 @@ public class DrawDrumsNotes {
 		int durationcounter = 0;
 		int xStart = 0;
 		int loc = 0;
-		boolean skip = false;
+		boolean drawing16 = false;
+		int draw16start = 0;
+		boolean cutoff = false;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
 			if(flagMeasureChange) {
@@ -70,8 +67,6 @@ public class DrawDrumsNotes {
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
 				loc = noteX;
-
-				t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
 				p.getChildren().add(t); //TEXT
 				p.getChildren().add(l); //TEXT note's line
 				currentNotesPrinted++;
@@ -99,7 +94,6 @@ public class DrawDrumsNotes {
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
 				loc = noteX;
-				t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
 				p.getChildren().add(t);
 				p.getChildren().add(l);
 				currentNotesPrinted++;
@@ -126,7 +120,6 @@ public class DrawDrumsNotes {
 					durationcounter = 0;
 					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
 					p.getChildren().add(a);
-					skip = true;
 				}else if(durationcounter == 0) {
 					xStart = loc+7;
 					durationcounter += ld.getDuration();
@@ -134,13 +127,13 @@ public class DrawDrumsNotes {
 					durationcounter += ld.getDuration();
 				}
 			}else if(ld.isChord()){
-
+				
 			}else {				
 				if(durationcounter+ld.getDuration()>=16) {
 					durationcounter = 0;
 					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
 					p.getChildren().add(a);
-					skip = true;
+					cutoff = true;
 				}else if(durationcounter == 0) {
 					xStart = loc+7;
 					durationcounter += ld.getDuration();
@@ -148,13 +141,18 @@ public class DrawDrumsNotes {
 					durationcounter += ld.getDuration();						
 				}
 			}
-
-			//			ld.getDuration()
-			//			ld.getType()
-
-			//			ld.getDuration()
-			//			ld.getType()
-
+			
+			if(ld.getDuration() == 4 && drawing16 == false) {
+				drawing16 = true;
+				draw16start = loc+7;
+			}else if(drawing16) {
+				if(this.aLDrums.get(j+1).getDuration() != 4 || cutoff) {
+					Line a = new Line(draw16start, currentNoteYLocation - 35, loc+7,currentNoteYLocation-35);
+					p.getChildren().add(a);
+					drawing16 = false;
+					cutoff = false;
+				}
+			}			
 		}
 	}
 
@@ -203,8 +201,5 @@ public class DrawDrumsNotes {
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
 	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
-	public void setNoteSize(int noteSize) {this.noteSize = noteSize;}
-	public void setFontType(String fontType) {this.fontType = fontType;}
-
 
 }
