@@ -77,49 +77,6 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
-	@FXML
-	private void SettingsHandle() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
-		XmlSequence sequence = new XmlSequence(mainText.getText(), converter);
-
-		// need custom parameterized constructor
-					loader.setControllerFactory(c -> {
-						try {
-								return new PlayerController(sequence);
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						return c;
-					});
-					
-					
-		/*
-		 * 1. setNoteSize() -> DrawGuitarNotes || DrawDrumNotes
-		 * 2. setFontType() -> DrawGuitarNotes || DrawDrumNotes
-		 * 
-		 *    Type of fonts: Make drop down menu
-		 * 		1. Helvetica
-		 * 		2. Calibri
-		 * 		3. Futura
-		 * 		4. Garamond
-		 * 		5. Times New Roman
-		 * 		6. Arial
-		 * 		7. Cambria
-		 * 		8. Verdana
-		 * 3. Increase/Decrease Measure Size 
-		 */
-
-	    Parent root = (Parent) loader.load();
-        Stage stage = (Stage) this.openNewWindow(root, "Settings");
-		
-
-		stage.setOnCloseRequest(event ->{
-			
-			event.consume();
-
-		});  
-	}
 	
 	Window openNewWindow(Parent root, String windowName) {
 		Stage stage = new Stage();
@@ -227,6 +184,50 @@ public class PreviewFileController extends Application {
 			}
 		}
 		System.out.println("Saved");
+	}
+	
+	@FXML
+	private void SettingsHandle() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
+		XmlSequence sequence = new XmlSequence(mainText.getText(), converter);
+
+		// need custom parameterized constructor
+					loader.setControllerFactory(c -> {
+						try {
+								return new PlayerController(sequence);
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						return c;
+					});
+					
+					
+		/*
+		 * 1. setNoteSize() -> DrawGuitarNotes || DrawDrumNotes
+		 * 2. setFontType() -> DrawGuitarNotes || DrawDrumNotes
+		 * 
+		 *    Type of fonts: Make drop down menu
+		 * 		1. Helvetica
+		 * 		2. Calibri
+		 * 		3. Futura
+		 * 		4. Garamond
+		 * 		5. Times New Roman
+		 * 		6. Arial
+		 * 		7. Cambria
+		 * 		8. Verdana
+		 * 3. Increase/Decrease Measure Size 
+		 */
+
+	    Parent root = (Parent) loader.load();
+        Stage stage = (Stage) this.openNewWindow(root, "Settings");
+		
+
+		stage.setOnCloseRequest(event ->{
+			
+			event.consume();
+
+		});  
 	}
 
 	@Override

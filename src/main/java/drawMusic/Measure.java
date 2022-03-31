@@ -10,7 +10,7 @@ public class Measure {
 	private int numberOfMeasures;
 	private int startingYSpace;
 	private final int startingXSpace = 10;
-	private final int measureWidth = 300;
+	private int measureWidth = 300;
 	private final int spaceBetweenBarsHorizontal = 17;
 	private final int moveMeasureDownValue = 200;
 	private final int measuresPerLine = 3;
@@ -124,6 +124,7 @@ public class Measure {
 	public int getMoveMeasureDownValue() {return this.moveMeasureDownValue;}
 	public int getHorizontalLinesInMeasure() {return this.lines;}
 	public int getTabsDrawnAmount() {return this.tabsDrawnAmount;}
+	public void setMeasureWidth(int measureWidth) {this.measureWidth = measureWidth;}
 
 
 }
