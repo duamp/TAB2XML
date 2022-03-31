@@ -67,7 +67,7 @@ public class PreviewFileController extends Application {
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
 	@FXML private Button button;
-    
+	@FXML private Button HomeBtn;
 
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
@@ -189,7 +189,11 @@ public class PreviewFileController extends Application {
 		}
 		System.out.println("Saved");
 	}
-	
+	@FXML
+	public void BackHome() {
+		  Stage stage = (Stage) HomeBtn.getScene().getWindow();
+  	    stage.close();	
+	}
 	@FXML
 	private void SettingsHandle() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
