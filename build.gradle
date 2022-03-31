@@ -29,7 +29,10 @@ dependencies {
     implementation group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.10.5'
 
     implementation 'org.apache.commons:commons-csv:1.8'
-
+    
+	// https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+	implementation group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13.3'
+	
     implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.12.5"
 
     testImplementation "org.testfx:testfx-core:4.0.16-alpha"

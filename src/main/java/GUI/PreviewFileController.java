@@ -34,6 +34,7 @@ import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
@@ -58,12 +59,12 @@ public class PreviewFileController extends Application {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private String instrument;
 	public Converter converter;
-
+       
 	@FXML public CodeArea mainText;
 	@FXML private AnchorPane ancorPane;
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
-
+	@FXML private Button HomeBtn;
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
 	}
@@ -224,6 +225,12 @@ public class PreviewFileController extends Application {
 			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getDuration();
 		}
 
+	}
+	
+	@FXML
+	public void BackHome() {
+		  Stage stage = (Stage) HomeBtn.getScene().getWindow();
+  	    stage.close();	
 	}
 	@FXML
 	public void saveSSHandle() {
