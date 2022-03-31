@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 import org.fxmisc.richtext.CodeArea;
 
 import converter.Converter;
-import converter.Score;
 import drawMusic.DrawDrumsNotes;
 import drawMusic.DrawGuitarNotes;
 import drawMusic.DrawRepeats;
@@ -46,6 +45,11 @@ import music_player.PlayerController;
 import music_player.XmlSequence;
 import note_information.DrumInformation;
 import note_information.*;
+
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequencer;
 
 public class PreviewFileController extends Application {
 
@@ -189,12 +193,11 @@ public class PreviewFileController extends Application {
 	@FXML
 	private void SettingsHandle() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
-		XmlSequence sequence = new XmlSequence(mainText.getText(), converter);
 
 		// need custom parameterized constructor
 					loader.setControllerFactory(c -> {
 						try {
-								return new PlayerController(sequence);
+							
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -229,6 +232,16 @@ public class PreviewFileController extends Application {
 
 		});  
 	}
+
+	@FXML
+	private void playMusic() throws MidiUnavailableException, InvalidMidiDataException {
+		Sequencer sequencer = MidiSystem.getSequencer();
+		XmlSequence sequence = new XmlSequence(converter.getScore());
+		sequencer.setSequence(sequence.generateSequence());
+		sequencer.open();
+		sequencer.start();
+	}
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {

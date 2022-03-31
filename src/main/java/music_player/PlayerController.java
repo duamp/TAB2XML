@@ -34,7 +34,6 @@ public class PlayerController {
 
 	 //TODO: remove awful scrolling sound
 	public PlayerController(XmlSequence sequence) throws InvalidMidiDataException, MidiUnavailableException, ValidityException, ParserConfigurationException, ParsingException, IOException {
-
         sequencer = MidiSystem.getSequencer();
         sequencer.setSequence(sequence.generateSequence());
         sequencer.open();
@@ -46,13 +45,14 @@ public class PlayerController {
 	@FXML 
 	private void initialize() throws IOException {
 		
-		
+
 		tempoSlider.valueProperty().addListener((bservableValue, oldValue, newValue) -> {
 			sequencer.setTempoFactor(newValue.floatValue() / 120f);	
 		});
 
 		
-		  // stop playing when dragging, resumes when let go 
+		  // stop playing when dragging, resumes when let go:
+
 		 videoSlider.setOnMouseDragged((event) -> {
 
 			 mediaSliderAnimation.pause();
@@ -70,6 +70,7 @@ public class PlayerController {
 		
 		 videoSlider.setOnMousePressed((event) -> {
 			 mediaSliderAnimation.pause();
+			 sequencer.stop();
 			 sequencer.setTickPosition((long) ((videoSlider.getValue() / 100.0) * sequencer.getTickLength()));
 		 });
 		 
