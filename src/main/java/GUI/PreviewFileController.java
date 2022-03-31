@@ -93,22 +93,32 @@ public class PreviewFileController extends Application {
 						return c;
 					});
 					
+					
+		/*
+		 * 1. setNoteSize() -> DrawGuitarNotes || DrawDrumNotes
+		 * 2. setFontType() -> DrawGuitarNotes || DrawDrumNotes
+		 * 
+		 *    Type of fonts: Make drop down menu
+		 * 		1. Helvetica
+		 * 		2. Calibri
+		 * 		3. Futura
+		 * 		4. Garamond
+		 * 		5. Times New Roman
+		 * 		6. Arial
+		 * 		7. Cambria
+		 * 		8. Verdana
+		 * 3. Increase/Decrease Measure Size 
+		 */
+
 	    Parent root = (Parent) loader.load();
         Stage stage = (Stage) this.openNewWindow(root, "Settings");
 		
-		/*
-		 *  setFontType(String)
-		 *  
-		 */
-        
-    	// cannot be put in initialize() b/c stage/scene is not loaded yet
+
 		stage.setOnCloseRequest(event ->{
 			
 			event.consume();
 
 		});  
-		
-    	
 	}
 	
 	Window openNewWindow(Parent root, String windowName) {

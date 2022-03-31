@@ -21,7 +21,8 @@ public class DrawGuitarNotes {
 	private int currentNoteYLocation = 0;
 	private double divisionConstant = 1.1;
 	private int currentNotesPrinted = 0;
-	private String fontType;
+	private String fontType = "verdana"; //DEFAULT
+	private int noteSize = 9; //DEFAULT
 
 	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL) {
 		this.p = p;
@@ -166,20 +167,8 @@ public class DrawGuitarNotes {
 			Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
 			
 			if(g.getGrace() != null) {
-				t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);
-				/*
-				 * Type of fonts
-				 * 1. Helvetica
-				 * 2. Calibri
-				 * 3. Futura
-				 * 4. Garamond
-				 * 5. Times New Roman
-				 * 6. Arial
-				 * 7. Cambria
-				 * 8. Verdana
-				 */
-				
-				t.setFont(Font.font("verdana", FontWeight.NORMAL, FontPosture.REGULAR, 9));
+				t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);				
+				t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
 			}
 			
 			p.getChildren().add(t); //TEXT
@@ -193,5 +182,6 @@ public class DrawGuitarNotes {
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
 	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
+	public void setNoteSize(int noteSize) {this.noteSize = noteSize;}
 	
 }
