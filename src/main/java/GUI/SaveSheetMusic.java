@@ -92,7 +92,6 @@ public class SaveSheetMusic extends Application{
 
 	             bi = new BufferedImage(width, height,
 	                BufferedImage.TYPE_INT_ARGB);
-
 	            int[] buffer = new int[width];
 
 	            PixelReader reader = ((javafx.scene.image.Image) iv.getImage()).getPixelReader();
