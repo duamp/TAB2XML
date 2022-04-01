@@ -145,7 +145,7 @@ public class SaveSheetMusic extends Application{
 	            cancelButtonClicked();
 	        }
 	    }
-
+//
 	    @FXML
 	    private void cancelButtonClicked()  {
 	    	  Stage stage = (Stage) CloseBtn.getScene().getWindow();
