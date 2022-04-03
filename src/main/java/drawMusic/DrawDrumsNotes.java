@@ -40,6 +40,7 @@ public class DrawDrumsNotes {
 		boolean drawing16 = false;
 		int draw16start = 0;
 		boolean cutoff = false;
+		int mn = 0;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
 			if(flagMeasureChange) {
@@ -54,7 +55,9 @@ public class DrawDrumsNotes {
 			}else {
 				note="⚫";
 			}
-
+			if(mn == 10) {
+				System.out.println("stop");
+			}
 			if(!ld.isChord()) {
 				timeDuration += ld.getDuration();
 				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
@@ -82,6 +85,7 @@ public class DrawDrumsNotes {
 					if(timeDuration == unitsInMeasure) {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
+						mn++;
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						timeDuration = 0;
 						whichMeasure++;
@@ -108,6 +112,7 @@ public class DrawDrumsNotes {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
+						mn++;
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						whichMeasure++;
 						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);

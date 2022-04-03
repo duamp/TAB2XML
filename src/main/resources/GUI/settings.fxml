@@ -9,11 +9,11 @@
 <?import javafx.scene.text.Text?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.PreviewFileController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="249.0" prefWidth="458.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.settings">
    <right>
       <VBox prefHeight="249.0" prefWidth="93.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="52.0" text="Save" onAction = "#saveSettingsHandle"/>
+            <Button mnemonicParsing="false" prefHeight="0.0" prefWidth="52.0" text="Save" />
          </children>
          <BorderPane.margin>
             <Insets left="25.0" />

@@ -199,15 +199,14 @@ public class PreviewFileController extends Application {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
 
 		// need custom parameterized constructor
-					loader.setControllerFactory(c -> {
-						try {
-							
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						return c;
-					});
+		loader.setControllerFactory(c -> {
+			try {
+				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			return c;
+		});
 					
 					
 		/*
@@ -231,7 +230,7 @@ public class PreviewFileController extends Application {
 		
 
 		stage.setOnCloseRequest(event ->{
-			
+			stage.close();
 			event.consume();
 
 		});  
