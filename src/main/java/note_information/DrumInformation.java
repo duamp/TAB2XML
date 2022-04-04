@@ -88,7 +88,7 @@ public class DrumInformation {
 	public String getNote() {return this.note;}
 	public Integer getDuration() {
 		if(this.duration == 0) {
-			DrawDrumsNotes d = new DrawDrumsNotes(null, null);
+			DrawDrumsNotes d = new DrawDrumsNotes(null, null, null);
 			return d.findDuration(this.type);
 		} 
 		return this.duration;

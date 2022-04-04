@@ -66,7 +66,7 @@ public class MainViewController extends Application {
 
 	public Highlighter highlighter;
 	public Converter converter;
-
+	public settings settings = null;
 	@FXML  Label mainViewState;
 	@FXML  TextField instrumentMode;
 
@@ -319,7 +319,7 @@ public class MainViewController extends Application {
 	}
 
 	@FXML
-	private void previewButtonHandle() throws IOException, TXMLException {
+	public void previewButtonHandle() throws IOException, TXMLException {
 		System.out.println("Preview Button Clicked!");
 		Parent root;
 		try {
@@ -335,6 +335,14 @@ public class MainViewController extends Application {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
 		}
+	}
+
+	public settings getSettings() {
+		return settings;
+	}
+
+	public void setSettings(settings settings) {
+		this.settings = settings;
 	}
 
 	public void refresh() {

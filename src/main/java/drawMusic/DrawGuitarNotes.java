@@ -26,7 +26,12 @@ public class DrawGuitarNotes {
 	private String fontType = s.getFontType();
 	private int noteSize = s.getNoteSize(); 
 	
-	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL) {
+	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL, settings s) {
+		if(s != null) {
+			this.s = s;
+			this.noteSize = this.s.getNoteSize();
+			this.fontType = this.s.getFontType();
+		}
 		this.p = p;
 		this.aLGuitar = aL;
 	}
