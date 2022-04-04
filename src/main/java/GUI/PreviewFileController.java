@@ -61,7 +61,6 @@ public class PreviewFileController extends Application {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private String instrument;
 	public Converter converter;
-
 	@FXML public CodeArea mainText;
 	@FXML private AnchorPane ancorPane;
 	@FXML TextField gotoMeasureField;
@@ -115,7 +114,7 @@ public class PreviewFileController extends Application {
 		Measure m;
 		if(instrument.equals("Guitar")) {
 			m = new Measure(5,this.pane, this.getMeasureNumber());
-			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar);
+			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar, this.mvc.settings);
 			m.drawMeasure(); //DRAWS MEASURES
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
 			DrawSlurs s = new DrawSlurs(aLGuitar, this.pane);
@@ -127,7 +126,7 @@ public class PreviewFileController extends Application {
 
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
-			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums);
+			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums, this.mvc.settings);
 			m.drawMeasure(); //DRAWS MEASURES
 			d.drawDrumNotes();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
@@ -197,7 +196,6 @@ public class PreviewFileController extends Application {
 	@FXML
 	private void SettingsHandle() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
-		settings s = new settings();
 		// need custom parameterized constructor
 		loader.setControllerFactory(c -> {
 			try {
@@ -234,6 +232,8 @@ public class PreviewFileController extends Application {
 			event.consume();
 
 		});  
+		Stage stage2 = (Stage) HomeBtn.getScene().getWindow();
+  	    stage2.close();	
 	}
 
 	@FXML

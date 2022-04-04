@@ -26,7 +26,12 @@ public class DrawDrumsNotes {
 	private String fontType = s.getFontType();
 	private int noteSize = s.getNoteSize(); 
 
-	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums) {
+	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums, settings s) {
+		if(s != null) {
+			this.s = s;
+			this.noteSize = this.s.getNoteSize();
+			this.fontType = this.s.getFontType();
+		}
 		this.aLDrums = aLDrums;
 		this.p = pane;
 	}
