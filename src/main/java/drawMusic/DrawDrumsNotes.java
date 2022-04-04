@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import GUI.settings;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -78,9 +79,12 @@ public class DrawDrumsNotes {
 
 			double yLocation = ld.getYCoord();
 			String note;
-			if(ld.getXorO() != null) {
+
+			if(ld.getXorO() == null) {
 				note= "x";
-			}else {
+			} else if(ld.getXorO().equals("(normal)")) {
+				note = "(⚫)";
+			} else {
 				note="⚫";
 			}
 			if(mn == 10) {

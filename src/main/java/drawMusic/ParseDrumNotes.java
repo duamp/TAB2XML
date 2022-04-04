@@ -50,6 +50,8 @@ public class ParseDrumNotes extends MainParser {
 	public String getXorO(int i, int j) {
 		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead() == null) {
 			return null;
+		} else if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getParentheses() != null) {
+			return "(" + sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype(true) + ")";
 		}
 		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype(true);
 	}
