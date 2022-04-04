@@ -2,6 +2,7 @@ package drawMusic;
 
 import java.util.LinkedList;
 
+import GUI.settings;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,9 +22,10 @@ public class DrawGuitarNotes {
 	private int currentNoteYLocation = 0;
 	private double divisionConstant = 1.1;
 	private int currentNotesPrinted = 0;
-	private String fontType = "verdana"; //DEFAULT
-	private int noteSize = 9; //DEFAULT
-
+	settings s = new settings();
+	private String fontType = s.getFontType();
+	private int noteSize = s.getNoteSize(); 
+	
 	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL) {
 		this.p = p;
 		this.aLGuitar = aL;
@@ -176,12 +178,12 @@ public class DrawGuitarNotes {
 			
 	}
 
-	public void setFontType(String fontType) {this.fontType = fontType;}
 	public LinkedList<GuitarInformation> getNoteObject(){return this.aLGuitar;}
 	public int getMeasureWidth() {return this.measureWidth;}
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
 	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
-	public void setNoteSize(int noteSize) {this.noteSize = noteSize;}
 	
+	
+		
 }

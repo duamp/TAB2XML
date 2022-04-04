@@ -197,7 +197,7 @@ public class PreviewFileController extends Application {
 	@FXML
 	private void SettingsHandle() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
-
+		settings s = new settings();
 		// need custom parameterized constructor
 		loader.setControllerFactory(c -> {
 			try {
