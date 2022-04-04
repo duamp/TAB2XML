@@ -16,16 +16,17 @@ public class DrawDrumsNotes {
 	private LinkedList<DrumInformation> aLDrums;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
-	private final int startingXSpace = 15;
+	private final int startingXSpace = 30;
 	private int currentNoteYLocation = 0;
 	private int unitsInMeasure = 0;
 	private Pane p;
 	private int currentNotesPrinted = 0;
-	private double divisionConstant = 1.1;
+	private double divisionConstant = 1.2;
 	settings s = new settings();
 	private String fontType = s.getFontType();
 	private int noteSize = s.getNoteSize(); 
 	private int measuresWithRests = 0;
+	private int notesStartingInMeasurePosition = 20;
 
 	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums, settings s) {
 		if(s != null) {
@@ -38,7 +39,7 @@ public class DrawDrumsNotes {
 	}
 
 	public void drawDrumNotes() {
-		int noteX = 35;
+		int noteX = startingXSpace + 25;
 		int measureNumber = 0;
 		int timeDuration = 0;
 		int whichMeasure = 0;
@@ -57,11 +58,11 @@ public class DrawDrumsNotes {
 				/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 				measureNumber++;
 				mn++;
-				noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
+				noteX = measureNumber*measureWidth + this.startingXSpace + notesStartingInMeasurePosition; 
 				whichMeasure++;
 				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 				flagMeasureChange = true;
-				measuresWithRests++;
+				measuresWithRests++;				
 				
 				if(measureNumber != 0 && measureNumber % 3 == 0) { 
 					currentNoteYLocation += moveMeasureDownValue;
@@ -115,7 +116,7 @@ public class DrawDrumsNotes {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
 						mn++;
-						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
+						noteX = measureNumber*measureWidth + this.startingXSpace + notesStartingInMeasurePosition; 
 						timeDuration = 0;
 						whichMeasure++;
 						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);

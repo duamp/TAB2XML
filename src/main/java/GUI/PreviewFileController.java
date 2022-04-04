@@ -133,6 +133,7 @@ public class PreviewFileController extends Application {
 			d.drawDrumNotes();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
 			rep.drawRepeatsDrums();
+			
 		}
 	}
 

@@ -15,10 +15,11 @@ public class Measure {
 	private final int moveMeasureDownValue = 200;
 	private final int measuresPerLine = 3;
 	private int lines;
-	private final int TABx = 15;
+	private final int TABx = 20;
 	private int currentMeasureCount = 0;
 	private int currentTopOfMeasureHeight = 0;
 	private int tabsDrawnAmount = 0;
+	private int fontsize = 50;
 
 	public Measure(int numberofLines, Pane p, int numberOfMeasures) {
 		lines = numberofLines;
@@ -41,6 +42,11 @@ public class Measure {
 				drawTabsorClef();
 				drawMeasureNumber();
 			}
+			
+			
+//			if(false) {
+//				drawTimeClef();
+//			}
 
 			/* DRAW MEASURE */
 			Line l = new Line(measureXAdjusted, currentTopOfMeasureHeight, this.measureWidth + measureXAdjusted, currentTopOfMeasureHeight);	//TOP
@@ -95,23 +101,24 @@ public class Measure {
 		} else {
 			// adds the bars
 			int fontsize = 50;
-			Text i1 = new Text(TABx-8, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "I");
-			Text i2 = new Text(TABx, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "I");
+			Text i1 = new Text(TABx - 8, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "I");
+			Text i2 = new Text(TABx , spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "I");
 			i1.setFont(new Font(fontsize));
 			i2.setFont(new Font(fontsize));
 			p.getChildren().add(i1); 
 			p.getChildren().add(i2);
 			// adds the 44
-			if(this.tabsDrawnAmount == 0) {
-				Text d14 = new Text(TABx+11, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "4");
-				Text d24 = new Text(TABx+11, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "4");
-				d14.setFont(new Font(fontsize-25));
-				d24.setFont(new Font(fontsize-25));
-				p.getChildren().add(d14); 
-				p.getChildren().add(d24);
-			}
-			this.tabsDrawnAmount++;
 		}
+	}
+
+	public void drawTimeClef() {
+			Text d14 = new Text(TABx + 11, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "4");
+			Text d24 = new Text(TABx + 11, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "4");
+			d14.setFont(new Font(fontsize-25));
+			d24.setFont(new Font(fontsize-25));
+			p.getChildren().add(d14); 
+			p.getChildren().add(d24);
+		
 	}
 
 	public void drawMeasureNumber() {	
@@ -125,6 +132,6 @@ public class Measure {
 	public int getHorizontalLinesInMeasure() {return this.lines;}
 	public int getTabsDrawnAmount() {return this.tabsDrawnAmount;}
 	public void setMeasureWidth(int measureWidth) {this.measureWidth = measureWidth;}
-
+	public void setFontSize(int f) {this.fontsize =f;}
 
 }
