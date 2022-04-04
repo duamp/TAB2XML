@@ -1,5 +1,6 @@
 package note_information;
 
+import drawMusic.DrawDrumsNotes;
 import drawMusic.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
@@ -32,13 +33,25 @@ public class DrumInformation {
 		this.type = type;
 		this.repeat = repeat;
 	}
+	
+	public DrumInformation() {
+		this.note = null;
+		this.duration = 0;
+		this.octave = 0;
+		this.yCoord = 0;
+		this.XorO = null;
+		this.chord = false;
+		this.measure = 0;
+		this.type = null;
+		this.repeat = 0;
+	}
 
 	public double getYCoord() {
 		double octaveY = 0;
 		Measure m = new Measure(4, pane, 1);
 		switch(this.octave) {//need to invert addition and subtraction
 		case -1:
-			return -1;
+			return 0;
 		case 3:
 			octaveY+= this.octaveDifference;
 			break;
@@ -73,7 +86,13 @@ public class DrumInformation {
 	}
 	public int getOctave() {return this.octave;}
 	public String getNote() {return this.note;}
-	public Integer getDuration() {return this.duration;}
+	public Integer getDuration() {
+		if(this.duration == 0) {
+			DrawDrumsNotes d = new DrawDrumsNotes(null, null);
+			return d.findDuration(this.type);
+		} 
+		return this.duration;
+	}
 	public boolean isChord() {return this.chord;} // implement the actual value of if it is multiple notes.
 	public void setNoteX(int x) {this.noteX = x;}
 	public void setNoteY(int y) {this.noteY = y;}
@@ -83,6 +102,7 @@ public class DrumInformation {
 	public String getXorO() {return this.XorO;}
 	public String getType() {return this.type;}
 	public int getRepeats() {return this.repeat;}
+	public Pane getPane() {return this.pane;}
 
 
 }

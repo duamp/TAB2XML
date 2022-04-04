@@ -25,6 +25,7 @@ public class DrawDrumsNotes {
 	settings s = new settings();
 	private String fontType = s.getFontType();
 	private int noteSize = s.getNoteSize(); 
+	private int measuresWithRests = 0;
 
 	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums) {
 		this.aLDrums = aLDrums;
@@ -46,6 +47,24 @@ public class DrawDrumsNotes {
 		int mn = 0;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
+			if(ld.getNote() == null) {
+				timeDuration = 0;
+				/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
+				measureNumber++;
+				mn++;
+				noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
+				whichMeasure++;
+				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
+				flagMeasureChange = true;
+				measuresWithRests++;
+				
+				if(measureNumber != 0 && measureNumber % 3 == 0) { 
+					currentNoteYLocation += moveMeasureDownValue;
+					measureNumber = 0;
+					noteX = this.startingXSpace + 20;
+				}
+				continue;
+			}
 			if(flagMeasureChange) {
 				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 				flagMeasureChange = !flagMeasureChange;
@@ -82,10 +101,12 @@ public class DrawDrumsNotes {
 				ld.setNoteY((int)(currentNoteYLocation + yLocation));
 
 				if(j < aLDrums.size() - 2 && !aLDrums.get(j+1).isChord()) {
-					noteX += (((double)ld.getDuration()/(unitsInMeasure*divisionConstant)) * this.measureWidth); 
+					if(unitsInMeasure != 0) {
+						noteX += (((double)ld.getDuration()/(unitsInMeasure*divisionConstant)) * this.measureWidth); 
+					}
 
 					/* KEEPS TRACK OF CURRENT MEASURE  */
-					if(timeDuration == unitsInMeasure) {
+					if(timeDuration >= unitsInMeasure) {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
 						mn++;
@@ -110,8 +131,10 @@ public class DrawDrumsNotes {
 				ld.setNoteY((int)(currentNoteYLocation + yLocation));
 
 				if((aLDrums.size() - 2 > j+1) && !aLDrums.get(j+1).isChord()) {
-					noteX += ((double)ld.getDuration()/(unitsInMeasure*divisionConstant) * measureWidth); 
-					if(timeDuration == unitsInMeasure) {
+					if(unitsInMeasure != 0) {
+						noteX += ((double)ld.getDuration()/(unitsInMeasure*divisionConstant) * measureWidth); 
+					}
+					if(timeDuration >= unitsInMeasure) {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
@@ -135,7 +158,7 @@ public class DrawDrumsNotes {
 					durationcounter += ld.getDuration();
 				}
 			}else if(ld.isChord()){
-				
+
 			}else {				
 				if(durationcounter+ld.getDuration()>=16) {
 					durationcounter = 0;
@@ -149,7 +172,7 @@ public class DrawDrumsNotes {
 					durationcounter += ld.getDuration();						
 				}
 			}
-			
+
 			if(ld.getDuration() == 4 && drawing16 == false) {
 				drawing16 = true;
 				draw16start = loc+7;
@@ -164,17 +187,21 @@ public class DrawDrumsNotes {
 		}
 	}
 
+	private void drawDrumLines() {
+
+	}
+
 	private int setUnitsInMeasure(int whichMeasure) {
 		/* GET AMOUNT OF NOTES IN MEASURE */
 		int unitsInMeasure = 0;
 		int k = 0;
 		int notesPerMeasure = 0;
-		while(this.currentNotesPrinted + k < aLDrums.size() && aLDrums.get(this.currentNotesPrinted + k).getMeasure() == whichMeasure + 1) {
+		while(this.currentNotesPrinted + k + measuresWithRests < aLDrums.size() && aLDrums.get(this.currentNotesPrinted + k + measuresWithRests).getMeasure() == whichMeasure + 1) {
 			notesPerMeasure++;
 			k++;
 		}
 
-		for(int i = currentNotesPrinted; i < notesPerMeasure+currentNotesPrinted; i++) {
+		for(int i = currentNotesPrinted + measuresWithRests; i < notesPerMeasure+currentNotesPrinted+measuresWithRests; i++) {
 			DrumInformation l = aLDrums.get(i);
 			if(!l.isChord() && l.getDuration() != null ) {
 				unitsInMeasure+= l.getDuration();
@@ -191,6 +218,8 @@ public class DrawDrumsNotes {
 		case "16th":
 			return 16;
 		case "8th":
+			return 8;
+		case "eighth":
 			return 8;
 		}
 		return 8;
@@ -209,5 +238,4 @@ public class DrawDrumsNotes {
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
 	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
-
 }

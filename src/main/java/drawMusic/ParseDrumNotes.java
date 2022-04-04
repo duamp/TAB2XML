@@ -19,11 +19,11 @@ public class ParseDrumNotes extends MainParser {
 	 * CREATE LINKED LIST OF NOTES FOLLOWED BY SPECIFIC Y-LOCATION
 	 * 1. Get <PITCH> STRING (STARTING POINT) + FRET (TIMES REPEATS i.e., add 17/2)
 	 */
-	
+
 	public void createList() {
 		aLDrums = new LinkedList<>();
 		for(int i = 0; i < this.getMeasureNumber(); i++) {
-			if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup() != null) {
+			if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup() != null && sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size() != 0) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
 					DrumInformation noteInformation;
 					noteInformation = new DrumInformation(
@@ -38,18 +38,22 @@ public class ParseDrumNotes extends MainParser {
 							);
 					aLDrums.add(noteInformation);
 				}
+			} else { //ADD REST MEASURE
+				DrumInformation noteInformation;
+				noteInformation = new DrumInformation(); //DEFAULT NULL VALUES
+				aLDrums.add(noteInformation);
 			}
 		}
 
 	}
-	
+
 	public String getXorO(int i, int j) {
 		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead() == null) {
 			return null;
 		}
 		return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotehead().getXorOtype(true);
 	}
-	
+
 	public String getDisplayedStepNote(int i, int j) {
 		if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched() != null) {
 			return sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getUnpitched().getDisplayStep();
@@ -63,7 +67,7 @@ public class ParseDrumNotes extends MainParser {
 		}
 		return -1;
 	}
-		
+
 	public LinkedList<DrumInformation> getDrumInformation() {
 		return this.aLDrums;
 	}

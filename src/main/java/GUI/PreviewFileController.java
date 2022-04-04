@@ -36,6 +36,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -81,7 +83,7 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
-	
+
 	Window openNewWindow(Parent root, String windowName) {
 		Stage stage = new Stage();
 		stage.setTitle(windowName);
@@ -98,8 +100,8 @@ public class PreviewFileController extends Application {
 	private void handleGotoMeasure() {
 		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
 		System.out.println(measureNumber);
-//		ancorPane.
-	// need to finish go to measure implementation
+		//		ancorPane.
+		// need to finish go to measure implementation
 	}
 
 	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException{
@@ -109,7 +111,7 @@ public class PreviewFileController extends Application {
 		this.sp = sp;
 		this.update();
 	}
-	
+
 	public void update() throws IOException{
 		createList();
 		Measure m;
@@ -191,8 +193,8 @@ public class PreviewFileController extends Application {
 	}
 	@FXML
 	public void BackHome() {
-		  Stage stage = (Stage) HomeBtn.getScene().getWindow();
-  	    stage.close();	
+		Stage stage = (Stage) HomeBtn.getScene().getWindow();
+		stage.close();	
 	}
 	@FXML
 	private void SettingsHandle() throws IOException {
@@ -201,14 +203,14 @@ public class PreviewFileController extends Application {
 		// need custom parameterized constructor
 		loader.setControllerFactory(c -> {
 			try {
-				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			return c;
 		});
-					
-					
+
+
 		/*
 		 * 1. setNoteSize() -> DrawGuitarNotes || DrawDrumNotes
 		 * 2. setFontType() -> DrawGuitarNotes || DrawDrumNotes
@@ -225,9 +227,9 @@ public class PreviewFileController extends Application {
 		 * 3. Increase/Decrease Measure Size 
 		 */
 
-	    Parent root = (Parent) loader.load();
-        Stage stage = (Stage) this.openNewWindow(root, "Settings");
-		
+		Parent root = (Parent) loader.load();
+		Stage stage = (Stage) this.openNewWindow(root, "Settings");
+
 
 		stage.setOnCloseRequest(event ->{
 			stage.close();
@@ -245,6 +247,15 @@ public class PreviewFileController extends Application {
 		sequencer.start();
 	}
 
+	private void highlight(int index) {
+		int x = aLGuitar.get(index).getNoteX();
+		int y = aLGuitar.get(index).getNoteY();
+		Rectangle r = new Rectangle(x,y,10,10);
+		Color c = Color.CYAN;
+		r.setFill(c);
+		r.setOpacity(0.3);
+		pane.getChildren().add(r);
+	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
