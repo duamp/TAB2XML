@@ -133,5 +133,7 @@ public class Measure {
 	public int getTabsDrawnAmount() {return this.tabsDrawnAmount;}
 	public void setMeasureWidth(int measureWidth) {this.measureWidth = measureWidth;}
 	public void setFontSize(int f) {this.fontsize =f;}
+	public int getMeasureWidth() {return this.measureWidth;}
+
 
 }
