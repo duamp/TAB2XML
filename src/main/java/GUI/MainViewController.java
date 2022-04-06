@@ -81,7 +81,7 @@ public class MainViewController extends Application {
 	@FXML  Button playButton;
 	@FXML  Button goToline;
 	@FXML  ComboBox<String> cmbScoreType;
-
+	private PreviewFileController controller;
 
 	public int measureNumber;
 
@@ -319,14 +319,14 @@ public class MainViewController extends Application {
 	}
 
 	@FXML
-	private void previewButtonHandle() throws IOException, TXMLException {
+	private void previewButtonHandle() throws IOException, TXMLException, ParsingException, ParserConfigurationException {
 		System.out.println("Preview Button Clicked!");
 		Parent root;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("GUI/previewPage.fxml"));
 			root = loader.load();
 			ScorePartwise sp = converter.getScore().getModel();
-			PreviewFileController controller = loader.getController();
+			controller = loader.getController();
 			controller.setMainViewController(this);
 			controller.startup(sp, mainText, converter);
 			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
@@ -414,64 +414,67 @@ public class MainViewController extends Application {
 
 	// by me patrick 
 	@FXML
-	private void showPlayerHandle() throws IOException, TXMLException, ValidityException, ParserConfigurationException, ParsingException{
+	public void showPlayerHandle() throws IOException{
+		showPlayer(null);
+	}
 
-			XmlSequence sequence = new XmlSequence(converter.getScore());
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/music_player.fxml"));
-			
-			// need custom parameterized constructor
-			loader.setControllerFactory(c -> {
-				try {
-						return new PlayerController(sequence);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				return c;
-			});
-			
-	        Parent root = (Parent) loader.load();
-	        Stage stage = (Stage) this.openNewWindow(root, "Music player");
-			PlayerController controller = loader.getController();
-			
-			
-		       
-	    	// cannot be put in initialize() b/c stage/scene is not loaded yet
-			stage.setOnCloseRequest(event ->{
-				
-				event.consume();
-				controller.pause();
-				
-				ButtonType save = new ButtonType("Save", ButtonBar.ButtonData.YES);
-				ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
-				ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-				
-				Alert alert = new Alert(AlertType.CONFIRMATION, "", save, nSave, cancel);
-				alert.setHeaderText("Do you want to save changes?");
-				Optional<ButtonType> result = alert.showAndWait();
-				
-				if (result.isPresent()) {
-					
-					if (result.get() == save && controller.saveSong()) {
-						controller.closeSequencer();
-						stage.close();
-					}	
-					
-					else if (result.get() == nSave) {
-						controller.closeSequencer();
-						stage.close();
-					}
-					else alert.close();
-					
+	public void showPlayer(PreviewFileController xd) throws IOException {
+
+		XmlSequence sequence = new XmlSequence(converter.getScore());
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/music_player.fxml"));
+
+		// need custom parameterized constructor
+		loader.setControllerFactory(c -> {
+			try {
+				if (xd != null) {
+					return new PlayerController(sequence, xd);
 				}
-			});  
-			
-	    
+				return new PlayerController(sequence);
+			}
+			catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return c;
+		});
+
+		Parent root = (Parent) loader.load();
+		Stage stage = (Stage) this.openNewWindow(root, "Music player");
+		PlayerController controller = loader.getController();
+
+		// cannot be put in initialize() b/c stage/scene is not loaded yet
+		stage.setOnCloseRequest(event ->{
+
+			event.consume();
+			controller.pause();
+
+			ButtonType save = new ButtonType("Save", ButtonBar.ButtonData.YES);
+			ButtonType nSave = new ButtonType("Don't Save", ButtonBar.ButtonData.NO);
+			ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+			Alert alert = new Alert(AlertType.CONFIRMATION, "", save, nSave, cancel);
+			alert.setHeaderText("Do you want to save changes?");
+			Optional<ButtonType> result = alert.showAndWait();
+
+			if (result.isPresent()) {
+
+				if (result.get() == save && controller.saveSong()) {
+					controller.closeSequencer();
+					stage.close();
+				}
+
+				else if (result.get() == nSave) {
+					controller.closeSequencer();
+					stage.close();
+				}
+				else alert.close();
+
+			}
+		});
+
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-
-	}
+	public void start(Stage primaryStage) throws Exception {}
 
 }

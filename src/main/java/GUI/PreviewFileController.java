@@ -2,9 +2,14 @@ package GUI;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import custom_exceptions.TXMLException;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
+import nu.xom.ParsingException;
 import org.fxmisc.richtext.CodeArea;
 
 import converter.Converter;
@@ -53,6 +58,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class PreviewFileController extends Application {
 
@@ -65,11 +71,16 @@ public class PreviewFileController extends Application {
 	private String instrument;
 	public Converter converter;
 
-	@FXML public CodeArea mainText;
-	@FXML private AnchorPane ancorPane;
-	@FXML TextField gotoMeasureField;
-	@FXML private Pane pane;
-	@FXML private Button button;
+	@FXML
+	public CodeArea mainText;
+	@FXML
+	private AnchorPane ancorPane;
+	@FXML
+	TextField gotoMeasureField;
+	@FXML
+	private Pane pane;
+	@FXML
+	private Button button;
 
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
@@ -83,40 +94,41 @@ public class PreviewFileController extends Application {
 	private void saveMXLButtonHandle() {
 		mvc.saveMXLButtonHandle();
 	}
+
 	@FXML
 	private void SettingsHandle() throws IOException {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
 		XmlSequence sequence = new XmlSequence(converter.getScore());
 
 		// need custom parameterized constructor
-					loader.setControllerFactory(c -> {
-						try {
-								return new PlayerController(sequence);
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						return c;
-					});
-					
-	    Parent root = (Parent) loader.load();
-        Stage stage = (Stage) this.openNewWindow(root, "Settings");
-		
+		loader.setControllerFactory(c -> {
+			try {
+				return new PlayerController(sequence);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return c;
+		});
+
+		Parent root = (Parent) loader.load();
+		Stage stage = (Stage) this.openNewWindow(root, "Settings");
+
 		/*
 		 *  setFontType(String)
-		 *  
+		 *
 		 */
-        
-    	// cannot be put in initialize() b/c stage/scene is not loaded yet
-		stage.setOnCloseRequest(event ->{
-			
+
+		// cannot be put in initialize() b/c stage/scene is not loaded yet
+		stage.setOnCloseRequest(event -> {
+
 			event.consume();
 
-		});  
-		
-    	
+		});
+
+
 	}
-	
+
 	Window openNewWindow(Parent root, String windowName) {
 		Stage stage = new Stage();
 		stage.setTitle(windowName);
@@ -131,25 +143,25 @@ public class PreviewFileController extends Application {
 
 	@FXML
 	private void handleGotoMeasure() {
-		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+		int measureNumber = Integer.parseInt(gotoMeasureField.getText());
 		System.out.println(measureNumber);
 //		ancorPane.
-	// need to finish go to measure implementation
+		// need to finish go to measure implementation
 	}
 
-	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException{
+	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException {
 		this.mainText = mainText;
 		this.converter = converter;
 		instrument = sp.getPartList().getScoreParts().get(0).getPartName();
 		this.sp = sp;
 		this.update();
 	}
-	
-	public void update() throws IOException{
+
+	public void update() throws IOException {
 		createList();
 		Measure m;
-		if(instrument.equals("Guitar")) {
-			m = new Measure(5,this.pane, this.getMeasureNumber());
+		if (instrument.equals("Guitar")) {
+			m = new Measure(5, this.pane, this.getMeasureNumber());
 			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar);
 			m.drawMeasure(); //DRAWS MEASURES
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
@@ -159,15 +171,15 @@ public class PreviewFileController extends Application {
 			sl.drawSlides();
 
 		} else {
-			m = new Measure(4,this.pane, this.getMeasureNumber());
-			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums);
+			m = new Measure(4, this.pane, this.getMeasureNumber());
+			DrawDrumsNotes d = new DrawDrumsNotes(pane, aLDrums);
 			m.drawMeasure(); //DRAWS MEASURES
 			d.drawDrumNotes();
 		}
 	}
 
 	private void createList() {
-		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
+		if (sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
 			ParseDrumNotes d = new ParseDrumNotes(sp);
 			d.createList();
 			aLDrums = d.getDrumInformation();
@@ -178,7 +190,20 @@ public class PreviewFileController extends Application {
 		}
 	}
 
-	public void initialize() {}
+
+	// highlight code
+	public void highlight(int index) {
+		int x = aLDrums.get(index).getNoteX();
+		int y = aLDrums.get(index).getNoteY();
+		Rectangle r = new Rectangle(x, y, 10, 10);
+		Color c = Color.CYAN;
+		r.setFill(c);
+		r.setOpacity(0.3);
+		pane.getChildren().add(r);
+	}
+
+	public void initialize() {
+	}
 
 	@FXML
 	public void saveSSHandle() {
@@ -193,8 +218,9 @@ public class PreviewFileController extends Application {
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
-		}		
+		}
 	}
+
 	@FXML
 	public void printSSHandle() {
 		System.out.println("Printing");
@@ -208,13 +234,13 @@ public class PreviewFileController extends Application {
 		System.out.println(l.getPrintableHeight());
 		System.out.println(l.getPrintableWidth());
 
-		double s = Math.min(l.getPrintableWidth()/wi.getWidth(), l.getPrintableHeight()/wi.getHeight());
-		iv.getTransforms().add(new Scale(s,s));
+		double s = Math.min(l.getPrintableWidth() / wi.getWidth(), l.getPrintableHeight() / wi.getHeight());
+		iv.getTransforms().add(new Scale(s, s));
 		PrinterJob pj = PrinterJob.createPrinterJob();
-		if(pj == null || !pj.showPageSetupDialog(pane.getScene().getWindow())) {
+		if (pj == null || !pj.showPageSetupDialog(pane.getScene().getWindow())) {
 			System.out.println("Error Printing");
-		}else {
-			if(pj.printPage(iv)) {
+		} else {
+			if (pj.printPage(iv)) {
 				pj.endJob();
 			}
 		}
@@ -222,14 +248,9 @@ public class PreviewFileController extends Application {
 	}
 
 	@FXML
-	private void playMusic() throws MidiUnavailableException, InvalidMidiDataException {
-		Sequencer sequencer = MidiSystem.getSequencer();
-		XmlSequence sequence = new XmlSequence(converter.getScore());
-		sequencer.setSequence(sequence.generateSequence());
-		sequencer.open();
-		sequencer.start();
+	private void playMusic() throws IOException {
+		mvc.showPlayer(this);
 	}
-
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {

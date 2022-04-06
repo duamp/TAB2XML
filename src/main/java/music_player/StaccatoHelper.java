@@ -93,15 +93,4 @@ public class StaccatoHelper {
 		
 	}
 	
-	/*The Repeat Sign informs you that you should go back to the section
-	 *  where there is another repeat sign and repeat it once again. 
-	 * If there is no other sign, go back to the beginning and repeat everything up to that sign.
-	 * 
-	 */
-    
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

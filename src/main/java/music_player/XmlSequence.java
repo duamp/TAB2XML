@@ -1,5 +1,6 @@
 package music_player;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,6 @@ import utility.MusicXMLCreator;
 
 
 public class XmlSequence {
-	
-
 	private Score score;
 	private Pattern pattern;
 
@@ -38,7 +37,6 @@ public class XmlSequence {
 		this.score = score;
 	}
 
-	//TODO: BEND
 	public Sequence generateSequence() {
 		
 		Clef clef = score.getMeasure(1).getModel().getAttributes().getClef();
@@ -54,7 +52,7 @@ public class XmlSequence {
 			tabType = "percussion";
 			mainPattern = new StringBuilder("V9");
 		}
-		else return null;
+		else throw new IllegalArgumentException ("Invalid score");
 			
 		StringBuilder repeatPattern = new StringBuilder();
 		boolean repeat = false;
@@ -123,57 +121,16 @@ public class XmlSequence {
 			e.printStackTrace();
 		}
 		
-		
-		
 		Player player = new Player();
 		this.pattern = new Pattern(mainPattern.toString());
 		return player.getSequence(mainPattern.toString());
 	}
 	
-//	private Sequence generateGuitar()  {
-//
-//
-//		TabMeasure firstMeasure = score.getTabSectionList().get(0).getTabRow().getMeasureList().get(0);
-//		boolean noTimeSignature = (firstMeasure.getBeatCount() == 4 && firstMeasure.getBeatType() == 4);
-//
-//
-//
-//		// musicXML does not specify explicit time signature if default 4/4
-//		if (noTimeSignature) {
-////			System.out.println("  4/4\n" + tab.trim());
-//			Score score = new Score("  4/4\n" + tab.trim());
-//			musicXML = new MusicXMLCreator(score).generateMusicXML();
-//		}
-//
-//			MusicXmlParser parser;
-//			Sequence sequence = null;
-//
-//			try {
-//				parser = new MusicXmlParser();
-//				MidiParserListener listener = new MidiParserListener();
-//		    	parser.addParserListener(listener);
-//		    	parser.parse(musicXML);
-//		    	MidiParser parser1 = new MidiParser();
-//		    	StaccatoParserListener listen1 = new StaccatoParserListener();
-//		    	parser1.addParserListener(listen1);
-//		    	parser1.parse(listener.getSequence());
-//		    	listen1.getPattern().setInstrument("Guitar");
-//		    	pattern = listen1.getPattern();
-//		    	System.out.println(pattern.toString());
-//		    	sequence =  new Player().getSequence(listen1);
-//			}
-//			catch (Exception e) {
-//
-//			}
-//	    	return sequence;
-//
-//	}
 
 	// for testing purposes
 	public Pattern getPattern() {
 		return pattern;
 	}
-	
 
     private BarLine getBarLine(List<BarLine> barlines,  String location) {
     	if (barlines != null) {
