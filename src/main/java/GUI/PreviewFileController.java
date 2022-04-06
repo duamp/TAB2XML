@@ -13,6 +13,7 @@ import drawMusic.DrawGuitarNotes;
 import drawMusic.DrawRepeats;
 import drawMusic.DrawSlides;
 import drawMusic.DrawSlurs;
+import drawMusic.DrawTiming;
 import drawMusic.Measure;
 import drawMusic.ParseDrumNotes;
 import drawMusic.ParseGuitarNotes;
@@ -125,7 +126,9 @@ public class PreviewFileController extends Application {
 			sl.drawSlides();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
 			rep.drawRepeatsGuitar();
-
+			DrawTiming t = new DrawTiming(aLGuitar, aLDrums, this.pane, sp);
+			t.drawTimingGuitar();
+			
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
 			DrawDrumsNotes d = new DrawDrumsNotes(pane,aLDrums, this.mvc.settings);
@@ -133,7 +136,8 @@ public class PreviewFileController extends Application {
 			d.drawDrumNotes();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
 			rep.drawRepeatsDrums();
-			
+			DrawTiming t = new DrawTiming(aLGuitar, aLDrums, this.pane, sp);
+			t.drawTimingDrums();
 		}
 	}
 

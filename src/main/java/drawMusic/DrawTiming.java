@@ -6,21 +6,62 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import models.ScorePartwise;
 import note_information.DrumInformation;
 import note_information.GuitarInformation;
 
-public class DrawRepeats {
+public class DrawTiming {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private LinkedList<DrumInformation> aLDrums;
 	private Pane p;
+	private ScorePartwise sp;
 
-	public DrawRepeats(LinkedList<GuitarInformation> aLGuitar, LinkedList<DrumInformation> aLDrums, Pane p) {
+	public DrawTiming(LinkedList<GuitarInformation> aLGuitar, LinkedList<DrumInformation> aLDrums, Pane p, ScorePartwise sp) {
 		this.aLDrums = aLDrums;
 		this.aLGuitar = aLGuitar;
 		this.p = p;
+		this.sp = sp; 
+		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
+			getTimingDrums();
+		} else {
+			getTimingGuitar();
+		}
 	}
 
-	public void drawRepeatsGuitar(){
+	private void getTimingGuitar() {
+		aLGuitar = new LinkedList<>();
+		int beats = 0;
+		int beatType = 0;
+		for(int i = 0; i < this.getMeasureNumber(); i++) {
+			if(sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime() != null) {
+				beats = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeats();
+				beatType = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeatType();
+			}
+			
+			System.out.println("Beats: " + beats);
+			System.out.println("Beat Type: " + beatType);
+		}
+	}
+
+
+	private void getTimingDrums() {
+		aLDrums = new LinkedList<>();
+		int beats = 0;
+		int beatType = 0;
+		for(int i = 0; i < this.getMeasureNumber(); i++) {
+			if(sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime() != null) {
+				beats = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeats();
+				beatType = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeatType();
+			}
+			
+			System.out.println("Beats: " + beats);
+			System.out.println("Beat Type: " + beatType);
+		}
+	}
+
+
+
+	public void drawTimingGuitar(){
 		Boolean flag = true;
 		for(int i = 0; i < aLGuitar.size(); i++) {
 			GuitarInformation pointer = aLGuitar.get(i);
@@ -38,7 +79,7 @@ public class DrawRepeats {
 					p.getChildren().add(l);
 					flag = false;
 				}
-				
+
 				if(pointerNext.getRepeats() == 0) {
 					Text t = new Text(getMeasureXLocation(pointerNext.getMeasure()), getMeasureYLocation(pointer.getMeasure()) - 10, "x" + pointer.getRepeats() + "");
 					p.getChildren().add(t);
@@ -55,7 +96,7 @@ public class DrawRepeats {
 		}
 	}
 
-	public void drawRepeatsDrums(){
+	public void drawTimingDrums(){
 		Boolean flag = true;
 		for(int i = 0; i < aLDrums.size(); i++) {
 			DrumInformation pointer = aLDrums.get(i);
@@ -73,7 +114,7 @@ public class DrawRepeats {
 					p.getChildren().add(l);
 					flag = false;
 				}
-				
+
 				if(pointerNext.getRepeats() == 0) {
 					Text t = new Text(getMeasureXLocation(pointerNext.getMeasure()), getMeasureYLocation(pointer.getMeasure()) - 10, "x" + pointer.getRepeats() + "");
 					p.getChildren().add(t);
@@ -88,6 +129,10 @@ public class DrawRepeats {
 				}
 			}
 		}
+	}
+
+	public int getMeasureNumber() {
+		return sp.getParts().get(0).getMeasures().size();
 	}
 
 	private int getMeasureXLocation(int measureNumber) {
