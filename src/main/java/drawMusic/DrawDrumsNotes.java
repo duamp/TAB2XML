@@ -81,11 +81,11 @@ public class DrawDrumsNotes {
 			String note;
 
 			if(ld.getXorO() == null) {
-				note= "x";
+				note= "⚫";
 			} else if(ld.getXorO().equals("(normal)")) {
 				note = "(⚫)";
 			} else {
-				note="⚫";
+				note= "x";
 			}
 			if(mn == 10) {
 				System.out.println("stop");
