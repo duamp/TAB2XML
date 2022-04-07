@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import models.ScorePartwise;
 import note_information.DrumInformation;
@@ -14,37 +15,21 @@ public class DrawTiming {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private LinkedList<DrumInformation> aLDrums;
 	private Pane p;
+	private LinkedList<Timing> times;
 	private ScorePartwise sp;
+	private int fontsize; 
+	private static int startingXSpace = 30;
 
 	public DrawTiming(LinkedList<GuitarInformation> aLGuitar, LinkedList<DrumInformation> aLDrums, Pane p, ScorePartwise sp) {
 		this.aLDrums = aLDrums;
 		this.aLGuitar = aLGuitar;
+		this.times = new LinkedList<Timing>();
 		this.p = p;
 		this.sp = sp; 
-		if(sp.getPartList().getScoreParts().get(0).getPartName() == "Drumset") {
-			getTimingDrums();
-		} else {
-			getTimingGuitar();
-		}
+		getTiming();
 	}
 
-	private void getTimingGuitar() {
-		aLGuitar = new LinkedList<>();
-		int beats = 0;
-		int beatType = 0;
-		for(int i = 0; i < this.getMeasureNumber(); i++) {
-			if(sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime() != null) {
-				beats = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeats();
-				beatType = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeatType();
-			}
-			
-			System.out.println("Beats: " + beats);
-			System.out.println("Beat Type: " + beatType);
-		}
-	}
-
-
-	private void getTimingDrums() {
+	private void getTiming() {
 		aLDrums = new LinkedList<>();
 		int beats = 0;
 		int beatType = 0;
@@ -53,81 +38,30 @@ public class DrawTiming {
 				beats = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeats();
 				beatType = sp.getParts().get(0).getMeasures().get(i).getAttributes().getTime().getBeatType();
 			}
-			
-			System.out.println("Beats: " + beats);
-			System.out.println("Beat Type: " + beatType);
+		
+			this.times.add(new Timing(i, beats, beatType));
 		}
 	}
 
-
-
-	public void drawTimingGuitar(){
-		Boolean flag = true;
-		for(int i = 0; i < aLGuitar.size(); i++) {
-			GuitarInformation pointer = aLGuitar.get(i);
-			GuitarInformation pointerNext = aLGuitar.get(i);
-			if(i + 1 < aLGuitar.size()) {
-				pointerNext = aLGuitar.get(i+1);
-			}
-			if(pointer.getRepeats() != 0) {
-				if(flag) { // CREATE BEGINNING 'REPEAT' CIRCLES
-					Line l = new Line(getMeasureXLocation(pointer.getMeasure()) + 35, getMeasureYLocation(pointer.getMeasure()) + 28, getMeasureXLocation(pointer.getMeasure()) + 35, getMeasureYLocation(pointer.getMeasure()) + 43); //x1 y1 x2 y2
-					Circle ctop = new Circle(getMeasureXLocation(pointer.getMeasure()) + 41, getMeasureYLocation(pointer.getMeasure()) + 28, 3);
-					Circle cbottom = new Circle(getMeasureXLocation(pointer.getMeasure()) + 41, getMeasureYLocation(pointer.getMeasure()) + 43, 3);
-					p.getChildren().add(ctop);
-					p.getChildren().add(cbottom);
-					p.getChildren().add(l);
-					flag = false;
+	public void drawTiming(){
+		Timing current = new Timing(1,0,0);
+		for(int i = 0; i < this.getMeasureNumber(); i++) {
+			if(current.getBeat() != times.get(i).getBeat()) { // draw new time scale on corresponding measure.
+				Text d14;
+				Text d24;
+				if((i)%3 == 0) {
+					d14 = new Text(getMeasureXLocation(i+1) + startingXSpace, getMeasureYLocation(i+1) + 37, "" + times.get(i).getBeat());
+					d24 = new Text(getMeasureXLocation(i+1) + startingXSpace, getMeasureYLocation(i+1) + 59, "" + times.get(i).getBeatType());
+				} else {
+					d14 = new Text(getMeasureXLocation(i+1) + startingXSpace - 15, getMeasureYLocation(i+1) + 37, "" + times.get(i).getBeat());
+					d24 = new Text(getMeasureXLocation(i+1) + startingXSpace - 15, getMeasureYLocation(i+1) + 59, "" + times.get(i).getBeatType());
 				}
-
-				if(pointerNext.getRepeats() == 0) {
-					Text t = new Text(getMeasureXLocation(pointerNext.getMeasure()), getMeasureYLocation(pointer.getMeasure()) - 10, "x" + pointer.getRepeats() + "");
-					p.getChildren().add(t);
-					// CREATE ENDING 'REPEAT' CIRCLES
-					Line l = new Line(getMeasureXLocation(pointerNext.getMeasure()) + 5, getMeasureYLocation(pointer.getMeasure()) + 28, getMeasureXLocation(pointerNext.getMeasure()) + 5, getMeasureYLocation(pointer.getMeasure()) + 43); //x1 y1 x2 y2
-					Circle ctop = new Circle(getMeasureXLocation(pointerNext.getMeasure() ), getMeasureYLocation(pointerNext.getMeasure()) + 28, 3);
-					Circle cbottom = new Circle(getMeasureXLocation(pointerNext.getMeasure()), getMeasureYLocation(pointerNext.getMeasure()) + 43, 3);
-					p.getChildren().add(ctop);
-					p.getChildren().add(cbottom);
-					p.getChildren().add(l);
-					flag = true;
-				}
+				d14.setFont(new Font(25 - fontsize));
+				d24.setFont(new Font(25 - fontsize));
+				p.getChildren().add(d14); 
+				p.getChildren().add(d24);
 			}
-		}
-	}
-
-	public void drawTimingDrums(){
-		Boolean flag = true;
-		for(int i = 0; i < aLDrums.size(); i++) {
-			DrumInformation pointer = aLDrums.get(i);
-			DrumInformation pointerNext = aLDrums.get(i);
-			if(i + 1 < aLDrums.size()) {
-				pointerNext = aLDrums.get(i+1);
-			}
-			if(pointer.getRepeats() != 0) {
-				if(flag) { // CREATE BEGINNING 'REPEAT' CIRCLES
-					Line l = new Line(getMeasureXLocation(pointer.getMeasure()) + 35, getMeasureYLocation(pointer.getMeasure()) + 28, getMeasureXLocation(pointer.getMeasure()) + 35, getMeasureYLocation(pointer.getMeasure()) + 43); //x1 y1 x2 y2
-					Circle ctop = new Circle(getMeasureXLocation(pointer.getMeasure()) + 41, getMeasureYLocation(pointer.getMeasure()) + 28, 3);
-					Circle cbottom = new Circle(getMeasureXLocation(pointer.getMeasure()) + 41, getMeasureYLocation(pointer.getMeasure()) + 43, 3);
-					p.getChildren().add(ctop);
-					p.getChildren().add(cbottom);
-					p.getChildren().add(l);
-					flag = false;
-				}
-
-				if(pointerNext.getRepeats() == 0) {
-					Text t = new Text(getMeasureXLocation(pointerNext.getMeasure()), getMeasureYLocation(pointer.getMeasure()) - 10, "x" + pointer.getRepeats() + "");
-					p.getChildren().add(t);
-					// CREATE ENDING 'REPEAT' CIRCLES
-					Line l = new Line(getMeasureXLocation(pointerNext.getMeasure()) + 5, getMeasureYLocation(pointer.getMeasure()) + 28, getMeasureXLocation(pointerNext.getMeasure()) + 5, getMeasureYLocation(pointer.getMeasure()) + 43); //x1 y1 x2 y2
-					Circle ctop = new Circle(getMeasureXLocation(pointerNext.getMeasure() ), getMeasureYLocation(pointerNext.getMeasure()) + 28, 3);
-					Circle cbottom = new Circle(getMeasureXLocation(pointerNext.getMeasure()), getMeasureYLocation(pointerNext.getMeasure()) + 43, 3);
-					p.getChildren().add(ctop);
-					p.getChildren().add(cbottom);
-					p.getChildren().add(l);
-					flag = true;
-				}
-			}
+			current = times.get(i); //change current
 		}
 	}
 

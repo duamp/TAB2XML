@@ -16,7 +16,7 @@ public class DrawGuitarNotes {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private final int measureWidth = 300;
 	private final int moveMeasureDownValue = 200;
-	private final int startingXSpace = 15;
+	private final int startingXSpace = 30;
 	private Pane p;
 	private int unitsInMeasure = 0;
 	private int currentNoteYLocation = 0;
@@ -37,7 +37,7 @@ public class DrawGuitarNotes {
 	}
 
 	public void drawGuitarNotes() {
-		int noteX = 35;
+		int noteX = startingXSpace + 20;
 		int measureNumber = 0;
 		int timeDuration = 0;
 		int whichMeasure = 0;

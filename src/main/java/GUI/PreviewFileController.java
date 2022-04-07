@@ -126,8 +126,6 @@ public class PreviewFileController extends Application {
 			sl.drawSlides();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
 			rep.drawRepeatsGuitar();
-			DrawTiming t = new DrawTiming(aLGuitar, aLDrums, this.pane, sp);
-			t.drawTimingGuitar();
 			
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
@@ -136,9 +134,9 @@ public class PreviewFileController extends Application {
 			d.drawDrumNotes();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
 			rep.drawRepeatsDrums();
-			DrawTiming t = new DrawTiming(aLGuitar, aLDrums, this.pane, sp);
-			t.drawTimingDrums();
 		}
+		DrawTiming t = new DrawTiming(aLGuitar, aLDrums, this.pane, sp);
+		t.drawTiming();
 	}
 
 	private void createList() {

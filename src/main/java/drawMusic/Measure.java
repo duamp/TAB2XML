@@ -15,7 +15,7 @@ public class Measure {
 	private final int moveMeasureDownValue = 200;
 	private final int measuresPerLine = 3;
 	private int lines;
-	private final int TABx = 20;
+	private final int TABx = startingXSpace + 10;
 	private int currentMeasureCount = 0;
 	private int currentTopOfMeasureHeight = 0;
 	private int tabsDrawnAmount = 0;
@@ -111,15 +111,7 @@ public class Measure {
 		}
 	}
 
-	public void drawTimeClef() {
-			Text d14 = new Text(TABx + 11, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight, "4");
-			Text d24 = new Text(TABx + 11, spaceBetweenBarsHorizontal*3 + currentTopOfMeasureHeight, "4");
-			d14.setFont(new Font(fontsize-25));
-			d24.setFont(new Font(fontsize-25));
-			p.getChildren().add(d14); 
-			p.getChildren().add(d24);
-		
-	}
+
 
 	public void drawMeasureNumber() {	
 		Text number = new Text(TABx - 5, spaceBetweenBarsHorizontal*2 + currentTopOfMeasureHeight - 60, "" + (getCurrentMeasureCount() + 1) + "");
