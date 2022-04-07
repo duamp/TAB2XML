@@ -54,20 +54,18 @@ public class DrawDrumsNotes {
 		boolean drawing16 = false;
 		int draw16start = 0;
 		boolean cutoff = false;
-		int mn = 0;
 		for(int j = 0; j < aLDrums.size(); j++) {
 			DrumInformation ld = (DrumInformation) this.aLDrums.get(j);
 			if(ld.getNote() == null) {
 				timeDuration = 0;
 				/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 				measureNumber++;
-				mn++;
 				noteX = measureNumber*measureWidth + this.startingXSpace + notesStartingInMeasurePosition; 
 				whichMeasure++;
 				this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
 				flagMeasureChange = true;
 				measuresWithRests++;				
-				
+
 				if(measureNumber != 0 && measureNumber % 3 == 0) { 
 					currentNoteYLocation += moveMeasureDownValue;
 					measureNumber = 0;
@@ -90,9 +88,7 @@ public class DrawDrumsNotes {
 			} else {
 				note="⚫";
 			}
-			if(mn == 10) {
-				System.out.println("stop");
-			}
+
 			if(!ld.isChord()) {
 				timeDuration += ld.getDuration();
 				//START ADDING MEASURES ON NEW Y-COORD AND ORIGINAL X-COORD.
@@ -126,7 +122,6 @@ public class DrawDrumsNotes {
 					if(timeDuration >= unitsInMeasure) {
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
-						mn++;
 						noteX = measureNumber*measureWidth + this.startingXSpace + notesStartingInMeasurePosition; 
 						timeDuration = 0;
 						whichMeasure++;
@@ -143,7 +138,7 @@ public class DrawDrumsNotes {
 					t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);				
 					t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
 				}
-				
+
 				p.getChildren().add(t);
 				p.getChildren().add(l);
 				currentNotesPrinted++;
@@ -160,7 +155,6 @@ public class DrawDrumsNotes {
 						timeDuration = 0;
 						/*  PLACES NOTE AT BEGINNING OF NEW MEASURE  */
 						measureNumber++;
-						mn++;
 						noteX = measureNumber*measureWidth + this.startingXSpace + 5; 
 						whichMeasure++;
 						this.unitsInMeasure = setUnitsInMeasure(whichMeasure);
@@ -168,6 +162,7 @@ public class DrawDrumsNotes {
 					}
 				}
 			}
+
 			if(j+1 < this.aLDrums.size() && ld.isChord() && this.aLDrums.get(j+1).isChord()) {
 				if(durationcounter+ld.getDuration()>=16) {
 					durationcounter = 0;
@@ -194,7 +189,7 @@ public class DrawDrumsNotes {
 					durationcounter += ld.getDuration();						
 				}
 			}
-
+			
 			if(ld.getDuration() == 4 && drawing16 == false) {
 				drawing16 = true;
 				draw16start = loc+7;
@@ -207,10 +202,6 @@ public class DrawDrumsNotes {
 				}
 			}			
 		}
-	}
-
-	private void drawDrumLines() {
-
 	}
 
 	private int setUnitsInMeasure(int whichMeasure) {

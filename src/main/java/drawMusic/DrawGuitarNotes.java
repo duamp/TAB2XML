@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import GUI.settings;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -25,7 +26,7 @@ public class DrawGuitarNotes {
 	settings s = new settings();
 	private String fontType = s.getFontType();
 	private int noteSize = s.getNoteSize(); 
-	
+
 	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL, settings s) {
 		if(s != null) {
 			this.s = s;
@@ -41,6 +42,16 @@ public class DrawGuitarNotes {
 		int measureNumber = 0;
 		int timeDuration = 0;
 		int whichMeasure = 0;
+		//KRISHNA ATTRIBUTES START
+		int durationcounter = 0;
+		int xStart = 0;
+		int loc = 0;
+		boolean drawing16 = false;
+		int draw16start = 0;
+		boolean cutoff = false;
+		int mn = 0;
+		//KRISHNA ATTRIBUTES END
+
 		for(int j = 0; j < aLGuitar.size(); j++) {
 			GuitarInformation lg = (GuitarInformation) aLGuitar.get(j);
 
@@ -57,7 +68,6 @@ public class DrawGuitarNotes {
 			 * 2. IF SLUR, create slur at location and append at end.
 			 */
 			boolean flag = (lg.getFret() >= 10);
-			boolean slur = lg.isSlur();
 
 			if(!lg.isChord()) { //NOT CHORD
 				timeDuration += lg.getDuration();
@@ -79,6 +89,7 @@ public class DrawGuitarNotes {
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
 				lg.setNoteY(currentNoteYLocation + yLocation);
+				loc = noteX;
 
 				//IF NEXT CHORD, DON'T CHANGE X YET!
 				if(j < aLGuitar.size() - 2 && !aLGuitar.get(j+1).isChord()) {
@@ -108,6 +119,7 @@ public class DrawGuitarNotes {
 				//RECORDS noteX && noteY in arraylist for later access
 				lg.setNoteX(noteX); 	
 				lg.setNoteY(currentNoteYLocation + yLocation);
+				loc = noteX;
 
 				if((aLGuitar.size() - 2 > j+1) && !aLGuitar.get(j+1).isChord()) {
 					noteX += ((double)lg.getDuration()/(unitsInMeasure*divisionConstant) * measureWidth); 
@@ -121,6 +133,7 @@ public class DrawGuitarNotes {
 					}
 				}
 			}
+
 		}
 	}
 
@@ -179,16 +192,16 @@ public class DrawGuitarNotes {
 	}
 
 	public void printNote(GuitarInformation g, int noteX, int yLocation, String note) {
-			Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
-			
-			if(g.getGrace() != null) {
-				t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);				
-				t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
-			}
-			
-			p.getChildren().add(t); //TEXT
-			currentNotesPrinted++;
-			
+		Text t = new Text(noteX, currentNoteYLocation + yLocation, note);
+
+		if(g.getGrace() != null) {
+			t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);				
+			t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
+		}
+
+		p.getChildren().add(t); //TEXT
+		currentNotesPrinted++;
+
 	}
 
 	public LinkedList<GuitarInformation> getNoteObject(){return this.aLGuitar;}
@@ -196,7 +209,7 @@ public class DrawGuitarNotes {
 	public int getUnitsInMeasure() {return this.unitsInMeasure;}
 	public double getDivisionConstant() {return this.divisionConstant;}
 	public int getCurrentNotesPrinted() {return this.currentNotesPrinted;}
-	
-	
-		
+
+
+
 }

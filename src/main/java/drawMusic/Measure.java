@@ -126,6 +126,7 @@ public class Measure {
 	public void setMeasureWidth(int measureWidth) {this.measureWidth = measureWidth;}
 	public void setFontSize(int f) {this.fontsize =f;}
 	public int getMeasureWidth() {return this.measureWidth;}
+	public int getStartingYSpace() {return this.startingYSpace;}
 
 
 }

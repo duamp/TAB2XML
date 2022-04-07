@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import org.fxmisc.richtext.CodeArea;
 
 import converter.Converter;
+import drawMusic.DrawBars;
 import drawMusic.DrawDrumsNotes;
 import drawMusic.DrawGuitarNotes;
 import drawMusic.DrawRepeats;
@@ -126,6 +127,8 @@ public class PreviewFileController extends Application {
 			sl.drawSlides();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
 			rep.drawRepeatsGuitar();
+			DrawBars db = new DrawBars(aLGuitar, pane);
+			db.drawbars();
 			
 		} else {
 			m = new Measure(4,this.pane, this.getMeasureNumber());
