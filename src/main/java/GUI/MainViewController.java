@@ -24,6 +24,7 @@ import org.fxmisc.richtext.model.StyleSpans;
 import converter.Converter;
 import converter.measure.TabMeasure;
 import custom_exceptions.TXMLException;
+import drawMusic.SettingsObject;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -66,7 +67,7 @@ public class MainViewController extends Application {
 
 	public Highlighter highlighter;
 	public Converter converter;
-	public settings settings = null;
+	public SettingsObject settings = new SettingsObject();
 	@FXML  Label mainViewState;
 	@FXML  TextField instrumentMode;
 
@@ -327,6 +328,8 @@ public class MainViewController extends Application {
 			root = loader.load();
 			ScorePartwise sp = converter.getScore().getModel();
 			PreviewFileController controller = loader.getController();
+			System.out.println(this.settings.getFontType());
+			System.out.println(this.settings.getNoteSize());
 			controller.setMainViewController(this);
 			controller.startup(sp, mainText, converter);
 			convertWindow = this.openNewWindow(root, "Preview Sheet Music");
@@ -337,11 +340,11 @@ public class MainViewController extends Application {
 		}
 	}
 
-	public settings getSettings() {
+	public SettingsObject getSettings() {
 		return settings;
 	}
 
-	public void setSettings(settings settings) {
+	public void setSettings(SettingsObject settings) {
 		this.settings = settings;
 	}
 

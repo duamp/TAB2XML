@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import org.fxmisc.richtext.CodeArea;
 
+import GUI.settingsGUI;
 import converter.Converter;
 import drawMusic.DrawBars;
 import drawMusic.DrawDrumsNotes;
@@ -48,6 +49,7 @@ import models.ScorePartwise;
 import music_player.PlayerController;
 import music_player.XmlSequence;
 import note_information.DrumInformation;
+import utility.Settings;
 import note_information.*;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -70,7 +72,8 @@ public class PreviewFileController extends Application {
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
 	@FXML private Button button;
-	@FXML private Button HomeBtn;
+	@FXML Button HomeBtn;
+	@FXML private Button Settings;
 
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
@@ -101,8 +104,6 @@ public class PreviewFileController extends Application {
 	private void handleGotoMeasure() {
 		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
 		System.out.println(measureNumber);
-		//		ancorPane.
-		// need to finish go to measure implementation
 	}
 
 	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException{
@@ -204,18 +205,21 @@ public class PreviewFileController extends Application {
 		stage.close();	
 	}
 	@FXML
-	private void SettingsHandle() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settings.fxml"));
-		// need custom parameterized constructor
-		loader.setControllerFactory(c -> {
-			try {
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return c;
-		});
-
+	private void SettingsHandle() {
+		Parent root;
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/GUI/settingsGUI.fxml"));
+			root = loader.load();
+			settingsGUI controller = loader.getController();
+			controller.setMainViewController(this.mvc, this);
+			Window settingsWindow = this.openNewWindow(root, "Settings");
+			Stage stage = (Stage) this.mainText.getScene().getWindow();
+		}catch(IOException e) {
+			Logger logger = Logger.getLogger(getClass().getName());
+			logger.log(Level.SEVERE, "Failed to create new Window.", e);
+		}
+//		Stage stage2 = (Stage) HomeBtn.getScene().getWindow();
+//  	    stage2.close();	
 
 		/*
 		 * 1. setNoteSize() -> DrawGuitarNotes || DrawDrumNotes
@@ -233,17 +237,7 @@ public class PreviewFileController extends Application {
 		 * 3. Increase/Decrease Measure Size 
 		 */
 
-		Parent root = (Parent) loader.load();
-		Stage stage = (Stage) this.openNewWindow(root, "Settings");
-
-
-		stage.setOnCloseRequest(event ->{
-			stage.close();
-			event.consume();
-
-		});  
-		Stage stage2 = (Stage) HomeBtn.getScene().getWindow();
-  	    stage2.close();	
+		
 	}
 
 	@FXML

@@ -2,7 +2,7 @@ package drawMusic;
 
 import java.util.LinkedList;
 
-import GUI.settings;
+import GUI.settingsGUI;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -26,17 +26,18 @@ public class DrawDrumsNotes {
 	private Pane p;
 	private int currentNotesPrinted = 0;
 	private double divisionConstant = 1.2;
-	settings s = new settings();
-	private String fontType = s.getFontType();
-	private int noteSize = s.getNoteSize(); 
+	SettingsObject s;
+	private String fontType;
+	private int noteSize; 
+	// no
 	private int measuresWithRests = 0;
 	private int notesStartingInMeasurePosition = 20;
 
-	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums, settings s) {
+	public DrawDrumsNotes(Pane pane, LinkedList<DrumInformation> aLDrums, SettingsObject s) {
 		if(s != null) {
 			this.s = s;
-			this.noteSize = this.s.getNoteSize();
-			this.fontType = this.s.getFontType();
+			this.noteSize = s.getNoteSize();
+			this.fontType = s.getFontType();
 		}
 		this.aLDrums = aLDrums;
 		this.p = pane;

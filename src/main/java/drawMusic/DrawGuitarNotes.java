@@ -2,7 +2,7 @@ package drawMusic;
 
 import java.util.LinkedList;
 
-import GUI.settings;
+import GUI.settingsGUI;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -23,11 +23,11 @@ public class DrawGuitarNotes {
 	private int currentNoteYLocation = 0;
 	private double divisionConstant = 1.15;
 	private int currentNotesPrinted = 0;
-	settings s = new settings();
-	private String fontType = s.getFontType();
-	private int noteSize = s.getNoteSize(); 
-
-	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL, settings s) {
+	SettingsObject s;
+	private String fontType;
+	private int noteSize;
+	
+	public DrawGuitarNotes(Pane p, LinkedList<GuitarInformation> aL, SettingsObject s) {
 		if(s != null) {
 			this.s = s;
 			this.noteSize = this.s.getNoteSize();
