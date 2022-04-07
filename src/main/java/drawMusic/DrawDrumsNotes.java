@@ -29,6 +29,7 @@ public class DrawDrumsNotes {
 	SettingsObject s;
 	private String fontType;
 	private int noteSize; 
+	// no
 	private int measuresWithRests = 0;
 	private int notesStartingInMeasurePosition = 20;
 
