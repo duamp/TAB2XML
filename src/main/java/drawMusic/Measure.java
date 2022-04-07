@@ -15,7 +15,7 @@ public class Measure {
 	private final int moveMeasureDownValue = 200;
 	private final int measuresPerLine = 3;
 	private int lines;
-	private final int TABx = startingXSpace + 10;
+	private final int TABx = startingXSpace + 5;
 	private int currentMeasureCount = 0;
 	private int currentTopOfMeasureHeight = 0;
 	private int tabsDrawnAmount = 0;

@@ -22,7 +22,7 @@ public class DrawSlurs {
 	}
 
 	public void makeSlurLine(int noteX1, int noteX2, int noteY) {
-		QuadCurve quadcurve = new QuadCurve(noteX1, noteY, getSlurMiddleX(noteX1, noteX2), noteY+10, noteX2, noteY);
+		QuadCurve quadcurve = new QuadCurve(noteX1+2, noteY, getSlurMiddleX(noteX1+2, noteX2+2), noteY+10, noteX2+2, noteY);
 		quadcurve.setStroke(Color.BLACK);
 		quadcurve.setFill(Color.WHITE);
 		//		c.setStartX(noteX1);
@@ -50,10 +50,10 @@ public class DrawSlurs {
 				else if(aLGuitar.get(i+1).isChord()) {
 					int moveforward = findHowManyNotesInChord(i + 1);
 					i += moveforward;
-					makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i).getNoteX() + 2, lg.getNoteY() -  3);
+					makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i).getNoteX() + 2, lg.getNoteY() +  3);
 				} 
 				else {
-					makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i+1).getNoteX() + 2, lg.getNoteY() -  3);
+					makeSlurLine(lg.getNoteX() + 1, aLGuitar.get(i+1).getNoteX() + 2, lg.getNoteY() +  3);
 				}
 
 				//				if(aLGuitar.get(i+1).getSlur().size() == 2 && aLGuitar.get(i+1).getSlur().get(0).getType() == "start" && aLGuitar.get(i+1).getSlur().get(1).getType() == "end") {

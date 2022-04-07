@@ -20,7 +20,7 @@ public class DrawGuitarNotes {
 	private Pane p;
 	private int unitsInMeasure = 0;
 	private int currentNoteYLocation = 0;
-	private double divisionConstant = 1.1;
+	private double divisionConstant = 1.15;
 	private int currentNotesPrinted = 0;
 	settings s = new settings();
 	private String fontType = s.getFontType();
