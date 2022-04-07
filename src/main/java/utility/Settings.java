@@ -2,6 +2,7 @@ package utility;
 
 import java.util.Arrays;
 
+import GUI.PreviewFileController;
 import converter.Instrument;
 import converter.InstrumentSetting;
 
@@ -93,5 +94,7 @@ public class Settings {
 	public void setBassTuning(int string, String pitch) {
 		bassTuning[string][0] = pitch;
 	}
+
+
 	
 }
