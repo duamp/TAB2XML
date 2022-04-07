@@ -8,6 +8,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import note_information.DrumInformation;
 
@@ -81,11 +84,11 @@ public class DrawDrumsNotes {
 			String note;
 
 			if(ld.getXorO() == null) {
-				note= "⚫";
+				note= "x";
 			} else if(ld.getXorO().equals("(normal)")) {
 				note = "(⚫)";
 			} else {
-				note= "x";
+				note="⚫";
 			}
 			if(mn == 10) {
 				System.out.println("stop");
@@ -102,6 +105,10 @@ public class DrawDrumsNotes {
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
 				loc = noteX;
+				if(ld.getGrace() != null) {
+					t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);				
+					t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
+				}
 				p.getChildren().add(t); //TEXT
 				p.getChildren().add(l); //TEXT note's line
 				currentNotesPrinted++;
@@ -132,6 +139,11 @@ public class DrawDrumsNotes {
 				Text t = new Text(noteX, currentNoteYLocation + yLocation, note);// implement notes to actually draw here
 				Line l = new Line(noteX+7, currentNoteYLocation + yLocation-5, noteX+7,currentNoteYLocation-40);
 				loc = noteX;
+				if(ld.getGrace() != null) {
+					t = new Text(noteX + 3, currentNoteYLocation + yLocation, note);				
+					t.setFont(Font.font(fontType, FontWeight.NORMAL, FontPosture.REGULAR, this.noteSize));
+				}
+				
 				p.getChildren().add(t);
 				p.getChildren().add(l);
 				currentNotesPrinted++;
@@ -157,33 +169,33 @@ public class DrawDrumsNotes {
 				}
 			}
 			if(j+1 < this.aLDrums.size() && ld.isChord() && this.aLDrums.get(j+1).isChord()) {
-				if(durationcounter+this.getDuration(ld)>=16) {
+				if(durationcounter+ld.getDuration()>=16) {
 					durationcounter = 0;
 					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
 					p.getChildren().add(a);
-					cutoff = true;
 				}else if(durationcounter == 0) {
 					xStart = loc+7;
-					durationcounter += this.getDuration(ld);
+					durationcounter += ld.getDuration();
 				}else {
-					durationcounter += this.getDuration(ld);
+					durationcounter += ld.getDuration();
 				}
 			}else if(ld.isChord()){
 
 			}else {				
-				if(durationcounter+this.getDuration(ld)>=16) {
+				if(durationcounter+ld.getDuration()>=16) {
 					durationcounter = 0;
 					Line a = new Line(xStart, currentNoteYLocation - 40, loc+7,currentNoteYLocation-40);
 					p.getChildren().add(a);
 					cutoff = true;
 				}else if(durationcounter == 0) {
 					xStart = loc+7;
-					durationcounter += this.getDuration(ld);
+					durationcounter += ld.getDuration();
 				}else {
-					durationcounter += this.getDuration(ld);						
+					durationcounter += ld.getDuration();						
 				}
 			}
-			if(this.getDuration(ld) == 4 && drawing16 == false) {
+
+			if(ld.getDuration() == 4 && drawing16 == false) {
 				drawing16 = true;
 				draw16start = loc+7;
 			}else if(drawing16) {
@@ -196,27 +208,7 @@ public class DrawDrumsNotes {
 			}			
 		}
 	}
-	private int getDuration(DrumInformation note) {
-		int duration = 0;
-		if(note!= null) {
-			switch(note.getType()) {
-			case "16th":
-				return 4;
-			case "8th":
-				return 8;
-			case "eighth":
-				return 8;
-			case "whole":
-				return 96;
-			case "half":
-				return 32;
-			case "quarter":
-				return 16;
-		}
-		}
 
-		return duration;
-	}
 	private void drawDrumLines() {
 
 	}
@@ -246,17 +238,11 @@ public class DrawDrumsNotes {
 	public int findDuration(String type) {
 		switch (type){
 		case "16th":
-			return 4;
+			return 16;
 		case "8th":
 			return 8;
 		case "eighth":
 			return 8;
-		case "whole":
-			return 96;
-		case "half":
-			return 32;
-		case "quarter":
-			return 16;
 		}
 		return 8;
 	}

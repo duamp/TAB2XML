@@ -120,8 +120,8 @@ public class PreviewFileController extends Application {
 			DrawGuitarNotes g = new DrawGuitarNotes(pane, aLGuitar, this.mvc.settings);
 			m.drawMeasure(); //DRAWS MEASURES
 			g.drawGuitarNotes(); //DRAWS NOTES + ADDS TO noteX && noteY to aLGuitar OBJECT
-			DrawSlurs s = new DrawSlurs(aLGuitar, this.pane);
-			s.drawNotesWithSlurs();
+			DrawSlurs s = new DrawSlurs(aLGuitar, aLDrums, this.pane);
+			s.drawSlursGuitar();
 			DrawSlides sl = new DrawSlides(aLGuitar, this.pane);
 			sl.drawSlides();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
@@ -133,6 +133,8 @@ public class PreviewFileController extends Application {
 			m.drawMeasure(); //DRAWS MEASURES
 			d.drawDrumNotes();
 			DrawRepeats rep = new DrawRepeats(aLGuitar, aLDrums, this.pane);
+			DrawSlurs s = new DrawSlurs(aLGuitar, aLDrums, this.pane);
+			s.drawSlursDrums();
 			rep.drawRepeatsDrums();
 		}
 		DrawTiming t = new DrawTiming(aLGuitar, aLDrums, this.pane, sp);

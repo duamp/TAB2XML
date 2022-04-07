@@ -26,16 +26,34 @@ public class ParseDrumNotes extends MainParser {
 			if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup() != null && sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size() != 0) {
 				for(int j = 0; j < sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().size(); j++) {
 					DrumInformation noteInformation;
-					noteInformation = new DrumInformation(
-							this.getDisplayedStepNote(i, j),
-							this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
-							this.getDisplayedStepOctave(i, j),
-							getXorO(i, j),
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
-							i+1,
-							sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
-							convertor.getScore().getMeasureList().get(i).getRepeatCount()
-							);
+					if(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations() != null) {
+						noteInformation = new DrumInformation(
+								this.getDisplayedStepNote(i, j),
+								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
+								this.getDisplayedStepOctave(i, j),
+								getXorO(i, j),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
+								i+1,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
+								convertor.getScore().getMeasureList().get(i).getRepeatCount(),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getNotations().getSlurs(),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace()
+
+								);
+					} else {
+						noteInformation = new DrumInformation(
+								this.getDisplayedStepNote(i, j),
+								this.findDuration(sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(), i, j),
+								this.getDisplayedStepOctave(i, j),
+								getXorO(i, j),
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getChord() != null, 
+								i+1,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getType(),
+								convertor.getScore().getMeasureList().get(i).getRepeatCount(),
+								null,
+								sp.getParts().get(0).getMeasures().get(i).getNotesBeforeBackup().get(j).getGrace()
+								);
+					}
 					aLDrums.add(noteInformation);
 				}
 			} else { //ADD REST MEASURE

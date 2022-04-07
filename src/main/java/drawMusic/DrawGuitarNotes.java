@@ -150,8 +150,16 @@ public class DrawGuitarNotes {
 	public int findDuration(String type) {
 		switch (type){
 		case "16th":
+			return 4;
+		case "8th":
 			return 8;
-		case "eight":
+		case "eighth":
+			return 8;
+		case "whole":
+			return 96;
+		case "half":
+			return 32;
+		case "quarter":
 			return 16;
 		}
 		return 8;

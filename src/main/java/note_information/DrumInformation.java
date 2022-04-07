@@ -1,9 +1,13 @@
 package note_information;
 
+import java.util.List;
+
 import drawMusic.DrawDrumsNotes;
 import drawMusic.Measure;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import models.measure.note.Grace;
+import models.measure.note.notations.Slur;
 
 public class DrumInformation {
 	private int octave;
@@ -17,12 +21,15 @@ public class DrumInformation {
 	private int measure;
 	private String type;
 	private int repeat;
+	private List<Slur> slur;
+	private Grace grace; 
+
 	
 	@FXML
 	private Pane pane;
 	private double octaveDifference = 59.5;//17/2 because 2 notes fit on one line and (17/2)*7 because 7 different notes
 	private double differenceBetweenNotes = 8.5; // 17*6 lines / 12 possible notes on 6 lines
-	public DrumInformation(String note, int duration, int octave, String XorO, Boolean c, int measure, String type, int repeat) {
+	public DrumInformation(String note, int duration, int octave, String XorO, Boolean c, int measure, String type, int repeat, List<Slur> slur, Grace g) {
 		this.note = note;
 		this.duration = duration;
 		this.octave = octave;
@@ -32,6 +39,8 @@ public class DrumInformation {
 		this.measure = measure;
 		this.type = type;
 		this.repeat = repeat;
+		this.slur = slur;
+		this.grace = g;
 	}
 	
 	public DrumInformation() {
@@ -103,6 +112,10 @@ public class DrumInformation {
 	public String getType() {return this.type;}
 	public int getRepeats() {return this.repeat;}
 	public Pane getPane() {return this.pane;}
+	public Grace getGrace() {return this.grace;}
+	public List<Slur> getSlur() {return this.slur;}
+	public boolean isSlur() {return this.slur != null;}
+
 
 
 }

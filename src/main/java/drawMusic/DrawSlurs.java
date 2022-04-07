@@ -6,19 +6,23 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.QuadCurve;
 import models.ScorePartwise;
+import note_information.DrumInformation;
 import note_information.GuitarInformation;
 
 public class DrawSlurs {
-	private LinkedList<GuitarInformation> aL;
+	private LinkedList<GuitarInformation> aLGuitar;
+	private LinkedList<DrumInformation> aLDrums;
+
 	private Pane p;
 
-	public DrawSlurs(LinkedList<GuitarInformation> aL, Pane p) {
-		this.aL = aL;
+	public DrawSlurs(LinkedList<GuitarInformation> aLGuitar, LinkedList<DrumInformation> aLDrums, Pane p) {
+		this.aLGuitar = aLGuitar;
+		this.aLDrums = aLDrums;
 		this.p = p;
 	}
 
 	public void makeSlurLine(int noteX1, int noteX2, int noteY) {
-		QuadCurve quadcurve = new QuadCurve(noteX1, noteY, getSlurMiddleX(noteX1, noteX2), noteY-10, noteX2, noteY);
+		QuadCurve quadcurve = new QuadCurve(noteX1, noteY, getSlurMiddleX(noteX1, noteX2), noteY+10, noteX2, noteY);
 		quadcurve.setStroke(Color.BLACK);
 		quadcurve.setFill(Color.WHITE);
 		//		c.setStartX(noteX1);
@@ -35,35 +39,57 @@ public class DrawSlurs {
 		return noteX1 + ((noteX2 - noteX1)/2);
 	}
 
-	public void drawNotesWithSlurs() {
-		for(int i = 0; i < aL.size(); i++) {
-			GuitarInformation lg = aL.get(i);
+	public void drawSlursGuitar() {
+		for(int i = 0; i < aLGuitar.size(); i++) {
+			GuitarInformation lg = aLGuitar.get(i);
 			if(lg.isSlur()) {
 
 				if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
 					continue;
 				}
-				else if(aL.get(i+1).isChord()) {
+				else if(aLGuitar.get(i+1).isChord()) {
 					int moveforward = findHowManyNotesInChord(i + 1);
 					i += moveforward;
-					makeSlurLine(lg.getNoteX() + 3, aL.get(i).getNoteX() + 3, lg.getNoteY() -  10);
+					makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i).getNoteX() + 2, lg.getNoteY() -  3);
 				} 
 				else {
-					makeSlurLine(lg.getNoteX() + 3, aL.get(i+1).getNoteX() + 3, lg.getNoteY() -  10);
+					makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i+1).getNoteX() + 2, lg.getNoteY() -  3);
 				}
 
-				//				if(aL.get(i+1).getSlur().size() == 2 && aL.get(i+1).getSlur().get(0).getType() == "start" && aL.get(i+1).getSlur().get(1).getType() == "end") {
+				//				if(aLGuitar.get(i+1).getSlur().size() == 2 && aLGuitar.get(i+1).getSlur().get(0).getType() == "start" && aLGuitar.get(i+1).getSlur().get(1).getType() == "end") {
 				//					i--;
 				//				} 
 
 			}
 		}
 	}
+	
+	public void drawSlursDrums() {
+		for(int i = 0; i < aLDrums.size(); i++) {
+			DrumInformation lg = aLDrums.get(i);
+			if(lg.isSlur()) {
+
+				if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
+					continue;
+				}
+				else if(aLDrums.get(i+1).isChord()) {
+					int moveforward = findHowManyNotesInChord(i + 1);
+					i += moveforward;
+					makeSlurLine(lg.getNoteX() + 5, aLDrums.get(i).getNoteX() + 2, lg.getNoteY() +  3);
+				} 
+				else {
+					makeSlurLine(lg.getNoteX() + 5, aLDrums.get(i+1).getNoteX() + 2, lg.getNoteY() +  3);
+				}
+
+			}
+		}
+	}
+	
 	public int findHowManyNotesInChord( int start) {
 		int index = 0;
-		GuitarInformation lg = aL.get(start);
+		GuitarInformation lg = aLGuitar.get(start);
 		while(lg.isChord()) {
-			lg = aL.get(start+index);
+			lg = aLGuitar.get(start+index);
 			index++;
 		}
 		return index;
