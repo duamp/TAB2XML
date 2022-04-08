@@ -22,12 +22,12 @@ class TestingDrums {
 		m.drawMeasure();
 		LinkedList<DrumInformation> aLDrum = new LinkedList<DrumInformation>();
 
-		DrumInformation l1 = new DrumInformation("A", 8, 3, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l2 = new DrumInformation("A", 8, 4,"x", false, 1, "Eight");  ///NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l1 = new DrumInformation("A", 8, 3, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l2 = new DrumInformation("A", 8, 4,"x", false, 1, "Eight", 0, null, null);  ///NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
 		aLDrum.add(l1);	//ADD RANDOM NOTE 1
 		aLDrum.add(l2);	//ADD RANDOM NOTE 2
 
-		DrawDrumsNotes g = new DrawDrumsNotes(p, aLDrum);
+		DrawDrumsNotes g = new DrawDrumsNotes(p, aLDrum, null);
 		LinkedList<DrumInformation> t = g.getNoteObject();
 
 		g.drawDrumNotes();
@@ -42,13 +42,13 @@ class TestingDrums {
 		m.drawMeasure();
 		LinkedList<DrumInformation> aLDrum = new LinkedList<DrumInformation>();
 
-		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l2 = new DrumInformation("D", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l3 = new DrumInformation("E", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l4 = new DrumInformation("F", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l5 = new DrumInformation("G", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l6 = new DrumInformation("A", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l7 = new DrumInformation("B", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l2 = new DrumInformation("D", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l3 = new DrumInformation("E", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l4 = new DrumInformation("F", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l5 = new DrumInformation("G", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l6 = new DrumInformation("A", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l7 = new DrumInformation("B", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
 
 		aLDrum.add(l1);	//ADD RANDOM NOTE 1
 		aLDrum.add(l2);	//ADD RANDOM NOTE 2
@@ -59,7 +59,7 @@ class TestingDrums {
 		aLDrum.add(l7);	//ADD RANDOM NOTE 4
 
 
-		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum);
+		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum, null);
 		LinkedList<DrumInformation> t = d.getNoteObject();
 
 
@@ -85,11 +85,11 @@ class TestingDrums {
 		m.drawMeasure();
 		LinkedList<DrumInformation> aLDrum = new LinkedList<DrumInformation>();
 
-		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
 
 		aLDrum.add(l1);	//ADD RANDOM NOTE 1
 
-		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum);
+		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum, null);
 		d.drawDrumNotes();
 		assertTrue(1 == d.getCurrentNotesPrinted());
 	}
@@ -101,13 +101,13 @@ class TestingDrums {
 		m.drawMeasure();
 		LinkedList<DrumInformation> aLDrum = new LinkedList<DrumInformation>();
 
-		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l2 = new DrumInformation("D", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l3 = new DrumInformation("E", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l4 = new DrumInformation("F", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l5 = new DrumInformation("G", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l6 = new DrumInformation("A", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l7 = new DrumInformation("B", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l2 = new DrumInformation("D", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l3 = new DrumInformation("E", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l4 = new DrumInformation("F", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l5 = new DrumInformation("G", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l6 = new DrumInformation("A", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l7 = new DrumInformation("B", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
 
 
 		aLDrum.add(l1);	//ADD RANDOM NOTE 1
@@ -119,7 +119,7 @@ class TestingDrums {
 		aLDrum.add(l7);	//ADD RANDOM NOTE 4
 
 
-		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum);
+		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum, null);
 		d.drawDrumNotes();
 		assertTrue(7 == d.getCurrentNotesPrinted());
 	}
@@ -131,12 +131,12 @@ class TestingDrums {
 		m.drawMeasure();
 		LinkedList<DrumInformation> aLDrum = new LinkedList<DrumInformation>();
 
-		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l2 = new DrumInformation("D", 8, 4, "x", false, 2, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l3 = new DrumInformation("E", 8, 4, "x", false, 2, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l4 = new DrumInformation("F", 8, 4, "x", false, 3, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l5 = new DrumInformation("G", 8, 4, "x", false, 4, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-		DrumInformation l6 = new DrumInformation("A", 8, 4, "x", false, 4, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l2 = new DrumInformation("D", 8, 4, "x", false, 2, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l3 = new DrumInformation("E", 8, 4, "x", false, 2, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l4 = new DrumInformation("F", 8, 4, "x", false, 3, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l5 = new DrumInformation("G", 8, 4, "x", false, 4, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+		DrumInformation l6 = new DrumInformation("A", 8, 4, "x", false, 4, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
 
 
 		aLDrum.add(l1);	//ADD RANDOM NOTE 1
@@ -146,7 +146,7 @@ class TestingDrums {
 		aLDrum.add(l5);	//ADD RANDOM NOTE 5
 		aLDrum.add(l6);	//ADD RANDOM NOTE 6
 
-		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum);
+		DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum,null);
 		LinkedList<DrumInformation> t = d.getNoteObject();
 
 		System.out.println(m.getCurrentTopOfMeasureHeight());
@@ -166,11 +166,11 @@ class TestingDrums {
 			m.drawMeasure();
 			LinkedList<DrumInformation> aLDrum = new LinkedList<DrumInformation>();
 	
-			DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-			DrumInformation l2 = new DrumInformation("C", 8, 4, "x", false, 2, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-			DrumInformation l3 = new DrumInformation("C", 8, 4, "x", false, 3, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-			DrumInformation l4 = new DrumInformation("C", 8, 4, "x", false, 4, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
-			DrumInformation l5 = new DrumInformation("C", 8, 4, "x", false, 5, "Eight"); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+			DrumInformation l1 = new DrumInformation("C", 8, 4, "x", false, 1, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+			DrumInformation l2 = new DrumInformation("C", 8, 4, "x", false, 2, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+			DrumInformation l3 = new DrumInformation("C", 8, 4, "x", false, 3, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+			DrumInformation l4 = new DrumInformation("C", 8, 4, "x", false, 4, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
+			DrumInformation l5 = new DrumInformation("C", 8, 4, "x", false, 5, "Eight", 0, null, null); //NOTE - DURATION - OCTAVE - TYPE - CHORD - MEASURE - DURATION(STRING)
 
 	
 	
@@ -180,7 +180,7 @@ class TestingDrums {
 			aLDrum.add(l4);	//ADD RANDOM NOTE 4
 			aLDrum.add(l5);	//ADD RANDOM NOTE 5
 	
-			DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum);
+			DrawDrumsNotes d = new DrawDrumsNotes(p, aLDrum, null);
 			LinkedList<DrumInformation> t = d.getNoteObject();
 	
 			d.drawDrumNotes();

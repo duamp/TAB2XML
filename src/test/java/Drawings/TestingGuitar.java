@@ -23,12 +23,12 @@ class TestingGuitar {
 		m.drawMeasure();
 		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
 
-		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE - DURATION(STRING)
-		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 1, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE - DURATION(STRING)
+		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE - DURATION(STRING)
+		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 1, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE - DURATION(STRING)
 		aLGuitar.add(l1);	//ADD RANDOM NOTE 1
 		aLGuitar.add(l2);	//ADD RANDOM NOTE 2
 
-		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar);
+		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar, null);
 		LinkedList<GuitarInformation> t = g.getNoteObject();
 
 		g.drawGuitarNotes();
@@ -43,12 +43,12 @@ class TestingGuitar {
 		m.drawMeasure();
 		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
 
-		GuitarInformation s1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
-		GuitarInformation s2 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 1, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1 - DURATION(STRING)
-		GuitarInformation s3 = new GuitarInformation(3, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
-		GuitarInformation s4 = new GuitarInformation(4, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
-		GuitarInformation s5 = new GuitarInformation(5, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
-		GuitarInformation s6 = new GuitarInformation(6, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
+		GuitarInformation s1 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation s2 = new GuitarInformation(2, 3, 8, false, null, 1, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1 - DURATION(STRING)
+		GuitarInformation s3 = new GuitarInformation(3, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
+		GuitarInformation s4 = new GuitarInformation(4, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
+		GuitarInformation s5 = new GuitarInformation(5, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
+		GuitarInformation s6 = new GuitarInformation(6, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
 
 		aLGuitar.add(s1);	//ADD RANDOM NOTE 1
 		aLGuitar.add(s2);	//ADD RANDOM NOTE 2
@@ -57,7 +57,7 @@ class TestingGuitar {
 		aLGuitar.add(s5);	//ADD RANDOM NOTE 4
 		aLGuitar.add(s6);	//ADD RANDOM NOTE 4
 
-		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar);
+		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar, null);
 		LinkedList<GuitarInformation> t = g.getNoteObject();
 
 
@@ -81,11 +81,11 @@ class TestingGuitar {
 		m.drawMeasure();
 		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
 
-		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
 
 		aLGuitar.add(l1);	//ADD RANDOM NOTE 1
 
-		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar);
+		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar, null);
 		g.drawGuitarNotes();
 		assertTrue(1 == g.getCurrentNotesPrinted());
 	}
@@ -97,13 +97,13 @@ class TestingGuitar {
 		m.drawMeasure();
 		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
 
-		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
-		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 1, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1 - DURATION(STRING)
-		GuitarInformation l3 = new GuitarInformation(1, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
-		GuitarInformation l4 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
-		GuitarInformation l5 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
-		GuitarInformation l6 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
-		GuitarInformation l7 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 1, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1 - DURATION(STRING)
+		GuitarInformation l3 = new GuitarInformation(1, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
+		GuitarInformation l4 = new GuitarInformation(2, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
+		GuitarInformation l5 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation l6 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation l7 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
 
 
 		aLGuitar.add(l1);	//ADD RANDOM NOTE 1
@@ -115,7 +115,7 @@ class TestingGuitar {
 		aLGuitar.add(l7);	//ADD RANDOM NOTE 4
 
 
-		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar);
+		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar, null);
 		g.drawGuitarNotes();
 		assertTrue(7 == g.getCurrentNotesPrinted());
 	}
@@ -127,12 +127,12 @@ class TestingGuitar {
 		m.drawMeasure();
 		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
 
-		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
-		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 1, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1 - DURATION(STRING)
-		GuitarInformation l3 = new GuitarInformation(1, 3, 8, false, null, 0, 0, 2, "Eight"); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
-		GuitarInformation l4 = new GuitarInformation(1, 3, 8, false, null, 0, 0, 3, "Eight"); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
-		GuitarInformation l5 = new GuitarInformation(1, 3, 8, false, null, 0, 0, 4, "Eight"); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
-		GuitarInformation l6 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 4, "Eight"); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
+		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); //STRING 1 - FRET 6 - DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1- DURATION(STRING)
+		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 1, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 1 - DURATION(STRING)
+		GuitarInformation l3 = new GuitarInformation(1, 3, 8, false, null, 2, "Eight", null, null, 0); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
+		GuitarInformation l4 = new GuitarInformation(1, 3, 8, false, null, 3, "Eight", null, null, 0); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
+		GuitarInformation l5 = new GuitarInformation(1, 3, 8, false, null, 4, "Eight", null, null, 0); //STRING 1 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2- DURATION(STRING)
+		GuitarInformation l6 = new GuitarInformation(2, 3, 8, false, null, 4, "Eight", null, null, 0); //STRING 2 - FRET 3  DURATION 8 - SLUR NULL - NOTEX 0 - NOTEY 0 - CURRENT MEASURE 2 - DURATION(STRING)
 
 		aLGuitar.add(l1);	//ADD RANDOM NOTE 1
 		aLGuitar.add(l2);	//ADD RANDOM NOTE 2
@@ -141,7 +141,7 @@ class TestingGuitar {
 		aLGuitar.add(l5);	//ADD RANDOM NOTE 5
 		aLGuitar.add(l6);	//ADD RANDOM NOTE 6
 
-		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar);
+		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar, null);
 		LinkedList<GuitarInformation> t = g.getNoteObject();
 
 		System.out.println(m.getCurrentTopOfMeasureHeight());
@@ -159,11 +159,11 @@ class TestingGuitar {
 		m.drawMeasure();
 		LinkedList<GuitarInformation> aLGuitar = new LinkedList<GuitarInformation>();
 
-		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 0, 0, 1, "Eight"); 
-		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 2, "Eight"); 
-		GuitarInformation l3 = new GuitarInformation(2, 3, 8, false, null, 0, 0, 3, "Eight");
-		GuitarInformation l4 = new GuitarInformation(3, 3, 8, false, null, 0, 0, 4, "Eight");
-		GuitarInformation l5 = new GuitarInformation(3, 3, 8, false, null, 0, 0, 5, "Eight");
+		GuitarInformation l1 = new GuitarInformation(1, 6, 8, false, null, 1, "Eight", null, null, 0); 
+		GuitarInformation l2 = new GuitarInformation(2, 3, 8, false, null, 2, "Eight", null, null, 0); 
+		GuitarInformation l3 = new GuitarInformation(2, 3, 8, false, null, 3, "Eight", null, null, 0);
+		GuitarInformation l4 = new GuitarInformation(3, 3, 8, false, null, 4, "Eight", null, null, 0);
+		GuitarInformation l5 = new GuitarInformation(3, 3, 8, false, null, 5, "Eight", null, null, 0);
 
 
 		aLGuitar.add(l1);	//ADD RANDOM NOTE 1
@@ -172,7 +172,7 @@ class TestingGuitar {
 		aLGuitar.add(l4);	//ADD RANDOM NOTE 4
 		aLGuitar.add(l5);	//ADD RANDOM NOTE 5
 
-		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar);
+		DrawGuitarNotes g = new DrawGuitarNotes(p, aLGuitar, null);
 		LinkedList<GuitarInformation> t = g.getNoteObject();
 
 		g.drawGuitarNotes();
