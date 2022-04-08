@@ -43,27 +43,38 @@ public class DrawSlurs {
 		for(int i = 0; i < aLGuitar.size(); i++) {
 			GuitarInformation lg = aLGuitar.get(i);
 			if(lg.isSlur()) {
+				if(lg.isGrace()) {
+					
+					if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
+						continue;
+					}
+					else if(aLGuitar.get(i+1).isChord()) {
+						int moveforward = findHowManyNotesInChord(i + 1);
+						i += moveforward;
+						makeSlurLine(lg.getNoteX() + 7, aLGuitar.get(i).getNoteX() + 2, lg.getNoteY() +  3);
+					} 
+					else {
+						makeSlurLine(lg.getNoteX() + 5, aLGuitar.get(i+1).getNoteX() + 2, lg.getNoteY() +  3);
+					}
+					
+				} else {
+					if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
+						continue;
+					}
+					else if(aLGuitar.get(i+1).isChord()) {
+						int moveforward = findHowManyNotesInChord(i + 1);
+						i += moveforward;
+						makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i).getNoteX() + 2, lg.getNoteY() +  3);
+					} 
+					else {
+						makeSlurLine(lg.getNoteX() + 1, aLGuitar.get(i+1).getNoteX() + 2, lg.getNoteY() +  3);
+					}
 
-				if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
-					continue;
 				}
-				else if(aLGuitar.get(i+1).isChord()) {
-					int moveforward = findHowManyNotesInChord(i + 1);
-					i += moveforward;
-					makeSlurLine(lg.getNoteX() + 3, aLGuitar.get(i).getNoteX() + 2, lg.getNoteY() +  3);
-				} 
-				else {
-					makeSlurLine(lg.getNoteX() + 1, aLGuitar.get(i+1).getNoteX() + 2, lg.getNoteY() +  3);
-				}
-
-				//				if(aLGuitar.get(i+1).getSlur().size() == 2 && aLGuitar.get(i+1).getSlur().get(0).getType() == "start" && aLGuitar.get(i+1).getSlur().get(1).getType() == "end") {
-				//					i--;
-				//				} 
-
 			}
 		}
 	}
-	
+
 	public void drawSlursDrums() {
 		for(int i = 0; i < aLDrums.size(); i++) {
 			DrumInformation lg = aLDrums.get(i);
@@ -84,7 +95,7 @@ public class DrawSlurs {
 			}
 		}
 	}
-	
+
 	public int findHowManyNotesInChord( int start) {
 		int index = 0;
 		GuitarInformation lg = aLGuitar.get(start);

@@ -27,12 +27,12 @@ public class DrawBars {
 				if(this.aLGuitar.get(j+1) != null) {g = this.aLGuitar.get(j+1);}
 				if(lg.getMeasure() == g.getMeasure()) {
 				if(lg.getType().equals("16th") && counter16 < 3 ) {
-					Line b = new Line(lg.getNoteX(), y, g.getNoteX(), y);
+					Line b = new Line(lg.getNoteX() + 1, y, g.getNoteX() + 1, y);
 					p.getChildren().add(b);
 					counter16++;
 
 				} else if((lg.getType().equals("quarter") || lg.getType().equals("eighth")) && counterQuarterEight < 1){
-					Line b = new Line(lg.getNoteX(), y, g.getNoteX(), y);
+					Line b = new Line(lg.getNoteX() + 1, y, g.getNoteX() + 1, y);
 					p.getChildren().add(b);
 					counterQuarterEight++;
 				} else {
@@ -42,7 +42,7 @@ public class DrawBars {
 				}
 			}
 
-			Line a = new Line(lg.getNoteX(), y, lg.getNoteX(), y - 7);
+			Line a = new Line(lg.getNoteX() + 1, y, lg.getNoteX() + 1, y - 7);
 			p.getChildren().add(a);
 		}
 	}

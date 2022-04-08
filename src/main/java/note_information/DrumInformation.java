@@ -115,6 +115,7 @@ public class DrumInformation {
 	public Grace getGrace() {return this.grace;}
 	public List<Slur> getSlur() {return this.slur;}
 	public boolean isSlur() {return this.slur != null;}
+	public boolean isGrace() {return this.grace != null;}
 
 
 
