@@ -77,13 +77,15 @@ public class PreviewFileController extends Application {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private String instrument;
 	public Converter converter;
+	
 	@FXML public CodeArea mainText;
 	@FXML private AnchorPane ancorPane;
 	@FXML TextField gotoMeasureField;
 	@FXML private Pane pane;
 	@FXML private Button button;
 	@FXML Button HomeBtn;
-	@FXML private Button Settings;
+	private boolean check = false;
+    Rectangle r = null;
 
 	public int getMeasureNumber() {
 		return sp.getParts().get(0).getMeasures().size();
@@ -112,12 +114,42 @@ public class PreviewFileController extends Application {
 
 	@FXML
 	private void handleGotoMeasure() {
-		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+		//int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
+		int measureNumber = Integer.parseInt(gotoMeasureField.getText());
 		System.out.println(measureNumber);
+	
+    // ancorPane.
+    //.....
+    // need to finish go to measure implementation
+}
+		
+		
 		
 		//.....
-	}
+	
 
+	
+	
+	
+	
+	
+	
+	private boolean goToMeasure(int measureCount) {
+        TabMeasure measure = converter.getScore().getMeasure(measureCount);
+        System.out.println(measure);
+        if (measure == null)
+                return false;
+        else
+                return true;
+}
+	
+	
+	
+	
+	
+	
+	
+	
 	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException{
 		this.mainText = mainText;
 		this.converter = converter;
