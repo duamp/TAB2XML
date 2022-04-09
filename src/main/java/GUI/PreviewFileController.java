@@ -95,7 +95,6 @@ public class PreviewFileController extends Application {
 		stage.initOwner(MainApp.STAGE);
 		stage.setResizable(false);
 		Scene scene = new Scene(root);
-		
 		stage.setScene(scene);
 		stage.show();
 		return scene.getWindow();
