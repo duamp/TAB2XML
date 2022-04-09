@@ -119,7 +119,7 @@ public class PreviewFileController extends Application {
 		
 		if (!goToMeasure(measureNumber)) {			
             Alert alert = new Alert(Alert.AlertType.ERROR);            		
-            alert.setContentText("Measure " + measureNumber + " could not be found.");                            
+            alert.setContentText("Measure " + measureNumber + " does not exist.");                            
             alert.setHeaderText(null);           
             alert.show();            	
     } else {
@@ -201,7 +201,7 @@ public class PreviewFileController extends Application {
 			root = loader.load();
 			SaveSheetMusic controller = loader.getController();
 			controller.setMainViewController(mvc, pane);
-			Window convertWindow = mvc.openNewWindow(root, "Save MusicXML");
+			Window convertWindow = mvc.openNewWindow(root, "Save Sheet Music");
 		} catch (IOException e) {
 			Logger logger = Logger.getLogger(getClass().getName());
 			logger.log(Level.SEVERE, "Failed to create new Window.", e);
