@@ -117,7 +117,26 @@ public class PreviewFileController extends Application {
 		//int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
 		int measureNumber = Integer.parseInt(gotoMeasureField.getText());
 		System.out.println(measureNumber);
-	
+		
+		
+		if (!goToMeasure(measureNumber)) {
+			
+
+            		Alert alert = new Alert(Alert.AlertType.ERROR);
+            		
+               alert.setContentText("Measure " + measureNumber + " could not be found.");
+               
+               
+            alert.setHeaderText(null);
+            
+            	alert.show();
+            	
+          
+            	
+    } else {
+            highlight(measureNumber);
+    }
+    
     // ancorPane.
     //.....
     // need to finish go to measure implementation
@@ -135,11 +154,17 @@ public class PreviewFileController extends Application {
 	
 	
 	private boolean goToMeasure(int measureCount) {
+		
+		
         TabMeasure measure = converter.getScore().getMeasure(measureCount);
+       
         System.out.println(measure);
         if (measure == null)
+        	
                 return false;
+        
         else
+        	
                 return true;
 }
 	
