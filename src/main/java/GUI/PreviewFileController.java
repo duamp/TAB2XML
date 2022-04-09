@@ -328,16 +328,35 @@ public class PreviewFileController extends Application {
      }
 		 
 		 
-		int x = aLGuitar.get(index).getNoteX() - 57;
-		System.out.println("x " + x);
-		int y = aLGuitar.get(index).getNoteY() - 70;
-		System.out.println("y " + y);
-		 r = new Rectangle(x,y,10,10);
-		Color c = Color.CYAN;
-		r.setFill(c);
-		r.setOpacity(0.3);
-		pane.getChildren().add(r);
-		check = true;
+//		int x = aLGuitar.get(index).getNoteX() - 57;
+//		System.out.println("x " + x);
+//		int y = aLGuitar.get(index).getNoteY() - 70;
+//		System.out.println("y " + y);
+//		 r = new Rectangle(x,y,10,10);
+//		Color c = Color.CYAN;
+//		r.setFill(c);
+//		r.setOpacity(0.3);
+//		pane.getChildren().add(r);
+//		check = true;
+		 
+		 double opp = 0.5; // opacity
+		 Color c = Color.CYAN;
+		 
+		 if (index == 1) {
+             pane.getChildren().remove(check);
+             r = new Rectangle(10, 1, 300, 90);
+             r.setFill(c);
+             r.setOpacity(opp);
+             pane.getChildren().add(r);
+             check = true;
+     } else if (index == 2) {
+             pane.getChildren().remove(check);
+             r = new Rectangle(310, 1, 300, 90);
+             r.setFill(c);
+             r.setOpacity(opp);
+             pane.getChildren().add(r);
+             check = true;
+     } 
 	}
 
 	@Override
