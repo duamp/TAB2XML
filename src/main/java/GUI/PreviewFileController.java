@@ -339,7 +339,10 @@ public class PreviewFileController extends Application {
 //		pane.getChildren().add(r);
 //		check = true;
 		 
-		 double opp = 0.5; // opacity
+		 
+	 
+		 
+		 double opp = 0.3; // opacity
 		 Color c = Color.CYAN;
 		 
 		 if (index == 1) {
