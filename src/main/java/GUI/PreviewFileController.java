@@ -95,6 +95,7 @@ public class PreviewFileController extends Application {
 		stage.initOwner(MainApp.STAGE);
 		stage.setResizable(false);
 		Scene scene = new Scene(root);
+		
 		stage.setScene(scene);
 		stage.show();
 		return scene.getWindow();
@@ -104,6 +105,8 @@ public class PreviewFileController extends Application {
 	private void handleGotoMeasure() {
 		int measureNumber = Integer.parseInt(gotoMeasureField.getText() );
 		System.out.println(measureNumber);
+		
+		//.....
 	}
 
 	public void startup(ScorePartwise sp, CodeArea mainText, Converter converter) throws IOException{
