@@ -226,7 +226,10 @@ public class PreviewFileController extends Application {
 		}
 	}
 
-	public void initialize() {}
+	public void initialize() {
+		
+		
+	}
 
 	@FXML
 	public void saveSSHandle() {
@@ -305,7 +308,7 @@ public class PreviewFileController extends Application {
 		 * 		8. Verdana
 		 * 3. Increase/Decrease Measure Size 
 		 */
-
+		
 		
 	}
 
@@ -319,13 +322,22 @@ public class PreviewFileController extends Application {
 	}
 
 	private void highlight(int index) {
-		int x = aLGuitar.get(index).getNoteX();
-		int y = aLGuitar.get(index).getNoteY();
-		Rectangle r = new Rectangle(x,y,10,10);
+		
+		 if (check) {
+             pane.getChildren().remove(r);
+     }
+		 
+		 
+		int x = aLGuitar.get(index).getNoteX() - 57;
+		System.out.println("x " + x);
+		int y = aLGuitar.get(index).getNoteY() - 70;
+		System.out.println("y " + y);
+		 r = new Rectangle(x,y,10,10);
 		Color c = Color.CYAN;
 		r.setFill(c);
 		r.setOpacity(0.3);
 		pane.getChildren().add(r);
+		check = true;
 	}
 
 	@Override
