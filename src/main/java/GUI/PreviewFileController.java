@@ -1,14 +1,18 @@
 package GUI;
 
+import java.awt.BasicStroke;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.canvas.Canvas;
 
 import org.fxmisc.richtext.CodeArea;
 
 import GUI.settingsGUI;
 import converter.Converter;
+import converter.measure.TabMeasure;
 import drawMusic.DrawBars;
 import drawMusic.DrawDrumsNotes;
 import drawMusic.DrawGuitarNotes;
@@ -20,7 +24,9 @@ import drawMusic.Measure;
 import drawMusic.ParseDrumNotes;
 import drawMusic.ParseGuitarNotes;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 
 import javafx.fxml.FXMLLoader;
 
@@ -30,13 +36,16 @@ import javafx.print.PageOrientation;
 import javafx.print.Paper;
 import javafx.print.Printer;
 import javafx.print.PrinterJob;
+import javafx.scene.Node;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -49,13 +58,14 @@ import models.ScorePartwise;
 import music_player.PlayerController;
 import music_player.XmlSequence;
 import note_information.DrumInformation;
-import utility.Settings;
+import utility.Range;
 import note_information.*;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequencer;
+import javax.swing.plaf.basic.BasicTextUI.BasicHighlighter;
 
 public class PreviewFileController extends Application {
 
