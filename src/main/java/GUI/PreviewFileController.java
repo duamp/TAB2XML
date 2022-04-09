@@ -346,14 +346,14 @@ public class PreviewFileController extends Application {
 		 Color c = Color.CYAN;
 		 
 		 if (index == 1) {
-             pane.getChildren().remove(check);
+             
              r = new Rectangle(10, 1, 300, 90);
              r.setFill(c);
              r.setOpacity(opp);
              pane.getChildren().add(r);
              check = true;
      } else if (index == 2) {
-             pane.getChildren().remove(check);
+             
              r = new Rectangle(310, 1, 300, 90);
              r.setFill(c);
              r.setOpacity(opp);
@@ -368,7 +368,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 4) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 200, 300, 90);
          
          
@@ -377,7 +377,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 5) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 200, 300, 90);
          
          
@@ -386,7 +386,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 6) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 200, 300, 90);
          
          
@@ -395,7 +395,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 7) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 400, 300, 90);
          
          
@@ -404,7 +404,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 8) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 400, 300, 90);
          
          
@@ -413,7 +413,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 9) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 400, 300, 90);
          
          
@@ -422,7 +422,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 10) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 600, 300, 90);
          
          
@@ -431,7 +431,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 11) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 600, 300, 90);
          
          
@@ -440,7 +440,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 12) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 600, 300, 90);
          
          
@@ -449,7 +449,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 13) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 800, 300, 90);
          
          
@@ -458,7 +458,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 14) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 800, 300, 90);
          
          
@@ -467,7 +467,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 15) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 800, 300, 90);
          
          
@@ -482,7 +482,7 @@ public class PreviewFileController extends Application {
          mainText.requestFocus();
          check = true;
  } else if (index == 16) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 1000, 300, 90);
          
          
@@ -491,7 +491,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 17) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 1000, 300, 90);
          
          
@@ -500,7 +500,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 18) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 1000, 300, 90);
          
          
@@ -511,7 +511,7 @@ public class PreviewFileController extends Application {
          
          check = true;
  } else if (index == 19) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 1200, 300, 90);
          
          
@@ -520,7 +520,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 20) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 1200, 300, 90);
          
          
@@ -529,7 +529,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 21) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 1200, 300, 90);
          
          
@@ -539,7 +539,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 22) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 1400, 300, 90);
          
          
@@ -548,7 +548,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 23) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 1400, 300, 90);
          
          
@@ -557,7 +557,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 24) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 1400, 300, 90);
          
          
@@ -567,7 +567,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 25) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 1600, 300, 90);
          
          
@@ -576,7 +576,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 26) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 1600, 300, 90);
          
          
@@ -585,7 +585,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 27) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 1600, 300, 90);
          
          
@@ -595,7 +595,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 28) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 1800, 300, 90);
          
          
@@ -604,7 +604,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 29) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 1800, 300, 90);
          
          
@@ -613,7 +613,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 30) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 1800, 300, 90);
          
          
@@ -623,7 +623,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 31) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 2000, 300, 90);
          
          
@@ -632,7 +632,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 32) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 2000, 300, 90);
          
          
@@ -641,7 +641,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 33) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 2000, 300, 90);
          
          
@@ -651,7 +651,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 34) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 2200, 300, 90);
          
          
@@ -660,7 +660,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 35) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 2200, 300, 90);
          
          
@@ -669,7 +669,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 36) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 2200, 300, 90);
          
          
@@ -679,7 +679,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 38) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 2400, 300, 90);
          
          
@@ -688,7 +688,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 39) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 2400, 300, 90);
          
          
@@ -697,7 +697,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 40) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 2400, 300, 90);
          
          
@@ -707,7 +707,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 41) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 2600, 300, 90);
          
          
@@ -716,7 +716,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 42) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 2600, 300, 90);
          
          
@@ -725,7 +725,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 43) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 2600, 300, 90);
          
          
@@ -735,7 +735,7 @@ public class PreviewFileController extends Application {
  
          check = true;
  }else if (index == 44) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 2800, 300, 90);
          
          
@@ -744,7 +744,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 45) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 2800, 300, 90);
          
          
@@ -753,28 +753,28 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  } else if (index == 46) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 2800, 300, 90);                 
          r.setFill(c);
          r.setOpacity(opp);
          pane.getChildren().add(r); 
          check = true;
  }else if (index == 47) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 3000, 300, 90);                  
          r.setFill(c);
          r.setOpacity(opp);
          pane.getChildren().add(r);
          check = true;
  } else if (index == 48) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(310, 3000, 300, 90);                 
          r.setFill(c);
          r.setOpacity(opp);
          pane.getChildren().add(r);
          check = true;
  } else if (index == 49) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(610, 3000, 300, 90);
          
          
@@ -783,7 +783,7 @@ public class PreviewFileController extends Application {
          pane.getChildren().add(r);
          check = true;
  }else if (index == 50) {
-         pane.getChildren().remove(check);
+         
          r = new Rectangle(10, 3200, 300, 90);          
          r.setFill(c);
          r.setOpacity(opp);
