@@ -13,6 +13,7 @@ public class DrawRepeats {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private LinkedList<DrumInformation> aLDrums;
 	private Pane p;
+	private int nor;
 
 	public DrawRepeats(LinkedList<GuitarInformation> aLGuitar, LinkedList<DrumInformation> aLDrums, Pane p) {
 		this.aLDrums = aLDrums;
@@ -86,6 +87,7 @@ public class DrawRepeats {
 					p.getChildren().add(l);
 					flag = true;
 				}
+				nor++;
 			}
 		}
 	}
@@ -101,4 +103,6 @@ public class DrawRepeats {
 		int measuresY = ((measureNumber-1) / 3) * m.getMoveMeasureDownValue();
 		return measuresY;
 	}
+	
+	public int getNor() {return this.nor;}
 }
