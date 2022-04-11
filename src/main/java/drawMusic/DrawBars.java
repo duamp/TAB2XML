@@ -8,10 +8,15 @@ import note_information.GuitarInformation;
 
 public class DrawBars {
 	private LinkedList<GuitarInformation> aLGuitar;
+	private LinkedList<Integer> xLocationTests;
 	private Pane p;
+	private int total16thNotes;
+	private int total8thNotes;
+
 
 	public DrawBars(LinkedList<GuitarInformation> aLGuitar, Pane p) {
 		this.aLGuitar = aLGuitar;
+		xLocationTests = new LinkedList<Integer>();
 		this.p = p;
 	}
 
@@ -30,11 +35,13 @@ public class DrawBars {
 					Line b = new Line(lg.getNoteX() + 1, y, g.getNoteX() + 1, y);
 					p.getChildren().add(b);
 					counter16++;
+					total16thNotes++;
 
 				} else if((lg.getType().equals("quarter") || lg.getType().equals("eighth")) && counterQuarterEight < 1){
 					Line b = new Line(lg.getNoteX() + 1, y, g.getNoteX() + 1, y);
 					p.getChildren().add(b);
 					counterQuarterEight++;
+					total8thNotes++;
 				} else {
 					counterQuarterEight = 0;
 					counter16 = 0;
@@ -43,6 +50,7 @@ public class DrawBars {
 			}
 
 			Line a = new Line(lg.getNoteX() + 1, y, lg.getNoteX() + 1, y - 7);
+			xLocationTests.add(lg.getNoteX());
 			p.getChildren().add(a);
 		}
 	}
@@ -52,4 +60,11 @@ public class DrawBars {
 		int measuresY = ((measureNumber-1) / 3)*200 + (m.getSpaceBetweenBarsHorizontal()*5) + 40;
 		return measuresY;
 	}
+	
+	public LinkedList<Integer> getXLocation(){
+		return xLocationTests;
+	}
+	public int get16thBars() {return this.total16thNotes;}
+	public int get8thBars() {return this.total8thNotes;}
+
 }
