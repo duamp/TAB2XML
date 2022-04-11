@@ -11,6 +11,7 @@ import note_information.GuitarInformation;
 public class DrawSlides {
 	private LinkedList<GuitarInformation> aL;
 	private Pane p;
+	private int nos;
 
 	public DrawSlides(LinkedList<GuitarInformation> aL, Pane p) {
 		this.aL = aL;
@@ -21,6 +22,7 @@ public class DrawSlides {
 		for(int i = 0; i < aL.size(); i++) {
 			GuitarInformation lg = aL.get(i);
 			if(lg.isSlide()) {
+				nos++;
 
 				if (lg.getSlide().get(0).getType().equals("stop") && lg.getSlide().size() == 1) {
 					continue;
@@ -62,4 +64,5 @@ public class DrawSlides {
 		}
 		return index;
 	}
+	public int getNos() {return this.nos;}
 }

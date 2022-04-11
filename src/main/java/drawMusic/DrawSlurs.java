@@ -12,8 +12,8 @@ import note_information.GuitarInformation;
 public class DrawSlurs {
 	private LinkedList<GuitarInformation> aLGuitar;
 	private LinkedList<DrumInformation> aLDrums;
-
 	private Pane p;
+	private int nos;
 
 	public DrawSlurs(LinkedList<GuitarInformation> aLGuitar, LinkedList<DrumInformation> aLDrums, Pane p) {
 		this.aLGuitar = aLGuitar;
@@ -43,6 +43,7 @@ public class DrawSlurs {
 		for(int i = 0; i < aLGuitar.size(); i++) {
 			GuitarInformation lg = aLGuitar.get(i);
 			if(lg.isSlur()) {
+				nos++;
 				if(lg.isGrace()) {
 					
 					if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
@@ -79,7 +80,7 @@ public class DrawSlurs {
 		for(int i = 0; i < aLDrums.size(); i++) {
 			DrumInformation lg = aLDrums.get(i);
 			if(lg.isSlur()) {
-
+				nos++;
 				if (lg.getSlur().get(0).getType().equals("stop") && lg.getSlur().size() == 1) {
 					continue;
 				}
@@ -105,4 +106,5 @@ public class DrawSlurs {
 		}
 		return index;
 	}
+	public int getNos() {return this.nos;}
 }

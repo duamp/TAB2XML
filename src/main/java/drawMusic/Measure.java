@@ -97,7 +97,6 @@ public class Measure {
 			p.getChildren().add(A); 
 			p.getChildren().add(B); 
 
-			tabsDrawnAmount++;
 		} else {
 			// adds the bars
 			int fontsize = 50;
@@ -109,6 +108,8 @@ public class Measure {
 			p.getChildren().add(i2);
 			// adds the 44
 		}
+		tabsDrawnAmount++;
+
 	}
 
 

@@ -91,5 +91,22 @@ class TestingMeasures {
 		assertEquals(34,m.getTabsDrawnAmount());
 
 	}
+	
+	@Test
+	void single_doubleLines_for_drum_measure() {
+		Pane p = new Pane();
+		Measure m = new Measure(4, p, 1); 
+		m.drawMeasure();
+		assertEquals(1, m.getTabsDrawnAmount());
+	}
+	
+	@Test
+	void multiple_doubleLine_for_drum_measure() {
+		Pane p = new Pane();
+		Measure m = new Measure(4, p, 100); 
+		m.drawMeasure();
+		assertEquals(34,m.getTabsDrawnAmount());
+
+	}
 
 }
